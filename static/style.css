@@ -1,0 +1,11 @@
+:root {
+    --light-grey: #8a8988;
+}
+
+
+input {
+    display: block;
+    margin-bottom: 10px;
+    border: 2px solid var(--light-grey);
+    border-radius: 5px;
+}

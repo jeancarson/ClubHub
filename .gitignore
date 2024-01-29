@@ -1,0 +1,9 @@
+.idea/
+.git/
+.__pycache__/
+.modules/.__pycache__/
+.venv/
+
+.flaskenv
+requirements.txt
+*.pyc
