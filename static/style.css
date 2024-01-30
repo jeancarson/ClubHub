@@ -1,11 +1,119 @@
+/* Importing the "Raleway" font */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+/* Color constants */
 :root {
     --light-grey: #8a8988;
+    --light-blue: #0077b6;
+    --lighter-blue: #0096c7;
+    --even-lighter-blue: #90e0ef;
+    --dark-blue: #03045e;
+    --light-green: #5afa8d;
+    --white: #ffffff;
+    --black: #000000;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--dark-blue);
+    font-family: "Raleway", Arial, serif;
+    color: var(--white);
+}
+
+h1 {
+    margin: 1em;
+}
 
 input {
     display: block;
-    margin-bottom: 10px;
-    border: 2px solid var(--light-grey);
+    outline: none;
+    border: none;
+    margin: 1em 1em 1em 2em;
+    padding: 10px;
+    width: 15%;
     border-radius: 5px;
 }
+
+button {
+    border: none;
+    margin: 1em 1em 1em 2em;
+    padding: 10px;
+    width: 10%;
+    border-radius: 5px;
+    background-color: var(--light-green);
+}
+
+button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+span#input-error-msg {
+    margin: 1em 1em 1em 2.2em;
+    display: block;
+    color: red;
+    font-size: 13px;
+}
+
+/* ======================= Navigation bar start ======================= */
+
+nav {
+    background-color: var(--light-blue);
+    overflow: hidden;
+}
+
+nav a {
+    float: left;
+    display: block;
+    color: var(--white);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav a:hover {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+nav a.active {
+    background-color: var(--lighter-blue);
+}
+
+nav .icon {
+    display: none;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 600px) {
+
+    nav a:not(:first-child) {
+        display: none;
+    }
+
+    nav a.icon {
+        float: right;
+        display: block;
+    }
+
+    nav.responsive {
+        position: relative;
+    }
+
+    nav.responsive a.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    nav.responsive a {
+         float: none;
+         display: block;
+         text-align: left;
+    }
+
+}
+
+/* ======================= Navigation bar end ======================= */
