@@ -11,13 +11,13 @@ function toggleHamburger() {
     if (hamburger_expanded) {
         for (let div of links) {
             div.style.height = 0;
-            div.children[0].style.opacity = 0;
+            // div.children[0].style.opacity = 0;
         }
         hamburger_expanded = false;
     } else {
         for (let div of links) {
             div.style.height = height;
-            div.children[0].style.opacity = 1;
+            // div.children[0].style.opacity = 1;
         }
         hamburger_expanded = true;
     }

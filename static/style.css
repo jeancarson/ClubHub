@@ -102,7 +102,7 @@ nav div a {
     height: 2.75rem;
     padding: 0 1rem;
     font-size: 1rem;
-    transition: opacity ease 1.5s;
+    /*transition: opacity ease 1.5s;*/
 }
 
 nav div a:hover {
@@ -137,7 +137,7 @@ nav div a#hamburger {
 
     nav div.navbar-center a {
         width: 100%;
-        opacity: 0;
+        /*opacity: 0;*/
     }
 
 }
