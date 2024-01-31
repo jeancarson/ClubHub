@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    <form action="/login" method="post">
+    <form id="login-form" action="/login" method="post">
         <label for="username-input"></label>
         <input id="username-input" name="username" type="text" placeholder="Username">
         <label for="password-input"></label>
@@ -18,5 +18,7 @@
         <span id="input-error-msg">{{ error_message }}</span>
         <button type="submit">Login</button>
     </form>
+
+    <script src="../static/login.js"></script>
 
 {% endblock %}

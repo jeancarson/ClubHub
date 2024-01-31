@@ -49,7 +49,7 @@ button:hover {
     text-decoration: underline;
 }
 
-span#input-error-msg {
+form#login-form span#input-error-msg {
     margin: 1em 1em 1em 2.2em;
     display: block;
     color: red;
@@ -59,59 +59,85 @@ span#input-error-msg {
 /* ======================= Navigation bar start ======================= */
 
 nav {
+    display: grid;
+    grid-template-columns: 1fr auto auto 1fr;
     background-color: var(--light-blue);
     overflow: hidden;
 }
 
-nav a {
-    float: left;
-    display: block;
-    color: var(--white);
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 16px;
+nav div {
+    display: flex;
 }
 
-nav a:hover {
+nav div.navbar-left {
+    grid-row: 1;
+    grid-column: 1;
+    justify-content: left;
+}
+
+nav div.navbar-center {
+    grid-row: 1;
+    grid-column: auto;
+    justify-content: center;
+    transition: height 0.25s;
+}
+
+nav div.navbar-right {
+    grid-row: 1;
+    grid-column: -2;
+    justify-content: right;
+}
+
+nav div.active {
+    background-color: var(--lighter-blue);
+}
+
+nav div a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    line-height: 1rem;
+    text-decoration: none;
+    height: 2.75rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+    transition: opacity ease 1.5s;
+}
+
+nav div a:hover {
     background-color: var(--white);
     color: var(--black);
 }
 
-nav a.active {
-    background-color: var(--lighter-blue);
+nav div.active a {
+    text-decoration: underline;
+    text-decoration-thickness: 0.075rem;
 }
 
-nav .icon {
-    display: none;
-    font-size: 14px;
+nav div a#hamburger {
+    visibility: hidden;
 }
 
 @media screen and (max-width: 600px) {
 
-    nav a:not(:first-child) {
-        display: none;
+    nav div a#hamburger {
+        visibility: visible;
     }
 
-    nav a.icon {
-        float: right;
-        display: block;
+    nav {
+        grid-template-columns: 1fr 1fr;
     }
 
-    nav.responsive {
-        position: relative;
+    nav div.navbar-center {
+        height: 0;
+        grid-row: auto;
+        grid-column: span 2;
     }
 
-    nav.responsive a.icon {
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-
-    nav.responsive a {
-         float: none;
-         display: block;
-         text-align: left;
+    nav div.navbar-center a {
+        width: 100%;
+        opacity: 0;
     }
 
 }

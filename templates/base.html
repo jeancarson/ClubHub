@@ -15,9 +15,18 @@
     <!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
 
     <nav id="navbar">
-      <a href="/home" class="active">Home</a>
-      <a href="/login">Login</a>
-      <a href="javascript:void(0);" class="icon" onclick="toggleHamburger()">&#9776;</a>
+        <div class="navbar-left">
+            <a href="/home">[logo]</a>
+        </div>
+        <div class="navbar-center">
+            <a href="/home" class="home-link">Home</a>
+        </div>
+        <div class="navbar-center">
+            <a href="/login" class="login-link">Login</a>
+        </div>
+        <div class="navbar-right">
+            <a href="javascript:void(0);" id="hamburger">&#9776;</a>
+        </div>
     </nav>
 
     {% block header %}
@@ -26,7 +35,8 @@
     {% block content %}
     {% endblock %}
 
-<script src="../static/script.js"></script>
+    <script src="../static/script.js"></script>
+
 </body>
 
 </html>

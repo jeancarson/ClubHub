@@ -4,6 +4,7 @@ from flask import (
     Flask,
     render_template,
     request,
+    redirect,
     session
 )
 
@@ -79,7 +80,7 @@ def login_post() -> str | Response:
     # Create a user session
     session["user"] = username
 
-    return render_template("index.html", header=f"Hello {username}!")
+    return redirect("/home")
 
 
 if __name__ == '__main__':

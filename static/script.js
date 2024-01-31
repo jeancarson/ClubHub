@@ -1,22 +1,42 @@
-/**
- * Toggles the hamburger icon on the navigation bar.
+const hamburger = document.getElementById("hamburger");
+const links = document.getElementsByClassName("navbar-center");
+const height = "2.75rem";
+let hamburger_expanded = false;
+
+
+/*
+ * Toggle dropdown menu for smaller screens.
  */
 function toggleHamburger() {
-    let x = document.getElementById("navbar");
-
-    if (x.className === "responsive") {
-        x.className = ""
+    if (hamburger_expanded) {
+        for (let div of links) {
+            div.style.height = 0;
+            div.children[0].style.opacity = 0;
+        }
+        hamburger_expanded = false;
     } else {
-        x.className = "responsive";
+        for (let div of links) {
+            div.style.height = height;
+            div.children[0].style.opacity = 1;
+        }
+        hamburger_expanded = true;
     }
 }
 
-/*
- * Removes (hides) the error message on the login page.
- */
-function removeLoginErrorMessage() {
-    document.getElementById("input-error-msg").style.display = "none";
-}
 
-document.getElementById("username-input").addEventListener("click", removeLoginErrorMessage)
-document.getElementById("password-input").addEventListener("click", removeLoginErrorMessage)
+hamburger.addEventListener("click", toggleHamburger);
+
+let navbar_divs = document.getElementsByClassName("navbar-center")
+let page_name = window.location.pathname
+
+for (let div of navbar_divs) {
+    for (let anchor of div.children) {
+        if (page_name === anchor.pathname) {
+            if (!anchor.parentElement.classList.contains("active"))
+                anchor.parentElement.classList.add("active");
+        } else {
+            if (anchor.parentElement.classList.contains("active"))
+                anchor.parentElement.classList.remove("active");
+        }
+    }
+}
