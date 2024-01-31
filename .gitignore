@@ -1,7 +1,6 @@
 .idea/
 .git/
-.__pycache__/
-.modules/.__pycache__/
+*/.__pycache__/
 .venv/
 
 *.pyc

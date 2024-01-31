@@ -7,16 +7,24 @@
     --light-blue: #0077b6;
     --lighter-blue: #0096c7;
     --even-lighter-blue: #90e0ef;
-    --dark-blue: #03045e;
-    --light-green: #5afa8d;
+    --dark-blue: #023e8a;
+    --darker-blue: #03045e;
+    --lighter-green: #5afa8d;
+    --light-green: #179645;
+    --dark-green: #237543;
+    --light-red: #db5658;
     --white: #ffffff;
     --black: #000000;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--dark-blue);
+    background-color: var(--darker-blue);
     font-family: "Raleway", Arial, serif;
     color: var(--white);
 }
@@ -25,36 +33,44 @@ h1 {
     margin: 1em;
 }
 
-input {
+/* ======================= Message alert box start ======================= */
+
+.alert-dialog-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.alert-dialog {
+    position: relative;
+    display: none;
+    background-color: var(--light-red);
+    width: 70%;
+    color: var(--white);
+    text-align: center;
+    padding: 1%;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+.alert-dialog-button {
     display: block;
-    outline: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
     border: none;
-    margin: 1em 1em 1em 2em;
-    padding: 10px;
-    width: 15%;
-    border-radius: 5px;
+    font-size: 0.9rem;
+    color: var(--white);
+    background-color: transparent;
 }
 
-button {
-    border: none;
-    margin: 1em 1em 1em 2em;
-    padding: 10px;
-    width: 10%;
-    border-radius: 5px;
-    background-color: var(--light-green);
-}
-
-button:hover {
+.alert-dialog-button:hover {
     cursor: pointer;
-    text-decoration: underline;
+    font-weight: bold;
 }
 
-form#login-form span#input-error-msg {
-    margin: 1em 1em 1em 2.2em;
-    display: block;
-    color: red;
-    font-size: 13px;
-}
+/* ======================= Message alert box end ======================= */
 
 /* ======================= Navigation bar start ======================= */
 
@@ -69,26 +85,26 @@ nav div {
     display: flex;
 }
 
-nav div.navbar-left {
+.navbar-left {
     grid-row: 1;
     grid-column: 1;
     justify-content: left;
 }
 
-nav div.navbar-center {
+.navbar-center {
     grid-row: 1;
     grid-column: auto;
     justify-content: center;
     transition: height 0.25s;
 }
 
-nav div.navbar-right {
+.navbar-right {
     grid-row: 1;
     grid-column: -2;
     justify-content: right;
 }
 
-nav div.active {
+div.active {
     background-color: var(--lighter-blue);
 }
 
@@ -110,12 +126,12 @@ nav div a:hover {
     color: var(--black);
 }
 
-nav div.active a {
+div.active a {
     text-decoration: underline;
     text-decoration-thickness: 0.075rem;
 }
 
-nav div a#hamburger {
+#hamburger {
     visibility: hidden;
 }
 
@@ -129,13 +145,13 @@ nav div a#hamburger {
         grid-template-columns: 1fr 1fr;
     }
 
-    nav div.navbar-center {
+    .navbar-center {
         height: 0;
         grid-row: auto;
         grid-column: span 2;
     }
 
-    nav div.navbar-center a {
+    .navbar-center a {
         width: 100%;
         /*opacity: 0;*/
     }

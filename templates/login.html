@@ -1,24 +1,56 @@
 {% extends "base.html" %}
 
+{% block links %}
+
+    <link rel="stylesheet" href="../static/login.css">
+
+{% endblock %}
+
 {% block header %}
 
+    <style>
+        .alert-dialog {
+            {% with error = get_flashed_messages(category_filter=["error"]) %}
+                {% with info = get_flashed_messages(category_filter=["info"]) %}
+                    background-color: {{ "var(--light-red)" if error else "var(--light-green)" }};
+                    display: {{ "block" if error or info else "none"}};
+                {% endwith %}
+            {% endwith %}
+
+        }
+    </style>
+
+    <div class="alert-dialog-container">
+        <div class="alert-dialog">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <button class="alert-dialog-button">&#10005;</button>
+        </div>
+    </div>
+
     <header>
-        <h1>Login</h1>
+        <h1>Log in to ClubHub</h1>
     </header>
 
 {% endblock %}
 
 {% block content %}
 
-    <form id="login-form" action="/login" method="post">
-        <label for="username-input"></label>
-        <input id="username-input" name="username" type="text" placeholder="Username">
-        <label for="password-input"></label>
-        <input id="password-input" name="password" type="password" placeholder="Password">
-        <span id="input-error-msg">{{ error_message }}</span>
-        <button type="submit">Login</button>
-    </form>
+    <div id="form-container">
+        <form id="login-form" action="/login" method="post">
+            <label for="username-input"></label>
+            <input id="username-input" name="username" type="text" placeholder="Username">
+            <label for="password-input"></label>
+            <input id="password-input" name="password" type="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
+    </div>
 
-    <script src="../static/login.js"></script>
+    <script src="../static/alert_message.js"></script>
 
 {% endblock %}
