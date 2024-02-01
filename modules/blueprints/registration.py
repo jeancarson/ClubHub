@@ -2,7 +2,6 @@ from werkzeug import Response
 from flask import (
     Blueprint,
     render_template,
-    redirect,
     session,
     flash,
     redirect,
@@ -15,6 +14,8 @@ registration = Blueprint("registration", __name__)
 
 @registration.route("/register")
 @registration.route("/registration")
+@registration.route("/create-account")
+@registration.route("/sign-up")
 def register_get() -> Response | str:
     """
     Loads the registration page.

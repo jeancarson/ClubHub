@@ -99,3 +99,7 @@ def logout() -> Response:
 
     return redirect("/home")
 
+
+@login_logout.route("/forgot-password")
+def forgot_password() -> str:
+    return render_template("forgot-password.html")
