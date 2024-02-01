@@ -6,32 +6,60 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>ClubHub</title>
+
+    {% set second_link = "account" if "user" in session else "login" %}
+    {% set flash_message = get_flashed_messages()[0] %}
 
     {% block links %}
     {% endblock %}
 
-    <title>ClubHub</title>
 </head>
 
 <body>
+
+    <style>
+        .alert-dialog {
+            {% with error = get_flashed_messages(category_filter=["error"]) %}
+                {% with info = get_flashed_messages(category_filter=["info"]) %}
+                    background-color: {{ "var(--light-red)" if error else "var(--light-green)" }};
+                    display: {{ "block" if error or info else "none"}};
+                {% endwith %}
+            {% endwith %}
+
+        }
+    </style>
 
     <!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
 
     <nav id="navbar">
         <div class="navbar-left">
-            <a href="/home">[logo]</a>
+            <a href="/home">
+                <img src="../static/logo.png" alt="[logo]">
+                <img src="../static/logo-dark.png" alt="[logo]">
+            </a>
         </div>
         <div class="navbar-center">
-            <a href="/home" class="home-link">Home</a>
+            <a href="/home" class="home-link index-link none-link">Home</a>
         </div>
         <div class="navbar-center">
-            <a href="/login" class="login-link">Login</a>
+            <a href="/{{ second_link }}" class="{{ second_link }}-link">{{ second_link.capitalize() }}</a>
+        </div>
+        <div class="navbar-center">
+            <a href="/about-us" class="about-link about-us-link">About Us</a>
         </div>
         <div class="navbar-right">
-            <a href="javascript:void(0);" id="hamburger">&#9776;</a>
+            <a href="javascript:void(0);">&#9776;</a>
         </div>
     </nav>
+
+    <div class="alert-dialog-container">
+        <div class="alert-dialog">
+            <p>{{ flash_message }}</p>
+            <button class="alert-dialog-button">&#10005;</button>
+        </div>
+    </div>
 
     {% block header %}
     {% endblock %}
@@ -39,7 +67,8 @@
     {% block content %}
     {% endblock %}
 
-    <script src="../static/script.js"></script>
+    <script src=" {{ url_for('static', filename='script.js') }}"></script>
+    <script src=" {{ url_for('static', filename='alert_message.js') }}"></script>
 
 </body>
 

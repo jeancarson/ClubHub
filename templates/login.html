@@ -2,46 +2,21 @@
 
 {% block links %}
 
-    <link rel="stylesheet" href="../static/login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
 
 {% endblock %}
 
 {% block header %}
 
-    <style>
-        .alert-dialog {
-            {% with error = get_flashed_messages(category_filter=["error"]) %}
-                {% with info = get_flashed_messages(category_filter=["info"]) %}
-                    background-color: {{ "var(--light-red)" if error else "var(--light-green)" }};
-                    display: {{ "block" if error or info else "none"}};
-                {% endwith %}
-            {% endwith %}
-
-        }
-    </style>
-
-    <div class="alert-dialog-container">
-        <div class="alert-dialog">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            <button class="alert-dialog-button">&#10005;</button>
-        </div>
-    </div>
-
     <header>
-        <h1>Log in to ClubHub</h1>
+        <h1 style="margin-top: 1.65em;">Log in to ClubHub</h1>
     </header>
 
 {% endblock %}
 
 {% block content %}
 
-    <div id="form-container">
+    <div class="form-container">
         <form id="login-form" action="/login" method="post">
             <label for="username-input"></label>
             <input id="username-input" name="username" type="text" placeholder="Username">
@@ -50,7 +25,5 @@
             <button type="submit">Login</button>
         </form>
     </div>
-
-    <script src="../static/alert_message.js"></script>
 
 {% endblock %}

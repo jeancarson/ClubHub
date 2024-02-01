@@ -29,7 +29,7 @@ body {
     color: var(--white);
 }
 
-h1 {
+header h1 {
     margin: 1em;
 }
 
@@ -39,6 +39,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
     width: 100%;
 }
 
@@ -46,10 +47,9 @@ h1 {
     position: relative;
     display: none;
     background-color: var(--light-red);
-    width: 70%;
+    width: 65%;
     color: var(--white);
     text-align: center;
-    padding: 1%;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
 }
@@ -76,7 +76,7 @@ h1 {
 
 nav {
     display: grid;
-    grid-template-columns: 1fr auto auto 1fr;
+    grid-template-columns: 1fr auto auto auto 1fr;
     background-color: var(--light-blue);
     overflow: hidden;
 }
@@ -104,8 +104,13 @@ nav div {
     justify-content: right;
 }
 
-div.active {
+.nav-active-link {
     background-color: var(--lighter-blue);
+}
+
+.nav-active-link a {
+    text-decoration: underline;
+    text-decoration-thickness: 0.075rem;
 }
 
 nav div a {
@@ -118,7 +123,6 @@ nav div a {
     height: 2.75rem;
     padding: 0 1rem;
     font-size: 1rem;
-    /*transition: opacity ease 1.5s;*/
 }
 
 nav div a:hover {
@@ -126,18 +130,29 @@ nav div a:hover {
     color: var(--black);
 }
 
-div.active a {
-    text-decoration: underline;
-    text-decoration-thickness: 0.075rem;
+.navbar-left a img {
+    height: 1.5rem;
 }
 
-#hamburger {
+.navbar-left a img:last-child {
+  display: none;
+}
+
+.navbar-left a:hover img:last-child {
+  display: block;
+}
+
+.navbar-left a:hover img:first-child {
+  display: none;
+}
+
+.navbar-right a {
     visibility: hidden;
 }
 
 @media screen and (max-width: 600px) {
 
-    nav div a#hamburger {
+    .navbar-right a {
         visibility: visible;
     }
 
@@ -153,9 +168,12 @@ div.active a {
 
     .navbar-center a {
         width: 100%;
-        /*opacity: 0;*/
     }
 
 }
 
 /* ======================= Navigation bar end ======================= */
+
+/* ========================== Footer start ========================== */
+
+/* ========================== Footer start ========================== */

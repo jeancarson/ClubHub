@@ -12,7 +12,7 @@ from flask import (
 from modules.general.user_auth import password_match
 
 
-login = Blueprint("login", __name__)
+login_logout = Blueprint("login_logout", __name__)
 
 # Temporary user dictionary with usernames/passwords for login system.
 users: dict[str, str] = {
@@ -21,7 +21,7 @@ users: dict[str, str] = {
 }
 
 
-@login.route("/login")
+@login_logout.route("/login")
 def login_get() -> str:
     """
     Loads the login page.
@@ -30,7 +30,7 @@ def login_get() -> str:
     return render_template("login.html")
 
 
-@login.route("/login", methods=["POST"])
+@login_logout.route("/login", methods=["POST"])
 def login_post() -> str | Response:
     """
     Function called when login button (from the login page) is pressed.
@@ -69,3 +69,33 @@ def login_post() -> str | Response:
     session["user"] = username
 
     return redirect("/home")
+
+
+@login_logout.route("/account")
+def account() -> str | Response:
+    """
+    Loads the account page (if a user session is active)
+    """
+
+    if "user" not in session:
+        current_app.logger.warning(f"Page access fail: unauthenticated user tried to access restricted page 'account'")
+        flash("You cannot access this page as you are not logged in", category="error")
+        return redirect("/home")
+
+    return render_template("account.html", user=session["user"])
+
+
+@login_logout.route("/logout")
+def logout() -> Response:
+    """
+    Logs out of the current session (if any) and redirects to home page.
+    """
+
+    if "user" in session:
+        flash(f"You have been logged out. See you later {session['user']}!", category="info")
+        session.pop("user", None)
+    else:
+        flash("You can not log out if you are not logged in!", category="error")
+
+    return redirect("/home")
+

@@ -44,7 +44,7 @@ label {
     text-decoration: underline;
 }
 
-#form-container {
+.form-container {
     display: flex;
     width: 50%;
     margin: auto auto 5%;
