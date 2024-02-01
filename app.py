@@ -1,6 +1,6 @@
 from flask import (
-    Flask,
-    render_template,
+    Flask, 
+    render_template, 
     request
 )
 
@@ -12,7 +12,7 @@ users: dict[str, str] = {
 }
 
 
-@app.route("/")
+@app.route("/") 
 @app.route("/index")
 @app.route("/home")
 def home() -> str:
