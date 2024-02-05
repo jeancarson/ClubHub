@@ -21,9 +21,21 @@ def get_db() -> Connection:
 
 
 def query_db(query: str, *args, single: bool = False) -> list[Row] | Row | None:
-    cur: Cursor = get_db().execute(query, *args)
-    results: list[Row] = cur.fetchall()
-    cur.close()
+    """
+    Execute an SQLite query on the database.
+    This function only works in an application context.
+
+    :param query: SQLite query to execute.
+    :param args: Arguments to pass to the given query.
+    :param single: If True, only returns the first value in the list of results (if there are any).
+    :return: None if there are no results; otherwise, the list of results or the single result.
+    """
+
+    cursor: Cursor = get_db().cursor()
+    cursor.execute(query, args)
+
+    results: list[Row] = cursor.fetchall()
+    cursor.close()
 
     if not results:
         return None

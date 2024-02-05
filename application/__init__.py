@@ -5,7 +5,7 @@ from .blueprints.main import main
 from .blueprints.login_logout import login_logout
 from .blueprints.registration import registration
 from .blueprints.misc import misc
-from .util.database import get_db
+from .util.database import get_db, query_db
 
 
 app: Flask = Flask(import_name=__name__)
@@ -19,6 +19,11 @@ app.register_blueprint(misc)
 
 @app.teardown_appcontext
 def close_connection(_exception) -> None:
+    """
+    Closes the database connection.
+    This function is invoked automatically.
+    """
+
     db: Connection = getattr(g, "_database", None)
 
     if db is not None:
@@ -26,6 +31,10 @@ def close_connection(_exception) -> None:
 
 
 def initialise_db() -> None:
+    """
+    Initialises the database with the script in the 'schema.sql' file.
+    """
+
     with app.app_context():
         db: Connection = get_db()
 
