@@ -2,5 +2,6 @@
 .git/
 */.__pycache__/
 .venv/
+deprecated/
 
 *.pyc

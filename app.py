@@ -1,8 +1,10 @@
 # Third party libraries
+from werkzeug import Response
 from flask import (
     Flask,
     render_template,
     session,
+    redirect
 )
 
 # Local modules

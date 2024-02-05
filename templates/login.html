@@ -2,14 +2,14 @@
 
 {% block links %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 
 {% endblock %}
 
 {% block header %}
 
     <header>
-        <h1 style="margin-top: 1.65em;">Log in to ClubHub</h1>
+        <h1>Log in to ClubHub</h1>
     </header>
 
 {% endblock %}
@@ -18,13 +18,26 @@
 
     <div class="form-container">
         <form id="login-form" action="/login" method="post">
-            <label for="username-input"></label>
-            <input id="username-input" name="username" type="text" placeholder="Username">
-            <label for="password-input"></label>
-            <input id="password-input" name="password" type="password" placeholder="Password">
-            <div id="sign-up">Dont have an account? <a href="/register">Sign up</a></div>
-            <div id="forgot-password"><a href="/forgot-password">Forgotten your password?</a></div>
-            <button type="submit">Login</button>
+            <label for="login-username-input"></label>
+            <input id="login-username-input"
+                   name="login-username"
+                   type="text"
+                   placeholder="Username"
+                   autocomplete="on"
+                   required>
+
+            <label for="login-password-input"></label>
+            <input id="login-password-input"
+                   name="login-password"
+                   type="password"
+                   placeholder="Password"
+                   autocomplete="on"
+                   required>
+
+            <div>Dont have an account? <a href="/register">Sign up</a></div>
+            <div><a href="/forgot-password">Forgotten your password?</a></div>
+
+            <button class="submit-button" type="submit">Login</button>
         </form>
     </div>
 

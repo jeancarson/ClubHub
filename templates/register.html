@@ -2,21 +2,79 @@
 
 {% block links %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 
 {% endblock %}
 
 {% block header %}
 
     <header>
-        <h1>Create an account for ClubHub</h1>
+        <h1>Create an account for ClubHub {{ register_value }}</h1>
     </header>
 
 {% endblock %}
 
 {% block content %}
 
-    <div class="form-container">
+    <div class="form-container" style="width: 70%">
+        <form id="register-form" action="/register" method="post">
+            <p>Fields marked with an asterisk<span class="required-star">*</span> are required fields.</p>
+            <hr>
+
+            <label for="register-username-input">1. Create a username<span class="required-star"> *</span></label>
+            <input id="register-username-input"
+                   name="register-username"
+                   type="text"
+                   placeholder="Username"
+                   minlength="5"
+                   maxlength="40"
+                   value="{{ form_username_value }}"
+                   autocomplete="on"
+                   required>
+            <div id="username-error"></div>
+
+            <label for="register-password-input">2. Create a password<span class="required-star"> *</span></label>
+            <input id="register-password-input"
+                   name="register-password"
+                   type="password"
+                   placeholder="Password"
+                   minlength="5"
+                   maxlength="50"
+                   autocomplete="on"
+                   required>
+            <label for="register-confirm-password-input"></label>
+            <input id="register-confirm-password-input"
+                   name="register-confirm-password"
+                   type="password"
+                   placeholder="Confirm password"
+                   autocomplete="on"
+                   required>
+            <div id="password-error"></div>
+
+            <label for="register-name-input">3. Full name</label>
+            <!-- The regex pattern below looks for a word item followed by a space and another word item -->
+            <!-- "this.setCustomValidity() function modifies the tooltips default text -->
+            <input id="register-name-input"
+                   name="register-name"
+                   type="text"
+                   placeholder="John Doe"
+                   pattern="^(\w\w+)\s(\w+)$"
+                   oninvalid="this.setCustomValidity('Please enter a full name');"
+                   value="{{ form_name_value }}"
+                   autocomplete="on">
+
+            <label for="register-email-input">4. Email address</label>
+            <input id="register-email-input"
+                   name="register-email"
+                   type="email"
+                   placeholder="someone@example.com"
+                   value="{{ form_email_value }}"
+                   autocomplete="on">
+
+            <!-- Add more inputs here maybe -->
+
+            <button class="submit-button" type="submit">Submit</button>
+        </form>
     </div>
 
-{% endblock %}
+{% endblock %}  

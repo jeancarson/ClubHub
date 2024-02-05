@@ -13,6 +13,7 @@
     --light-green: #179645;
     --dark-green: #237543;
     --light-red: #db5658;
+    --dark-red: #990f0f;
     --white: #ffffff;
     --black: #000000;
 }
@@ -33,13 +34,21 @@ header h1 {
     margin: 1em;
 }
 
+a {
+    text-decoration: none;
+    color: var(--even-lighter-blue);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 /* ======================= Message alert box start ======================= */
 
 .alert-dialog-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
     width: 100%;
 }
 
@@ -47,7 +56,10 @@ header h1 {
     position: relative;
     display: none;
     background-color: var(--light-red);
-    width: 65%;
+    width: auto;
+    max-width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
     color: var(--white);
     text-align: center;
     border-bottom-left-radius: 1em;
@@ -110,6 +122,7 @@ nav div {
 
 .nav-active-link a {
     text-decoration: underline;
+    text-underline-position: under;
     text-decoration-thickness: 0.075rem;
 }
 
@@ -130,19 +143,23 @@ nav div a:hover {
     color: var(--black);
 }
 
+nav div a:hover:not(.nav-active-link a) {
+    text-decoration: none;
+}
+
 .navbar-left a img {
     height: 1.5rem;
 }
 
-.navbar-left a img:last-child {
+.navbar-left a img:last-of-type {
   display: none;
 }
 
-.navbar-left a:hover img:last-child {
+.navbar-left a:hover img:last-of-type {
   display: block;
 }
 
-.navbar-left a:hover img:first-child {
+.navbar-left a:hover img:first-of-type {
   display: none;
 }
 
