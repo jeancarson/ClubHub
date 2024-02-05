@@ -9,7 +9,7 @@ from flask import (
     url_for
 )
 
-registration = Blueprint("registration", __name__)
+registration: Blueprint = Blueprint("registration", __name__)
 
 
 def validate_password(password: str) -> None | str:
