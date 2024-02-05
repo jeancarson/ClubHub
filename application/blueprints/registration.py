@@ -61,30 +61,48 @@ def register_get() -> Response | str:
     """
 
     form_username: str = request.args.get("username", "")
-    form_name: str = request.args.get("name", "")
+    form_user_type: str = request.args.get("user_type", "")
+
+    form_first_name: str = request.args.get("first_name", "")
+    form_last_name: str = request.args.get("last_name", "")
     form_email: str = request.args.get("email", "")
+    form_phone: str = request.args.get("phone", "")
+    form_gender: str = request.args.get("gender", "")
 
     if "user" in session:
         flash("You must log out before creating a new account", category="error")
         return redirect("/profile")
 
     return render_template(
-        "register.html",
+        template_name_or_list="register.html",
         form_username_value=form_username,
-        form_name_value=form_name,
-        form_email_value=form_email
+        form_user_type_value=form_user_type,
+        form_first_name_value=form_first_name,
+        form_last_name_value=form_last_name,
+        form_email_value=form_email,
+        form_phone_value=form_phone,
+        form_gender_value=form_gender
     )
 
 
 @registration.route("/register", methods=["POST"])
 def register_post() -> Response:
 
+    print(request.form)
+
+    # Required inputs
     username: str = request.form["register-username"]
     password: str = request.form["register-password"]
     confirm_password: str = request.form["register-confirm-password"]
-    name: str = request.form["register-name"]
-    email: str = request.form["register-email"]
     captcha_response: str = request.form["g-recaptcha-response"]
+    user_type: str = request.form["register-user-type"]
+
+    # Non required inputs
+    first_name: str = request.form["register-first-name"]
+    last_name: str = request.form["register-first-name"]
+    email: str = request.form["register-email"]
+    phone: str = request.form["register-phone"]
+    gender: str = request.form["register-gender"]
 
     # TODO: Check if username in registered users already
 
@@ -92,13 +110,21 @@ def register_post() -> Response:
         url_for(
             endpoint=".register_get",
             username=username,
-            name=name,
-            email=email
+            user_type=user_type,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            gender=gender
         )
     )
 
     if not captcha_response:
         flash("Please complete the CAPTCHA before form submission", category="error")
+        return page
+
+    if not user_type:
+        flash("Please select a user type for your account")
         return page
 
     password_error_msg: None | str = validate_password(password)
@@ -111,10 +137,5 @@ def register_post() -> Response:
         flash("Passwords do not match", category="error")
         return page
 
-    # TODO: Create a new account
-    flash(f"Register success: {username!r}", category="info")
-
-    # Create a user session
-    session["user"] = username
-
-    return redirect("/profile")
+    flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
+    return redirect("/home")
