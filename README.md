@@ -21,8 +21,7 @@ coordinators in organizing and participating in various sports clubs and events.
 >   ```
 >   .venv/Scripts/activate
 >   ```
->   Assuming you are on windows, the previous commands should work in a standard ``cmd.exe`` command shell. If they do not work, or if you are on a different platform, refer to Python's [Virtual Environment Documentation](https://docs.python.org/3/library/venv.html).<br><br>
-> 4. Install the requirements listed in ``requirements.txt``.
+>4. Install the requirements listed in ``requirements.txt``.
 >   ```commandline
 >   pip install -r requirements.txt
 >   ```
@@ -38,3 +37,5 @@ coordinators in organizing and participating in various sports clubs and events.
 >    * Running on <a>http://127.0.0.1:5000</a>
 >   <span style="color: #cfcf63;">Press CTRL+C to quit</span>
 >   </pre>
+
+Assuming you are on windows, the commands above should work in a standard ``cmd.exe`` command shell. If they do not work, or if you are on a different platform, refer to Python's [Virtual Environment Documentation](https://docs.python.org/3/library/venv.html).<br><br>
