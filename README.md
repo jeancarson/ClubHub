@@ -18,20 +18,19 @@ coordinators in organizing and participating in various sports clubs and events.
 >   python -m venv .venv
 >   ```
 >3. Activate the virtual environment you just created.
->   ```sh
+>   ```
 >   .venv/Scripts/activate
 >   ```
->   Assuming you are on windows, the previous commands should work in a standard ``cmd.exe`` command shell.
->   If they do not work, or if you are on a different platform, refer to Python's [Virtual Environment Documentation](https://docs.python.org/3/library/venv.html).<br><br>
-> 4. Install the requirements listed in ``requirements.txt``.
+>   Assuming you are on windows, the previous commands should work in a standard ``cmd.exe`` command shell. If they do not work, or if you are on a different platform, refer to Python's [Virtual Environment Documentation](https://docs.python.org/3/library/venv.html).<br><br>
+>4. Install the requirements listed in ``requirements.txt``.
 >   ```commandline
 >   pip install -r requirements.txt
 >   ```
-> 5. Finally, use the following command to run the Flask application.
+>5. Finally, use the following command to run the Flask application.
 >   ```commandline
 >   flask run
 >   ```
-> 6. You should see an output similar to the following:
+>6. You should see an output similar to the following:
 >   <pre lang="">
 >    * Serving Flask app 'app'
 >    * Debug mode: off
