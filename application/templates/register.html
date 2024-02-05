@@ -31,7 +31,6 @@
                    value="{{ form_username_value }}"
                    autocomplete="on"
                    required>
-            <div id="username-error"></div>
 
             <label for="register-password-input">2. Create a password<span class="required-star"> *</span></label>
             <input id="register-password-input"
@@ -49,7 +48,11 @@
                    placeholder="Confirm password"
                    autocomplete="on"
                    required>
-            <div id="password-error"></div>
+            <label for="register-show-password-input">
+                Show password&nbsp;
+                <input id="register-show-password-input" type="checkbox" class="show-password-box">
+            </label>
+
 
             <label for="register-name-input">3. Full name</label>
             <!-- The regex pattern below looks for a word item followed by a space and another word item -->
@@ -73,8 +76,13 @@
 
             <!-- Add more inputs here maybe -->
 
-            <button class="submit-button" type="submit">Submit</button>
+            <div class="g-recaptcha" data-sitekey="{{ config["RECAPTCHA_SITE_KEY"] }}"></div>
+
+            <button class="submit-button" type="submit">Register</button>
         </form>
     </div>
 
-{% endblock %}  
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src=" {{ url_for('static', filename='register.js') }}"></script>
+
+{% endblock %}

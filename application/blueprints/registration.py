@@ -84,18 +84,32 @@ def register_post() -> Response:
     confirm_password: str = request.form["register-confirm-password"]
     name: str = request.form["register-name"]
     email: str = request.form["register-email"]
+    captcha_response: str = request.form["g-recaptcha-response"]
 
     # TODO: Check if username in registered users already
+
+    page: Response = redirect(
+        url_for(
+            endpoint=".register_get",
+            username=username,
+            name=name,
+            email=email
+        )
+    )
+
+    if not captcha_response:
+        flash("Please complete the CAPTCHA before form submission", category="error")
+        return page
 
     password_error_msg: None | str = validate_password(password)
 
     if password_error_msg:
         flash(password_error_msg, category="error")
-        return redirect(url_for(".register_get", username=username, name=name, email=email))
+        return page
 
     if confirm_password != password:
         flash("Passwords do not match", category="error")
-        return redirect(url_for(".register_get", username=username, name=name, email=email))
+        return page
 
     # TODO: Create a new account
     flash(f"Register success: {username!r}", category="info")
