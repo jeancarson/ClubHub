@@ -1,45 +1,46 @@
+# Third party libraries
 from flask import (
     Flask, 
-    render_template, 
-    request
+    render_template,
+    session,
 )
 
-from modules.user_auth import password_match
+# Local modules
+from modules.blueprints.login_logout import login_logout
+from modules.blueprints.registration import registration
+
 
 app: Flask = Flask(__name__)
-users: dict[str, str] = {
-    "admin": "243262243132246f6b3835716e6a55446e50304c51675833624962347561566a53646855676179725a61777937706f726d4b73466d6f715975687a75"
-}
+app.register_blueprint(login_logout)
+app.register_blueprint(registration)
+
+# Load environment variables (from .env and .flaskenv)
+app.config.from_prefixed_env()
 
 
 @app.route("/") 
 @app.route("/index")
 @app.route("/home")
 def home() -> str:
+    """
+    Loads the home (default) page.
+    """
+
+    if "user" in session:
+        user: str = session["user"]
+        return render_template("index.html", header=f"Hello {user}!")
+
     return render_template("index.html")
 
 
-@app.route("/login")
-def login_home() -> str:
-    return render_template("login.html")
+@app.route("/about")
+@app.route("/about-us")
+def about_us() -> str:
+    """
+    Loads the about page.
+    """
 
-
-@app.route("/login", methods=["POST"])
-def login() -> str:
-    username: str = request.form["username"]
-    password: str = request.form["password"]
-    hashed_pw: str | None = users.get(username)
-
-    if hashed_pw is None:
-        app.logger.warning(f"Login fail: {username!r} does not exist")
-        return render_template("login.html")
-
-    if not password_match(password, hashed_pw):
-        app.logger.info(f"Login fail: Incorrect password for user {username!r}")
-        return render_template("login.html")
-
-    app.logger.info(f"Login success: {username!r}")
-    return render_template("index.html")
+    return render_template("about.html")
 
 
 if __name__ == '__main__':

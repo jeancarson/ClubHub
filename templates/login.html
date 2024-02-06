@@ -1,23 +1,31 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../static/style.css">
-    <title>ClubHub</title>
-</head>
+{% block links %}
 
-<body>
-    <form action="{{ url_for('login') }}" method="post">
-        <label for="username-input"></label>
-        <input id="username-input" name="username" type="text" placeholder="Username">
-        <label for="password-input"></label>
-        <input id="password-input" name="password" type="text" placeholder="Password">
-        <button type="submit">Log in</button>
-    </form>
-</body>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
 
-</html>
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1 style="margin-top: 1.65em;">Log in to ClubHub</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="form-container">
+        <form id="login-form" action="/login" method="post">
+            <label for="username-input"></label>
+            <input id="username-input" name="username" type="text" placeholder="Username">
+            <label for="password-input"></label>
+            <input id="password-input" name="password" type="password" placeholder="Password">
+            <div id="sign-up">Dont have an account? <a href="/register">Sign up</a></div>
+            <div id="forgot-password"><a href="/forgot-password">Forgotten your password?</a></div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+{% endblock %}
