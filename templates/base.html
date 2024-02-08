@@ -18,18 +18,18 @@
 </head>
 
 <body>
-
+   
     <style>
         .alert-dialog {
-            {% with error = get_flashed_messages(category_filter=["error"]) %}
+        {% with error = get_flashed_messages(category_filter=["error"]) %}
                 {% with info = get_flashed_messages(category_filter=["info"]) %}
                     background-color: {{ "var(--light-red)" if error else "var(--light-green)" }};
                     display: {{ "block" if error or info else "none"}};
                 {% endwith %}
             {% endwith %}
-
         }
-    </style>
+    </style> 
+
 
     <!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
 
@@ -49,6 +49,16 @@
         <div class="navbar-center">
             <a href="/about-us" class="about-link about-us-link">About Us</a>
         </div>
+        
+        <div class="navbar-center">
+            <a href="/admin" class="home-link">Admin</a> 
+        </div>
+        <div class="navbar-center">
+            <a href="/user" class="home-link">Users</a> 
+        </div> 
+            
+        
+
         <div class="navbar-right">
             <a href="javascript:void(0);">&#9776;</a>
         </div>

@@ -39,6 +39,10 @@ def login_post() -> str | Response:
     username: str = request.form["username"]
     password: str = request.form["password"]
 
+    
+
+
+
     if "user" in session:
         current_user: str = session["user"]
         current_app.logger.warning(f"Login fail: {current_user!r} is already logged in")
@@ -65,9 +69,11 @@ def login_post() -> str | Response:
     current_app.logger.info(f"Login success: {username!r}")
     flash(f"Successfully logged in as {username!r}", category="info")
 
-    # Create a user session
-    session["user"] = username
-
+    if username == "admin":
+        session["role"] = "admin"
+    else:
+        session["role"] = "user"
+        
     return redirect("/home")
 
 

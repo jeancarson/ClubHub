@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #023e8a;
+            padding-top: 50px; /* Added padding-top to give space for the fixed navbar */
+        }
+        .window {
+            background-color: #0096c7;
+            padding: 20px;
+            margin-top: 50px; /* Adjusted margin-top */
+            margin-bottom: 50px; /* Added margin-bottom */
+        }
+        .btn-custom {
+            background-color: green;
+            color: white;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        .scrollable-table {
+            max-height: 400px; /* Increased the height */
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<a href="admin_main.html" class="btn btn-custom">Go to Admin Main Page</a>
+<div class="container">
+    <div class="row">
+        <!-- Approved Members -->
+        <div class="col-md-4">
+            <div class="window">
+                <h4 class="text-center">Approved Members</h4>
+                <div class="scrollable-table">
+                    <table class="table table-bordered mt-3">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">UserID</th>
+                                <th scope="col">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sample approved members data -->
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Student</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Coordinator</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Student</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rejected Members -->
+        <div class="col-md-4">
+            <div class="window">
+                <h4 class="text-center">Rejected Members</h4>
+                <div class="scrollable-table">
+                    <table class="table table-bordered mt-3">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">UserID</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td><button class="btn btn-danger btn-sm">X</button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td><button class="btn btn-danger btn-sm">X</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pending Members -->
+        <div class="col-md-4">
+            <div class="window">
+                <h4 class="text-center">Pending Members</h4>
+                <div class="scrollable-table">
+                    <table class="table table-bordered mt-3">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">UserID</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>
+                                    <button class="btn btn-success btn-sm">Coordinator</button>
+                                    <button class="btn btn-success btn-sm">Student</button>
+                                    <button class="btn btn-danger btn-sm">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>
+                                    <button class="btn btn-success btn-sm">Coordinator</button>
+                                    <button class="btn btn-success btn-sm">Student</button>
+                                    <button class="btn btn-danger btn-sm">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
