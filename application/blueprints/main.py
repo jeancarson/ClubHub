@@ -14,6 +14,6 @@ def home() -> str:
 
     if "user" in session:
         user: str = session["user"]
-        return render_template("index.html", header=f"Hello {user}!")
+        return render_template("html/index.html", header=f"Hello {user}!")
 
-    return render_template("index.html")
+    return render_template("html/index.html")

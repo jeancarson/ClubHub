@@ -74,7 +74,7 @@ def register_get() -> Response | str:
         return redirect("/profile")
 
     return render_template(
-        template_name_or_list="register.html",
+        template_name_or_list="html/register.html",
         form_username_value=form_username,
         form_user_type_value=form_user_type,
         form_first_name_value=form_first_name,
@@ -139,3 +139,8 @@ def register_post() -> Response:
 
     flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
     return redirect("/home")
+
+
+@registration.route("/privacy-policy")
+def privacy_policy() -> str:
+    return render_template("html/privacy-policy.html")

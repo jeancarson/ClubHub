@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+{% extends "html/base.html" %}
 
 {% block links %}
 
     <meta id="form-gender-value" data-value="{{ form_gender_value if form_gender_value else '' }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}"/>
 
 {% endblock %}
 
@@ -97,6 +98,8 @@
                    value="{{ form_last_name_value }}"
                    autocomplete="on">
 
+            <!-- TODO: Add age? -->
+
             <!-- email -->
             <label for="register-email-input">6. Email address</label>
             <input id="register-email-input"
@@ -129,13 +132,16 @@
             <div class="g-recaptcha" data-sitekey="{{ config["RECAPTCHA_SITE_KEY"] }}"></div>
 
             <button class="submit-button" type="submit">Register</button>
+
+            <p>
+                <b style="color: var(--light-red);">Note:</b> On submission of this form, you are agreeing to the Terms
+                and conditions of service, as set out in our <a href="/privacy-policy">Privacy Policy</a>.
+            </p>
         </form>
     </div>
 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src=" {{ url_for('static', filename='register.js') }}"></script>
-
-        {% print(form_gender_value) %}
+    <script src=" {{ url_for('static', filename='js/register.js') }}"></script>
 
     <script>
         {% if form_user_type_value == "student" %}

@@ -7,7 +7,6 @@ from .blueprints.registration import registration
 from .blueprints.misc import misc
 from .util.database import get_db, query_db
 
-
 app: Flask = Flask(import_name=__name__)
 app.config.from_prefixed_env()
 
@@ -38,7 +37,7 @@ def initialise_db() -> None:
     with app.app_context():
         db: Connection = get_db()
 
-        with app.open_resource("schema.sql", "r") as file:
+        with app.open_resource("database/schema.sql", "r") as file:
             db.cursor().executescript(file.read())
 
         db.commit()

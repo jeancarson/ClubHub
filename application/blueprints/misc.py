@@ -11,4 +11,5 @@ def about_us() -> str:
     Loads the about page.
     """
 
-    return render_template("about.html")
+    return render_template("html/about.html")
+

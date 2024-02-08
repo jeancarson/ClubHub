@@ -60,7 +60,8 @@ label {
 .submit-button {
     display: block;
     border: none;
-    margin-top: 2.4em;
+    margin-bottom: 2em;
+    margin-top: 3em;
     padding: 3%;
     font-size: 0.9rem;
     width: 25%;

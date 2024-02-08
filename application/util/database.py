@@ -2,7 +2,7 @@ from sqlite3 import Connection, Cursor, Row, connect
 from flask import g
 
 
-DB_PATH: str = "application/database.db"
+DB_PATH: str = "application/database/database.db"
 
 
 def get_db() -> Connection:
