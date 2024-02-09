@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template
 
-
 mia_blueprint = Blueprint("mia_blueprint", __name__)
 
 
@@ -40,4 +39,3 @@ def go_clubs():
 @mia_blueprint.route("/eventss")
 def go_events():
     return render_template("html/usersFolder/eventss.html")
-

@@ -1,4 +1,3 @@
-from werkzeug import Response
 from flask import (
     Blueprint,
     render_template,
@@ -8,19 +7,12 @@ from flask import (
     url_for,
     redirect
 )
+from werkzeug import Response
 
 from ..util.database import query_db
 from ..util.user_auth import password_match
 
-
 login_logout: Blueprint = Blueprint("login_logout", __name__)
-
-# TODO: Remove this
-# # Temporary user dictionary with usernames/passwords for login system.
-# users: dict[str, str] = {
-#     "admin": "243262243132246f6b3835716e6a55446e50304c51675833624962347561"
-#              "566a53646855676179725a61777937706f726d4b73466d6f715975687a75"
-# }
 
 
 @login_logout.route("/login")

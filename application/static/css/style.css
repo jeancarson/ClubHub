@@ -174,15 +174,15 @@ nav div a:hover:not(.nav-active-link a) {
 }
 
 .navbar-left a img:last-of-type {
-  display: none;
+    display: none;
 }
 
 .navbar-left a:hover img:last-of-type {
-  display: block;
+    display: block;
 }
 
 .navbar-left a:hover img:first-of-type {
-  display: none;
+    display: none;
 }
 
 .navbar-right a {
@@ -231,11 +231,12 @@ footer {
 /* Coordninator start  */
 .card-custom {
     margin-bottom: 20px; /* Adjust the margin as needed */
-    margin-top: 20px;    /* Adjust the margin as needed */
-    margin-right: 20px;  /* Adjust the margin as needed */
-    margin-left: 20px; 
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-right: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
     background-color: var(--lighter-blue) !important;
-    color: white;}
+    color: white;
+}
 
 .custom-link {
     font-size: 40px; /* Adjust the font size as needed */
@@ -243,37 +244,44 @@ footer {
     color: var(--white);
 }
 
-.custom-button{
+.custom-button {
     margin-bottom: 20px; /* Adjust the margin as needed */
-    margin-top: 20px;    /* Adjust the margin as needed */
-    margin-right: 20px;  /* Adjust the margin as needed */
-    margin-left: 20px; 
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-right: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
     background-color: var(--even-lighter-blue);
     color: var(--black);
 
 }
+
 .custom-hover:hover {
     background-color: var(--even-lighter-blue);
     color: var(--black);
 }
-.custom-hover{
+
+.custom-hover {
     background-color: var(--light-blue);
     color: var(--white);
 }
-.light_blue_bckgrnd{
+
+.light_blue_bckgrnd {
     background-color: var(--light-blue);
 }
+
 .dark_link {
     color: var(--darker-blue)
 }
-.white-txt{
+
+.white-txt {
     color: var(--white);
 }
-.vlight_blue_txt{
+
+.vlight_blue_txt {
     color: var(--even-lighter-blue);
 }
+
 /* Coordinator end */
 
-.event-name-column{
+.event-name-column {
     width: 300px;;
 }

@@ -1,4 +1,3 @@
-from werkzeug import Response
 from flask import (
     Blueprint,
     render_template,
@@ -8,12 +7,12 @@ from flask import (
     request,
     url_for
 )
+from werkzeug import Response
 
 registration: Blueprint = Blueprint("registration", __name__)
 
 
 def validate_password(password: str) -> None | str:
-
     errors: list[str] = []
     error_msg_prefix: str = "Password must contain"
     error_msg: str
@@ -89,7 +88,6 @@ def register_get() -> Response | str:
 
 @registration.route("/register", methods=["POST"])
 def register_post() -> Response:
-
     # Required inputs
     username: str = request.form["register-username"]
     password: str = request.form["register-password"]

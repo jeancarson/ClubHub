@@ -1,5 +1,10 @@
 {% extends "html/base.html" %}
 
+{% block links %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+
 {% block header %}
 
     <style>
@@ -8,74 +13,77 @@
         }
     </style>
 
-    <div class = "card card-custom ">
+    <div class="card card-custom ">
 
-<div class="mb-3 card-custom">
+        <div class="mb-3 card-custom">
 
-    <label for="exampleFormControlInput1" class="form-label" style="color: white;">Event name</label>
-    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="What's your event called?">
-    <script>
-        // Assuming you have a variable named event_name_default
-        let event_name_default = "{{ event_name }}";
-        
-        // Set the initial value of the input to the variable
-        document.getElementById('exampleFormControlInput1').value = event_name_default;
-    </script>
-</div>
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;">Event name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1"
+                   placeholder="What's your event called?">
+            <script>
+                // Assuming you have a variable named event_name_default
+                let event_name_default = "{{ event_name }}";
+
+                // Set the initial value of the input to the variable
+                document.getElementById('exampleFormControlInput1').value = event_name_default;
+            </script>
+        </div>
 
 
-<div class="mb-3 card-custom">
-    <label for="exampleFormControlTextarea1" class="form-label" style="color: white;">Event description</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="What's going to happen at your event?"></textarea>
-    <script>
-        // Assuming you have a variable named event_name_default
-        let event_desc_default = "{{ event_desc }}";
-        
-        // Set the initial value of the input to the variable
-        document.getElementById('exampleFormControlTextarea1').value = event_desc_default;
-    </script>
-</div>
+        <div class="mb-3 card-custom">
+            <label for="exampleFormControlTextarea1" class="form-label" style="color: white;">Event description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                      placeholder="What's going to happen at your event?"></textarea>
+            <script>
+                // Assuming you have a variable named event_name_default
+                let event_desc_default = "{{ event_desc }}";
 
-<div class="mb-3 card-custom">
-    <label for="exampleFormControlInput2" class="form-label" style="color: white;">Venue</label>
-    <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Where will this event take place?">
-    <script>
-        // Assuming you have a variable named event_name_default
-        let event_location_default = "{{ event_location }}";
-        
-        // Set the initial value of the input to the variable
-        document.getElementById('exampleFormControlInput2').value = event_location_default;
-    </script>
-</div>
+                // Set the initial value of the input to the variable
+                document.getElementById('exampleFormControlTextarea1').value = event_desc_default;
+            </script>
+        </div>
 
-<div class="mb-3 card-custom">
-    <label for="exampleFormControlInput3" class="form-label" style="color: white;">Date</label>
-    <input type="text" class="form-control" id="exampleFormControlInput3" placeholder="YYYY-MM-DD">
-    <script>
-        // Assuming you have a variable named event_name_default
-        let event_date_default = "{{ event_date }}";
-        
-        // Set the initial value of the input to the variable
-        document.getElementById('exampleFormControlInput3').value = event_date_default;
-    </script>
-</div>
+        <div class="mb-3 card-custom">
+            <label for="exampleFormControlInput2" class="form-label" style="color: white;">Venue</label>
+            <input type="text" class="form-control" id="exampleFormControlInput2"
+                   placeholder="Where will this event take place?">
+            <script>
+                // Assuming you have a variable named event_name_default
+                let event_location_default = "{{ event_location }}";
 
-<div class="mb-3 card-custom">
-    <label for="exampleFormControlInput4" class="form-label" style="color: white;">Time</label>
-    <input type="text" class="form-control" id="exampleFormControlInput4" placeholder="HH:MM">
-    <script>
-        // Assuming you have a variable named event_name_default
-        let event_time_default = "{{ event_time }}";
-        
-        // Set the initial value of the input to the variable
-        document.getElementById('exampleFormControlInput4').value = event_time_default;
-    </script>
-</div>
-</div>
+                // Set the initial value of the input to the variable
+                document.getElementById('exampleFormControlInput2').value = event_location_default;
+            </script>
+        </div>
 
-<a class="btn btn-primary" href="{{ url_for('jean_blueprint.see_events', timeline = 'Upcoming')}}" role="button">Save</a>
+        <div class="mb-3 card-custom">
+            <label for="exampleFormControlInput3" class="form-label" style="color: white;">Date</label>
+            <input type="text" class="form-control" id="exampleFormControlInput3" placeholder="YYYY-MM-DD">
+            <script>
+                // Assuming you have a variable named event_name_default
+                let event_date_default = "{{ event_date }}";
 
-<!-- Consider using date/time picker here if possible -->
+                // Set the initial value of the input to the variable
+                document.getElementById('exampleFormControlInput3').value = event_date_default;
+            </script>
+        </div>
+
+        <div class="mb-3 card-custom">
+            <label for="exampleFormControlInput4" class="form-label" style="color: white;">Time</label>
+            <input type="text" class="form-control" id="exampleFormControlInput4" placeholder="HH:MM">
+            <script>
+                // Assuming you have a variable named event_name_default
+                let event_time_default = "{{ event_time }}";
+
+                // Set the initial value of the input to the variable
+                document.getElementById('exampleFormControlInput4').value = event_time_default;
+            </script>
+        </div>
+    </div>
+
+    <a class="btn btn-primary" href="{{ url_for('jean_blueprint.see_events', timeline = 'Upcoming') }}" role="button">Save</a>
+
+    <!-- Consider using date/time picker here if possible -->
 
 {% endblock %}
 <!-- TODO make dropdown button work, make it update the value of member value. Make save delete all rejected members. Make buttons in line with information.  -->

@@ -1,5 +1,10 @@
 {% extends "html/base.html" %}
 
+{% block links %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+
 {% block header %}
     <header>
         <h1 style="color: white;">{{ header if header else "View your " ~ status ~ " participants" }}</h1>
@@ -23,8 +28,11 @@
 {% block content %}
     <div class="card card-custom">
         <div class="card-body">
-            <h6 class="card-subtitle mb-2 dark_link">Click to edit participants status. Note: rejecting a participant will delete them from the database. Click save to update.</h6>
-            <a class="btn btn-warning" href="{{ url_for('jean_blueprint.cohome')}}" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete rejected participants and save</a>
+            <h6 class="card-subtitle mb-2 dark_link">Click to edit participants status. Note: rejecting a participant
+                will delete them from the database. Click save to update.</h6>
+            <a class="btn btn-warning" href="{{ url_for('jean_blueprint.cohome') }}"
+               style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete
+                rejected participants and save</a>
 
             <ul class="list-group">
                 <li class="list-group-item " style="background-color: var(--light-blue); color: white">
@@ -34,24 +42,24 @@
                         <option value="1">Approved</option>
                         <option value="2">Pending</option>
                         <option value="3">Rejected</option>
-                      </select>
+                    </select>
                 </li>
                 <li class="list-group-item " style="background-color: var(--light-blue); color: white">User2<br><br>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>{{ status }}</option>
-                    <option value="1">Approved</option>
-                    <option value="2">Pending</option>
-                    <option value="3">Rejected</option>
-                  </select></li>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>{{ status }}</option>
+                        <option value="1">Approved</option>
+                        <option value="2">Pending</option>
+                        <option value="3">Rejected</option>
+                    </select></li>
                 <li class="list-group-item" style="background-color: var(--light-blue); color: white">User3<br><br>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>{{ status }}</option>
-                    <option value="1">Approved</option>
-                    <option value="2">Pending</option>
-                    <option value="3">Rejected</option>
-                  </select></li>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>{{ status }}</option>
+                        <option value="1">Approved</option>
+                        <option value="2">Pending</option>
+                        <option value="3">Rejected</option>
+                    </select></li>
 
-                  <!-- Will have to change this to a for loop of some type -->
+                <!-- Will have to change this to a for loop of some type -->
             </ul>
         </div>
     </div>

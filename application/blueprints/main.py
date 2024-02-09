@@ -1,6 +1,5 @@
 from flask import Blueprint, session, render_template
 
-
 main: Blueprint = Blueprint("main", __name__)
 
 

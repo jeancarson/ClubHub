@@ -1,12 +1,13 @@
-﻿from flask import Flask, g
-from sqlite3 import Connection
+﻿from sqlite3 import Connection
 
-from .blueprints.main import main
-from .blueprints.login_logout import login_logout
-from .blueprints.registration import registration
-from .blueprints.mia_blueprint import mia_blueprint
+from flask import Flask, g
+
 from .blueprints.jean_blueprint import jean_blueprint
+from .blueprints.login_logout import login_logout
+from .blueprints.main import main
+from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
+from .blueprints.registration import registration
 from .util.database import get_db, query_db
 
 app: Flask = Flask(import_name=__name__, template_folder="templates", static_folder="static")

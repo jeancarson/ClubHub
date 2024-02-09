@@ -23,8 +23,6 @@ sql = """CREATE TABLE IF NOT EXISTS login(
 
 cursor.execute(sql)
 
-
-
 sql = """CREATE TABLE IF NOT EXISTS connections(
     id PRIMARY KEY,
     club VARCHAR(50)
@@ -32,14 +30,7 @@ sql = """CREATE TABLE IF NOT EXISTS connections(
 
 cursor.execute(sql)
 
-
-
-
 print("PASAPORTE")
-
 
 conn.commit()
 conn.close()
-
-
-
