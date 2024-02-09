@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="41f07706-757d-4312-a618-d47a941bc39c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/templates/html/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/templates/html/base.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Flask Main" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/darraghs_stuff" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/PyCharm2023.2/python_stubs/-1732030724/builtins.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/AppData/Local/Programs/Python/Python312/Lib/logging/__init__.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/AppData/Local/Programs/Python/Python312/Lib/site-packages/bcrypt/__init__.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/.venv/Lib/site-packages/flask/blueprints.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/.venv/Lib/site-packages/flask/helpers.py" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2bbTfgpdDmvkPzFObuvnd4J2gNU" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/darra/Projects/pycharm/ClubHub/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\templates" />
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\static\ico" />
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\static\png" />
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub" />
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application" />
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\blueprints" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Flask (app.py)" type="Python.FlaskServer" temporary="true" nameIsGenerated="true">
+      <module name="ClubHub" />
+      <option name="target" value="$PROJECT_DIR$/app.py" />
+      <option name="targetType" value="PATH" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+          <ENTRY IS_ENABLED="false" PARSER="env" IS_EXECUTABLE="false" PATH=".env" />
+          <ENTRY IS_ENABLED="false" PARSER="env" IS_EXECUTABLE="false" PATH=".flaskenv" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flask server.Flask (app.py)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="41f07706-757d-4312-a618-d47a941bc39c" name="Changes" comment="" />
+      <created>1706482883686</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1706482883686</updated>
+      <workItem from="1706482884946" duration="4749000" />
+      <workItem from="1706527900078" duration="7529000" />
+      <workItem from="1706550962018" duration="1487000" />
+      <workItem from="1706554010202" duration="4008000" />
+      <workItem from="1706566409245" duration="4827000" />
+      <workItem from="1706571289278" duration="3358000" />
+      <workItem from="1706580340563" duration="5020000" />
+      <workItem from="1706620418176" duration="4000" />
+      <workItem from="1706626010181" duration="11079000" />
+      <workItem from="1706697900436" duration="25575000" />
+      <workItem from="1706746877356" duration="657000" />
+      <workItem from="1706747608146" duration="1641000" />
+      <workItem from="1706755371762" duration="6240000" />
+      <workItem from="1706796708973" duration="12930000" />
+      <workItem from="1706998924739" duration="853000" />
+      <workItem from="1707082607734" duration="16236000" />
+      <workItem from="1707107279486" duration="1808000" />
+      <workItem from="1707148509328" duration="8674000" />
+      <workItem from="1707157398301" duration="21260000" />
+      <workItem from="1707429396766" duration="1432000" />
+      <workItem from="1707481399034" duration="10811000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ClubHub$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1707105661336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ClubHub$user_auth.coverage" NAME="user_auth Coverage Results" MODIFIED="1706582672695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/modules" />
+    <SUITE FILE_PATH="coverage/ClubHub$ClubHub.coverage" NAME="ClubHub Coverage Results" MODIFIED="1706580636767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
