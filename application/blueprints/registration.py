@@ -93,6 +93,8 @@ def register_post() -> Response:
 
         return None if not value or value is None else value
 
+    print(request.form)
+
     # Required inputs
     username: str = map_to_none(request.form["register-username"])
     password: str = map_to_none(request.form["register-password"])
@@ -114,16 +116,16 @@ def register_post() -> Response:
                 phone=phone, gender=gender)
     )
 
-    if user_exists(username):
-        flash(f"Sorry, the username {username!r} is taken!", category="error")
-        return page
-
     if not captcha_response:
         flash("Please complete the CAPTCHA before form submission", category="error")
         return page
 
     if user_type is None:
         flash("Please select a user type for your account", category="error")
+        return page
+
+    if user_exists(username):
+        flash(f"Sorry, the username {username!r} is taken!", category="error")
         return page
 
     password_error_msg: None | str = validate_password(password)

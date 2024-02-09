@@ -66,29 +66,36 @@ def modify_db(statement: str, *args) -> None:
 
 
 def user_exists(username: str) -> bool:
-    return query_db(f"SELECT * FROM login WHERE username={username!r}") is not None
+    return query_db(f"SELECT * FROM users WHERE username={username!r}") is not None
+
+
+def user_approved(username: str) -> bool:
+    return query_db(f"SELECT * FROM users WHERE username={username!r} AND approved=1") is not None
 
 
 def create_new_user(**attributes) -> None:
 
+    user_type: str = attributes["user_type"]
+
     _age: str = attributes["age"]
     age: int | None = int(_age) if _age is not None else None
 
-    last_user: None | Row = query_db("SELECT * FROM login ORDER BY userID DESC LIMIT 1", single=True)
+    last_user: None | Row = query_db("SELECT * FROM users ORDER BY user_id DESC LIMIT 1", single=True)
     user_id: int
 
     if last_user is None:
         user_id = 1
     else:
-        user_id = last_user["userID"] + 1
+        user_id = last_user["user_id"] + 1
 
     modify_db(
-        "INSERT INTO login (userID, username, password) VALUES (?, ?, ?)",
-        user_id, attributes["username"], attributes["password"])
+        "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        user_id, attributes["username"], attributes["password"], 0, attributes["first_name"],
+        attributes["last_name"], attributes["age"], attributes["email"], attributes["phone"],
+        attributes["gender"]
+    )
 
-    # TODO: This
-    # modify_db(
-    #     "INSERT INTO users (user, first_name, last_name, age, email, phone, gender) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    #     user_id, attributes["first_name"], attributes["last_name"], attributes["age"],
-    #     attributes["email"], attributes["phone"], attributes["gender"]
-    # )
+    if user_type == "coordinator":
+        modify_db("INSERT INTO coordinators (user_id) VALUES (?)", user_id)
+    elif user_type == "student":
+        modify_db("INSERT INTO students (user_id) VALUES (?)", user_id)

@@ -53,7 +53,6 @@ label {
 }
 
 .submit-button {
-    display: block;
     border: none;
     margin-bottom: 2em;
     margin-top: 3em;
@@ -67,7 +66,8 @@ label {
 }
 
 .submit-button:hover {
-    transform: scale(1.03);
+    backface-visibility: hidden;
+    transform: scale(1.0288);
     cursor: pointer;
     outline: 2px solid var(--dark-green);
     text-decoration: underline;
@@ -98,9 +98,17 @@ label {
     margin-top: 1em;
 }
 
+#login-form div:nth-of-type(1) a {
+    margin-left: 0.4em;
+    margin-bottom: -0.1em;
+}
+
 #login-form div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 0.5em;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     width: 50%;
 }
 
@@ -124,10 +132,19 @@ label {
     margin-top: 2%;
 }
 
-#register-form label:nth-of-type(4) {
+/* Hide password checkbox */
+#register-form label:nth-of-type(4), #login-form label:nth-of-type(3) {
     display: flex;
     align-items: center;
     font-size: 0.75em;
+}
+
+/* Hide password checkbox */
+#login-form label:nth-of-type(3) {
+    justify-content: start;
+    width: 50%;
+    margin-bottom: 2em;
+    margin-top: 0.5em;
 }
 
 #register-form hr {

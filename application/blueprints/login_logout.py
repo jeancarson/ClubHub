@@ -9,7 +9,7 @@ from flask import (
 )
 from werkzeug import Response
 
-from ..util.database import query_db
+from ..util.database import query_db, user_approved
 from ..util.user_auth import password_match
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
@@ -40,7 +40,7 @@ def login_post() -> Response | str:
     username: str = request.form["login-username"]
     password: str = request.form["login-password"]
 
-    match = query_db(f"SELECT password FROM login WHERE username='{username}'", single=True)
+    match = query_db(f"SELECT password FROM users WHERE username='{username}'", single=True)
 
     if match is None:
         flash(f"User {username!r} not found", category="error")
@@ -49,6 +49,10 @@ def login_post() -> Response | str:
     if not password_match(password, match["password"]):
         flash("Incorrect password", category="error")
         return redirect(url_for(".login_get", username=username))
+
+    if not user_approved(username=username):
+        flash("Your account is awaiting administrator approval", category="error")
+        return redirect("/home")
 
     flash(f"Successfully logged in as {username!r}", category="info")
 

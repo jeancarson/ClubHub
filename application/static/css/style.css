@@ -51,12 +51,12 @@ a {
 .underlined-link::after {
     content: '';
     width: 0;
-    height: 0.09em;
+    height: 0.1em;
     display: block;
     margin-left: auto;
     margin-right: auto;
     background: var(--even-lighter-blue);
-    transition: 300ms width ease-in-out;
+    transition: 190ms width ease-in-out;
 }
 
 .underlined-link:hover::after {

@@ -35,11 +35,19 @@
                    autocomplete="on"
                    required>
 
-            <div>Dont have an account? <a class="underlined-link" href="/register">Sign up</a></div>
+            <!-- toggle password visibility -->
+            <label id="login-show-password-input-label" for="login-show-password-input">
+                Show password&nbsp
+                <input id="login-show-password-input" type="checkbox" onclick="" class="show-password-box">
+            </label>
+
+            <div>Dont have an account?<a class="underlined-link" href="/register">Sign up</a></div>
             <div><a class="underlined-link" href="/forgot-password">Forgotten your password?</a></div>
 
             <button class="submit-button" type="submit">Login</button>
         </form>
     </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 
 {% endblock %}
