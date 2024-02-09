@@ -1,9 +1,4 @@
 
-header h1 {
-    text-align: center;
-    margin-top: 1.65em;
-}
-
 input:not(input[type=checkbox], input[type=radio]) {
     display: block;
     outline: none;
@@ -68,9 +63,11 @@ label {
     min-width: 4em;
     border-radius: 10px;
     background-color: var(--lighter-green);
+    transition: transform 100ms linear;
 }
 
 .submit-button:hover {
+    transform: scale(1.03);
     cursor: pointer;
     outline: 2px solid var(--dark-green);
     text-decoration: underline;
@@ -95,6 +92,10 @@ label {
     align-items: center;
     height: 100%;
     width: 100%;
+}
+
+#login-form div:nth-of-type(1) {
+    margin-top: 1em;
 }
 
 #login-form div {

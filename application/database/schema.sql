@@ -1,9 +1,16 @@
-CREATE TABLE users (
+CREATE TABLE login (
+    userID INTEGER PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
-    password CHAR(120) NOT NULL
+    password TEXT NOT NULL
 );
 
-INSERT INTO users VALUES (
-    'admin',
-    '243262243132246f6b3835716e6a55446e50304c51675833624962347561566a53646855676179725a61777937706f726d4b73466d6f715975687a75'
-);
+--CREATE TABLE users (
+--    userID INTEGER NOT NULL,
+--    user_type TEXT NOT NULL,
+--    first_name TEXT,
+--    last_name TEXT,
+--    age INTEGER,
+--    email TEXT,
+--    phone TEXT,
+--    gender TEXT
+--);

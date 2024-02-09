@@ -28,10 +28,14 @@ body {
     background-color: var(--darker-blue);
     font-family: "Raleway", Arial, serif;
     color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header h1 {
-    margin: 1em;
+    text-align: center;
+    margin-top: 1.65em;
 }
 
 a {
@@ -39,8 +43,24 @@ a {
     color: var(--even-lighter-blue);
 }
 
-a:hover {
-    text-decoration: underline;
+
+.underlined-link {
+    display: inline-block;
+}
+
+.underlined-link::after {
+    content: '';
+    width: 0;
+    height: 0.09em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: var(--even-lighter-blue);
+    transition: 300ms width ease-in-out;
+}
+
+.underlined-link:hover::after {
+    width: 100%;
 }
 
 /* ======================= Message alert box start ======================= */
@@ -88,7 +108,7 @@ a:hover {
 
 nav {
     display: grid;
-    grid-template-columns: 1fr auto auto auto 1fr;
+    grid-template-columns: 1fr auto auto auto auto 1fr;
     background-color: var(--light-blue);
     overflow: hidden;
 }
@@ -117,7 +137,7 @@ nav div {
 }
 
 .nav-active-link {
-    background-color: var(--lighter-blue);
+    background-color: var(--light-blue);
 }
 
 .nav-active-link a {
@@ -136,6 +156,8 @@ nav div a {
     height: 2.75rem;
     padding: 0 1rem;
     font-size: 1rem;
+    background-color: transparent;
+    transition: background-color 300ms;
 }
 
 nav div a:hover {
@@ -152,15 +174,15 @@ nav div a:hover:not(.nav-active-link a) {
 }
 
 .navbar-left a img:last-of-type {
-  display: none;
+    display: none;
 }
 
 .navbar-left a:hover img:last-of-type {
-  display: block;
+    display: block;
 }
 
 .navbar-left a:hover img:first-of-type {
-  display: none;
+    display: none;
 }
 
 .navbar-right a {
@@ -193,4 +215,73 @@ nav div a:hover:not(.nav-active-link a) {
 
 /* ========================== Footer start ========================== */
 
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--white);
+    color: var(--black);
+    font-size: 0.8rem;
+    padding: 1em;
+    margin-top: auto;
+}
+
 /* ========================== Footer start ========================== */
+/* Coordninator start  */
+.card-custom {
+    margin-bottom: 20px; /* Adjust the margin as needed */
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-right: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
+    background-color: var(--lighter-blue) !important;
+    color: white;
+}
+
+.custom-link {
+    font-size: 40px; /* Adjust the font size as needed */
+    font-family: "Tahoma";
+    color: var(--white);
+}
+
+.custom-button {
+    margin-bottom: 20px; /* Adjust the margin as needed */
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-right: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
+    background-color: var(--even-lighter-blue);
+    color: var(--black);
+
+}
+
+.custom-hover:hover {
+    background-color: var(--even-lighter-blue);
+    color: var(--black);
+}
+
+.custom-hover {
+    background-color: var(--light-blue);
+    color: var(--white);
+}
+
+.light_blue_bckgrnd {
+    background-color: var(--light-blue);
+}
+
+.dark_link {
+    color: var(--darker-blue)
+}
+
+.white-txt {
+    color: var(--white);
+}
+
+.vlight_blue_txt {
+    color: var(--even-lighter-blue);
+}
+
+/* Coordinator end */
+
+.event-name-column {
+    width: 300px;;
+}

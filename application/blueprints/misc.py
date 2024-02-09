@@ -13,3 +13,12 @@ def about_us() -> str:
 
     return render_template("html/about.html")
 
+
+@misc.route("/contact")
+@misc.route("/contact-us")
+def contact() -> str:
+    """
+    Loads the contact page.
+    """
+
+    return render_template("html/contact.html")

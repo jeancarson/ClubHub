@@ -1,19 +1,24 @@
-﻿from flask import Flask, g
-from sqlite3 import Connection
+﻿from sqlite3 import Connection
 
-from .blueprints.main import main
+from flask import Flask, g
+
+from .blueprints.jean_blueprint import jean_blueprint
 from .blueprints.login_logout import login_logout
-from .blueprints.registration import registration
+from .blueprints.main import main
+from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
-from .util.database import get_db, query_db
+from .blueprints.registration import registration
+from .util.database import get_db, query_db, modify_db
 
-app: Flask = Flask(import_name=__name__)
+app: Flask = Flask(import_name=__name__, template_folder="templates", static_folder="static")
 app.config.from_prefixed_env()
 
 app.register_blueprint(main)
 app.register_blueprint(login_logout)
 app.register_blueprint(registration)
 app.register_blueprint(misc)
+app.register_blueprint(mia_blueprint)
+app.register_blueprint(jean_blueprint)
 
 
 @app.teardown_appcontext

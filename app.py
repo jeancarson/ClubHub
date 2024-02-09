@@ -1,10 +1,4 @@
-from sqlite3 import OperationalError
-from application import app, initialise_db, query_db
-
-try:
-    initialise_db()
-except OperationalError:
-    pass
+from application import app
 
 
 if __name__ == '__main__':
