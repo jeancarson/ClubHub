@@ -2,9 +2,8 @@
 
 {% block links %}
 
-    <meta id="form-gender-value" data-value="{{ gender }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}"/>
+    <meta id="form-gender-value" data-value="{{ gender }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}" />
 
 {% endblock %}
 
@@ -21,7 +20,7 @@
     <div class="form-container" style="width: 70%">
         <form id="register-form" action="/register" method="post">
             <p>Fields marked with an asterisk<span class="required-star">*</span> are required fields.</p>
-            <hr>
+            <hr />
 
             <!-- username -->
             <label for="register-username-input">1. Create a username<span class="required-star"> *</span></label>
