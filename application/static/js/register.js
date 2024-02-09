@@ -9,10 +9,10 @@ document.querySelector(
     + document.querySelector("#form-gender-value").dataset.value).selected = true;
 
 checkbox.addEventListener("change", () => {
-    if (pw.type === "password") {
+    if (checkbox.checked) {
         pw.type = "text";
         confirm_pw.type = "text";
-    } else if (pw.type === "text") {
+    } else {
         pw.type = "password";
         confirm_pw.type = "password";
     }

@@ -25,12 +25,12 @@ def validate_password(password: str) -> None | str:
     for char in password:
         code: int = ord(char)
 
-        if code in range(65, 91):
+        if code in range(30, 40):
+            digit = True
+        elif code in range(65, 91):
             upper = True
         elif code in range(97, 122):
             lower = True
-        else:
-            digit = True
 
     if not upper:
         errors.append("a lowercase character")
@@ -60,49 +60,50 @@ def register_get() -> Response | str:
     Loads the registration page.
     """
 
-    form_username: str = request.args.get("username", "")
-    form_user_type: str = request.args.get("user_type", "")
-
-    form_first_name: str = request.args.get("first_name", "")
-    form_last_name: str = request.args.get("last_name", "")
-    form_email: str = request.args.get("email", "")
-    form_phone: str = request.args.get("phone", "")
-    form_gender: str = request.args.get("gender", "")
-
     if "user" in session:
         flash("You must log out before creating a new account", category="error")
         return redirect("/profile")
 
+    username: str = request.args.get("username", "")
+    user_type: str = request.args.get("user_type", None)
+
+    first_name: str = request.args.get("first_name", "")
+    last_name: str = request.args.get("last_name", "")
+    age: str = request.args.get("age", "")
+    email: str = request.args.get("email", "")
+    phone: str = request.args.get("phone", "")
+    gender: str = request.args.get("gender", "")
+
     return render_template(
         template_name_or_list="html/register.html",
-        form_username_value=form_username,
-        form_user_type_value=form_user_type,
-        form_first_name_value=form_first_name,
-        form_last_name_value=form_last_name,
-        form_email_value=form_email,
-        form_phone_value=form_phone,
-        form_gender_value=form_gender
+        username=username,
+        user_type=user_type,
+        first_name=first_name,
+        last_name=last_name,
+        age=age,
+        email=email,
+        phone=phone,
+        gender=gender
     )
 
 
 @registration.route("/register", methods=["POST"])
 def register_post() -> Response:
 
-    print(request.form)
-
     # Required inputs
     username: str = request.form["register-username"]
     password: str = request.form["register-password"]
     confirm_password: str = request.form["register-confirm-password"]
     captcha_response: str = request.form["g-recaptcha-response"]
-    user_type: str = request.form["register-user-type"]
+    user_type: str = request.form.get("register-user-type", None)
 
     # Non required inputs
     first_name: str = request.form["register-first-name"]
     last_name: str = request.form["register-first-name"]
+    age: str = request.form["register-age"]
     email: str = request.form["register-email"]
     phone: str = request.form["register-phone"]
-    gender: str = request.form["register-gender"]
+    gender: str = request.form.get("register-gender", None)
 
     # TODO: Check if username in registered users already
 
@@ -113,6 +114,7 @@ def register_post() -> Response:
             user_type=user_type,
             first_name=first_name,
             last_name=last_name,
+            age=age,
             email=email,
             phone=phone,
             gender=gender
@@ -123,13 +125,13 @@ def register_post() -> Response:
         flash("Please complete the CAPTCHA before form submission", category="error")
         return page
 
-    if not user_type:
-        flash("Please select a user type for your account")
+    if user_type is None:
+        flash("Please select a user type for your account", category="error")
         return page
 
     password_error_msg: None | str = validate_password(password)
 
-    if password_error_msg:
+    if password_error_msg is not None:
         flash(password_error_msg, category="error")
         return page
 
