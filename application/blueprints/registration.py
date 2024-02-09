@@ -146,3 +146,8 @@ def register_post() -> Response:
 @registration.route("/privacy-policy")
 def privacy_policy() -> str:
     return render_template("html/privacy-policy.html")
+
+
+@registration.route("/terms-and-conditions")
+def terms_and_conditions() -> str:
+    return render_template("html/terms-and-conditions.html")

@@ -1,5 +1,5 @@
 from sqlite3 import OperationalError
-from application import app, initialise_db, query_db
+from application import app, initialise_db
 
 try:
     initialise_db()
