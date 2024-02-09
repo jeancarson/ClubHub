@@ -66,15 +66,15 @@ def register_get() -> Response | str:
         flash("You must log out before creating a new account", category="error")
         return redirect("/profile")
 
-    username: str = request.args.get("username", "")
+    username: str = request.args.get("username", None)
     user_type: str = request.args.get("user_type", None)
 
-    first_name: str = request.args.get("first_name", "")
-    last_name: str = request.args.get("last_name", "")
-    age: str = request.args.get("age", "")
-    email: str = request.args.get("email", "")
-    phone: str = request.args.get("phone", "")
-    gender: str = request.args.get("gender", "")
+    first_name: str = request.args.get("first_name", None)
+    last_name: str = request.args.get("last_name", None)
+    age: str = request.args.get("age", None)
+    email: str = request.args.get("email", None)
+    phone: str = request.args.get("phone", None)
+    gender: str = request.args.get("gender", None)
 
     return render_template(
         template_name_or_list="html/register.html",
@@ -94,18 +94,18 @@ def register_post() -> Response:
         return None if not value or value is None else value
 
     # Required inputs
-    username: str = request.form["register-username"]
-    password: str = request.form["register-password"]
-    confirm_password: str = request.form["register-confirm-password"]
-    captcha_response: str = request.form["g-recaptcha-response"]
+    username: str = map_to_none(request.form["register-username"])
+    password: str = map_to_none(request.form["register-password"])
+    confirm_password: str = map_to_none(request.form["register-confirm-password"])
+    captcha_response: str = map_to_none(request.form["g-recaptcha-response"])
     user_type: str = request.form.get("register-user-type", None)
 
     # Non required inputs
-    first_name: str = request.form["register-first-name"]
-    last_name: str = request.form["register-first-name"]
-    age: str = request.form["register-age"]
-    email: str = request.form["register-email"]
-    phone: str = request.form["register-phone"]
+    first_name: str = map_to_none(request.form["register-first-name"])
+    last_name: str = map_to_none(request.form["register-first-name"])
+    age: str = map_to_none(request.form["register-age"])
+    email: str = map_to_none(request.form["register-email"])
+    phone: str = map_to_none(request.form["register-phone"])
     gender: str = request.form.get("register-gender", None)
 
     page: Response = redirect(
@@ -141,15 +141,8 @@ def register_post() -> Response:
     flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
 
     create_new_user(
-        username=username,
-        password=hashed_pw,
-        user_type=user_type,
-        first_name=map_to_none(first_name),
-        last_name=map_to_none(last_name),
-        age=map_to_none(age),
-        email=map_to_none(email),
-        phone=map_to_none(phone),
-        gender=map_to_none(gender)
+        username=username, password=hashed_pw, user_type=user_type, first_name=first_name,
+        last_name=last_name, age=age, email=email, phone=phone, gender=gender
     )
 
     return redirect("/home")
