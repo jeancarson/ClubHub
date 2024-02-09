@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "html/base.html" %}
 
 {% block header %}
 
@@ -16,7 +16,7 @@
     <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="What's your event called?">
     <script>
         // Assuming you have a variable named event_name_default
-        var event_name_default = "{{ event_name }}";
+        let event_name_default = "{{ event_name }}";
         
         // Set the initial value of the input to the variable
         document.getElementById('exampleFormControlInput1').value = event_name_default;
@@ -29,7 +29,7 @@
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="What's going to happen at your event?"></textarea>
     <script>
         // Assuming you have a variable named event_name_default
-        var event_desc_default = "{{ event_desc }}";
+        let event_desc_default = "{{ event_desc }}";
         
         // Set the initial value of the input to the variable
         document.getElementById('exampleFormControlTextarea1').value = event_desc_default;
@@ -41,7 +41,7 @@
     <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Where will this event take place?">
     <script>
         // Assuming you have a variable named event_name_default
-        var event_location_default = "{{ event_location }}";
+        let event_location_default = "{{ event_location }}";
         
         // Set the initial value of the input to the variable
         document.getElementById('exampleFormControlInput2').value = event_location_default;
@@ -53,7 +53,7 @@
     <input type="text" class="form-control" id="exampleFormControlInput3" placeholder="YYYY-MM-DD">
     <script>
         // Assuming you have a variable named event_name_default
-        var event_date_default = "{{ event_date }}";
+        let event_date_default = "{{ event_date }}";
         
         // Set the initial value of the input to the variable
         document.getElementById('exampleFormControlInput3').value = event_date_default;
@@ -65,7 +65,7 @@
     <input type="text" class="form-control" id="exampleFormControlInput4" placeholder="HH:MM">
     <script>
         // Assuming you have a variable named event_name_default
-        var event_time_default = "{{ event_time }}";
+        let event_time_default = "{{ event_time }}";
         
         // Set the initial value of the input to the variable
         document.getElementById('exampleFormControlInput4').value = event_time_default;
@@ -73,7 +73,7 @@
 </div>
 </div>
 
-<a class="btn btn-primary" href="{{ url_for('see_events', timeline = 'Upcoming')}}"role="button">Save</a>
+<a class="btn btn-primary" href="{{ url_for('see_events', timeline = 'Upcoming')}}" role="button">Save</a>
 
 <!-- Consider using date/time picker here if possible -->
 

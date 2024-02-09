@@ -5,11 +5,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f07706-757d-4312-a618-d47a941bc39c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/application/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/templates/html/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/templates/html/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/.flaskenv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/blueprints/login_logout.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/blueprints/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/blueprints/misc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/blueprints/registration.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/database/database.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/database/schema.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/css/about.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/css/contact.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/css/forms.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/ico/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/jpg/linee.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/jpg/soc.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/js/alert_message.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/js/register.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/js/script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/png/logo-dark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/static/png/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/adminFolder/admin1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/adminFolder/admin_main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/adminFolder/inform.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/adminFolder/pending.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/contact.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/forgot-password.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/privacy-policy.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/profile.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/terms-and-conditions.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/usersFolder/clubss.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/usersFolder/eventss.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/usersFolder/profile.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/usersFolder/user_main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/util/database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/util/user_auth.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeans_stuff/Untitled-1.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeans_stuff/application/templates/Coordinator/Coordinator_dashboard.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeans_stuff/application/templates/Coordinator/member_view.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeans_stuff/application/templates/Coordinator/multi_event_view" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeans_stuff/application/templates/Coordinator/single_event_view.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeans_stuff/application/templates/Coordinator/view_participants.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +84,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/darraghs_stuff" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/AppData/Local/JetBrains/PyCharm2023.2/python_stubs/-1732030724/builtins.py" root0="SKIP_INSPECTION" />
@@ -69,7 +117,7 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -78,11 +126,11 @@
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub" />
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\darraghs_stuff\application\templates\html" />
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub\darraghs_stuff\application\static\jpg" />
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub\darraghs_stuff\application\static" />
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\static\ico" />
-      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\static\png" />
-      <recent name="C:\Users\darra\Projects\pycharm\ClubHub" />
     </key>
   </component>
   <component name="RunManager">
@@ -147,7 +195,8 @@
       <workItem from="1707148509328" duration="8674000" />
       <workItem from="1707157398301" duration="21260000" />
       <workItem from="1707429396766" duration="1432000" />
-      <workItem from="1707481399034" duration="11219000" />
+      <workItem from="1707481399034" duration="12366000" />
+      <workItem from="1707493902402" duration="646000" />
     </task>
     <servers />
   </component>

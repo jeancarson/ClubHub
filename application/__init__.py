@@ -4,16 +4,18 @@ from sqlite3 import Connection
 from .blueprints.main import main
 from .blueprints.login_logout import login_logout
 from .blueprints.registration import registration
+from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
 from .util.database import get_db, query_db
 
-app: Flask = Flask(import_name=__name__, template_folder="application/_templates", static_folder="application/static")
+app: Flask = Flask(import_name=__name__, template_folder="templates", static_folder="static")
 app.config.from_prefixed_env()
 
 app.register_blueprint(main)
 app.register_blueprint(login_logout)
 app.register_blueprint(registration)
 app.register_blueprint(misc)
+app.register_blueprint(mia_blueprint)
 
 
 @app.teardown_appcontext
