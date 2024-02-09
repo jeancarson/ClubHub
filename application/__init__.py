@@ -5,6 +5,7 @@ from .blueprints.main import main
 from .blueprints.login_logout import login_logout
 from .blueprints.registration import registration
 from .blueprints.mia_blueprint import mia_blueprint
+from .blueprints.jean_blueprint import jean_blueprint
 from .blueprints.misc import misc
 from .util.database import get_db, query_db
 
@@ -16,6 +17,7 @@ app.register_blueprint(login_logout)
 app.register_blueprint(registration)
 app.register_blueprint(misc)
 app.register_blueprint(mia_blueprint)
+app.register_blueprint(jean_blueprint)
 
 
 @app.teardown_appcontext

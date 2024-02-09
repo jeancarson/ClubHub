@@ -1,5 +1,4 @@
 
-
 input:not(input[type=checkbox], input[type=radio]) {
     display: block;
     outline: none;
