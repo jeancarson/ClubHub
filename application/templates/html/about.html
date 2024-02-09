@@ -1,9 +1,55 @@
 {% extends "html/base.html" %}
 
+{% block links %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/about.css') }}" />
+
+{% endblock %}
+
 {% block header %}
 
     <header>
-        <h1>About us</h1>
+        <h1>About Us</h1>
     </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="about-container">
+        <div class="about-item">
+            <h2>ClubHub Overview</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aperiam eveniet fuga hic illum laborum laudantium modi nesciunt nihil provident!
+                Doloribus optio perferendis provident recusandae? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem debitis delectus dolorum fugit maiores,
+                nesciunt officiis quaerat quasi quo sapiente similique vitae voluptate.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur aut culpa explicabo vitae. A adipisci, aut blanditiis, est fuga,
+                illum magni mollitia nostrum pariatur porro quo sequi sunt tempora. Accusantium animi consequatur illo temporibus vitae!
+            </p>
+        </div>
+        <div class="about-item">
+            <img alt="[placeholder]" src="https://placehold.co/400x400" />
+        </div>
+        <div class="about-item layered-images">
+            <img alt="[placeholder]" src="https://placehold.co/300x300" />
+            <img alt="[placeholder]" src="https://placehold.co/300x300" />
+        </div>
+        <div class="about-item">
+            <h2>Mission Statement</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci assumenda impedit molestias neque nostrum.
+                Ad alias aliquam animi asperiores aspernatur blanditiis consectetur consequatur corporis cupiditate deserunt
+                dignissimos distinctio dolor dolorum eaque enim est et, molestiae nemo optio placeat, provident quas quis similique
+                sint sit ullam veritatis! Consequuntur delectus eos neque officiis sit tempore voluptatibus voluptatum?
+                Eius magnam quasi quibusdam.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, in molestiae officia rem temporibus voluptates.
+                Ab amet aperiam dolor quo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci ipsa nemo sed?
+            </p>
+        </div>
+    </div>
 
 {% endblock %}

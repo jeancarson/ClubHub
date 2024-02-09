@@ -34,7 +34,8 @@ body {
 }
 
 header h1 {
-    margin: 1em;
+    text-align: center;
+    margin-top: 1.65em;
 }
 
 a {
@@ -107,7 +108,7 @@ a {
 
 nav {
     display: grid;
-    grid-template-columns: 1fr auto auto auto 1fr;
+    grid-template-columns: 1fr auto auto auto auto 1fr;
     background-color: var(--light-blue);
     overflow: hidden;
 }
