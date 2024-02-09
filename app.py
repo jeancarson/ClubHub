@@ -37,7 +37,7 @@ def home() -> str:
 
     return render_template("index.html")
 
-
+#admin redirect besties
 
 @app.route("/members_info")
 def members_info():
@@ -54,7 +54,7 @@ def admin():
         return render_template("adminFolder/admin_main.html")
 
 
-    
+#users redirect 
 @app.route("/user")
 def user():
     """
@@ -62,6 +62,17 @@ def user():
     """
     return render_template("usersFolder/user_main.html", header="User Page")
 
+@app.route("/profile")
+def go_profile():
+    return render_template("usersFolder/profile.html")
+
+@app.route("/clubss")
+def go_clubs():
+    return render_template("usersFolder/clubss.html")
+
+@app.route("/eventss")
+def go_events():
+    return render_template("usersFolder/eventss.html")
 
 @app.route("/about")
 @app.route("/about-us")

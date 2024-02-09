@@ -8,35 +8,40 @@
         body {
             background-color: #03045e;
         }
+        .card-custom {
+            border: 2px solid #007bff; /* Set border color */
+            border-radius: 10px; /* Set border radius */
+            padding: 20px; /* Increase padding for the card */
+            background-color: #0077b6; /* Set background color */
+        }
+        .card-custom img {
+            max-width: 90%; /* Ensure image fits inside the card */
+            border-radius: 8px; /* Add border radius to the image */
+            border: 2px solid #007bff; /* Set border color for image */
+        }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        
-        <div class="col-md-6 d-flex align-items-center justify-content-center">
-            <div class="card card-custom">
-                <div class="card-body text-center">
-                    <h6 class="font-weight-bold">SEE PENDING MEMBERS</h6>
-                    <a href="/pending_users" class="d-block mx-auto" style="max-width: 300px;">
-                        <img src="ClubHub/templates/adminFolder/linee.jpg" alt="Pending Members" class="rounded float-left">
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        
-        <div class="col-md-6 d-flex align-items-center justify-content-center">
-            <div class="card card-custom">
-                <div class="card-body text-center">
-                    <h6 class="font-weight-bold">SEE INFORMATION</h6>
-                    <a href="/members_info" class="d-block mx-auto" style="max-width: 300px;">
-                        <img src="ClubHub/templates/adminFolder/soc.jpg" alt="Member Information" class="rounded float-right">
-                    </a>
-                </div>
-            </div>
-        </div>
+<div class="card-group">
+    <div class="card">
+      <img src="{{ url_for('static', filename='linee.jpg') }}" class="card-img-top" alt="uno">
+      <div class="card-body">
+        <h5 class="card-title">Pending members</h5>
+        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <a href="/pending_users" class="btn btn-primary">Go see pending members</a>
+      </div>
     </div>
+    <div class="card">
+      <img src="{{ url_for('static', filename='soc.jpg') }}" class="card-img-top" alt="due">
+      <div class="card-body">
+        <h5 class="card-title">Members info</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <a href="/members_info" class="btn btn-primary">Go see membeers info</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
