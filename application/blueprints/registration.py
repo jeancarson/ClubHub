@@ -9,6 +9,9 @@ from flask import (
 )
 from werkzeug import Response
 
+from ..util.database import user_exists, create_new_user
+from ..util.user_auth import hash_password
+
 registration: Blueprint = Blueprint("registration", __name__)
 
 
@@ -24,7 +27,7 @@ def validate_password(password: str) -> None | str:
     for char in password:
         code: int = ord(char)
 
-        if code in range(30, 40):
+        if code in range(48, 58):
             digit = True
         elif code in range(65, 91):
             upper = True
@@ -75,19 +78,21 @@ def register_get() -> Response | str:
 
     return render_template(
         template_name_or_list="html/register.html",
-        username=username,
-        user_type=user_type,
-        first_name=first_name,
-        last_name=last_name,
-        age=age,
-        email=email,
-        phone=phone,
-        gender=gender
+        username=username, user_type=user_type, first_name=first_name,
+        last_name=last_name, age=age, email=email, phone=phone, gender=gender
     )
 
 
 @registration.route("/register", methods=["POST"])
 def register_post() -> Response:
+
+    def map_to_none(value: str) -> str | None:
+        """
+        Maps a string to None if it is an empty string.
+        """
+
+        return None if not value or value is None else value
+
     # Required inputs
     username: str = request.form["register-username"]
     password: str = request.form["register-password"]
@@ -103,21 +108,15 @@ def register_post() -> Response:
     phone: str = request.form["register-phone"]
     gender: str = request.form.get("register-gender", None)
 
-    # TODO: Check if username in registered users already
-
     page: Response = redirect(
-        url_for(
-            endpoint=".register_get",
-            username=username,
-            user_type=user_type,
-            first_name=first_name,
-            last_name=last_name,
-            age=age,
-            email=email,
-            phone=phone,
-            gender=gender
-        )
+        url_for(endpoint=".register_get", username=username, user_type=user_type,
+                first_name=first_name, last_name=last_name, age=age, email=email,
+                phone=phone, gender=gender)
     )
+
+    if user_exists(username):
+        flash(f"Sorry, the username {username!r} is taken!", category="error")
+        return page
 
     if not captcha_response:
         flash("Please complete the CAPTCHA before form submission", category="error")
@@ -137,7 +136,22 @@ def register_post() -> Response:
         flash("Passwords do not match", category="error")
         return page
 
+    hashed_pw: str = hash_password(password=password)
+
     flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
+
+    create_new_user(
+        username=username,
+        password=hashed_pw,
+        user_type=user_type,
+        first_name=map_to_none(first_name),
+        last_name=map_to_none(last_name),
+        age=map_to_none(age),
+        email=map_to_none(email),
+        phone=map_to_none(phone),
+        gender=map_to_none(gender)
+    )
+
     return redirect("/home")
 
 

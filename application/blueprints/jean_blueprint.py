@@ -27,6 +27,7 @@ def memview(status):
     if "user" in session:
         user: str = session["user"]
         return render_template("html/index.html", header=f"Hello {user}!")
+
     return render_template("html/Coordinator/member_view.html", status=status)
 
 
@@ -35,6 +36,7 @@ def see_events(timeline):
     if "user" in session:
         user: str = session["user"]
         return render_template("html/index.html", header=f"Hello {user}!")
+
     return render_template("html/Coordinator/multi_event_view.html", timeline=timeline)
 
 
@@ -43,5 +45,6 @@ def edit_event():
     if "user" in session:
         user: str = session["user"]
         return render_template("html/index.html", header=f"Hello {user}!")
+
     return render_template("html/Coordinator/single_event_view.html", event_name='Event 1', event_date='2021-10-10',
                            event_time='10:00', event_location='Location 1', event_description='Description 1')

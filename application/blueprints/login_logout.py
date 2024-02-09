@@ -40,7 +40,7 @@ def login_post() -> Response | str:
     username: str = request.form["login-username"]
     password: str = request.form["login-password"]
 
-    match = query_db(f"SELECT password FROM users WHERE username='{username}'", single=True)
+    match = query_db(f"SELECT password FROM login WHERE username='{username}'", single=True)
 
     if match is None:
         flash(f"User {username!r} not found", category="error")
