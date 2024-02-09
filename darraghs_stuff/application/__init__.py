@@ -7,7 +7,7 @@ from .blueprints.registration import registration
 from .blueprints.misc import misc
 from .util.database import get_db, query_db
 
-app: Flask = Flask(import_name=__name__)
+app: Flask = Flask(import_name=__name__, template_folder="application/_templates", static_folder="application/static")
 app.config.from_prefixed_env()
 
 app.register_blueprint(main)

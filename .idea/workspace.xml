@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f07706-757d-4312-a618-d47a941bc39c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/darraghs_stuff/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/application/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/application/templates/html/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/templates/html/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/darraghs_stuff/darraghs_stuff/application/templates/html/base.html" afterDir="false" />
@@ -77,11 +78,11 @@
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\darraghs_stuff\application\static\jpg" />
+      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\darraghs_stuff\application\static" />
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\static\ico" />
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\static\png" />
       <recent name="C:\Users\darra\Projects\pycharm\ClubHub" />
-      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application" />
-      <recent name="C:\Users\darra\Projects\pycharm\ClubHub\application\blueprints" />
     </key>
   </component>
   <component name="RunManager">
@@ -146,7 +147,7 @@
       <workItem from="1707148509328" duration="8674000" />
       <workItem from="1707157398301" duration="21260000" />
       <workItem from="1707429396766" duration="1432000" />
-      <workItem from="1707481399034" duration="10811000" />
+      <workItem from="1707481399034" duration="11219000" />
     </task>
     <servers />
   </component>
