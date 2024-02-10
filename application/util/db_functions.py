@@ -97,17 +97,17 @@ def get_last_user() -> Row | None:
     return query_db("SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1", single=True)
 
 
-def create_new_user(
+def create_user(
         *,
         username: str,
         password: str,
         user_type: str,
-        first_name: Optional[str],
-        last_name: Optional[str],
-        age: Optional[str],
-        email: Optional[str],
-        phone: Optional[str],
-        gender: Optional[str]) -> None:
+        first_name: Optional[str] = None,
+        last_name: Optional[str] = None,
+        age: Optional[str] = None,
+        email: Optional[str] = None,
+        phone: Optional[str] = None,
+        gender: Optional[str] = None) -> None:
     """
     Creates a new user in the database.
     ID is automatically generated. Users are not approved by default.
@@ -159,3 +159,32 @@ def get_users(table: Optional[str] = None) -> list[Row] | None:
     query_string: str = ", ".join(str(user["user_id"]) for user in results)
 
     return query_db(f"SELECT * FROM users WHERE user_id IN ({query_string})")
+
+
+def delete_user(*, username: Optional[str] = None, user_id: Optional[int] = None) -> None:
+    """
+    Deletes a user, specified by either their username or user id, from the users table.
+
+    Keyword Arguments:
+        :param username: User's username. If this is given, their id cannot be.
+        :param user_id: User's id. Likewise, if this is given, their username cannot be.
+
+    Exactly of the above keyword arguments must be provided.
+    """
+
+    if (username is None and user_id is None) or (username is not None and user_id is not None):
+        raise ValueError("Exactly one of the keyword arguments, username or user_id must be given")
+
+    if username is not None:
+        if not user_exists(username):
+            return None
+
+    elif user_id is not None:
+        result = query_db(f"SELECT username FROM users WHERE user_id={user_id}", single=True)
+
+        if result is None:
+            return None
+
+        username: str = result["username"]
+
+    modify_db(f"DELETE FROM users WHERE username={username!r}")
