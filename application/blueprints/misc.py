@@ -22,3 +22,21 @@ def contact() -> str:
     """
 
     return render_template("html/contact.html")
+
+
+@misc.route("/privacy-policy")
+def privacy_policy() -> str:
+    """
+    Loads the privacy policy page.
+    """
+
+    return render_template("html/privacy-policy.html")
+
+
+@misc.route("/terms-and-conditions")
+def terms_and_conditions() -> str:
+    """
+    Loads the terms and conditions page.
+    """
+
+    return render_template("html/terms-and-conditions.html")

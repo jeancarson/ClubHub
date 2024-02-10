@@ -42,14 +42,17 @@
         <div class="col-md-8 window">
            
             <h2>MEMBERS INFO</h2>
-            
+
             <nav class="navbar navbar-light bg-light">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Students</a>
+                        <a class="nav-link" href="/members_info?selected=students">Students</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Coordinators</a>
+                        <a class="nav-link" href="/members_info?selected=coordinators">Coordinators</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/members_info?selected=users">All Users</a>
                     </li>
                 </ul>
             </nav>
@@ -59,20 +62,27 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">UserID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Surname</th>
-                            <th scope="col">Club</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Age</th>
                             <th scope="col">Email</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>MILI</td>
-                            <td>VANILI</td>
-                            <td>Club 1</td>
-                            <td>emailMIA</td>
-                        </tr>
+                    <!-- Testing to see if my database stuff works (you can change this) -->
+                        {% if user_rows %}
+                            {% for student in user_rows %}
+                                <tr>
+                                    <th scope="row">{{ student["user_id"] }}</th>
+                                    <td>{{ student["username"] }}</td>
+                                    <td>{{ student["first_name"] }}</td>
+                                    <td>{{ student["last_name"] }}</td>
+                                    <td>{{ student["age"] }}</td>
+                                    <td>{{ student["email"] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>

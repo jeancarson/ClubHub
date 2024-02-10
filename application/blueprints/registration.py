@@ -9,13 +9,25 @@ from flask import (
 )
 from werkzeug import Response
 
-from ..util.database import user_exists, create_new_user
+# '..' means parent directory
+from ..util.db_functions import user_exists, create_new_user
 from ..util.user_auth import hash_password
+from ..util.util import str_to_none
 
 registration: Blueprint = Blueprint("registration", __name__)
 
 
 def validate_password(password: str) -> None | str:
+    """
+    Validates a password according to the following rules:
+        - Must contain at least 1 lowercase character.
+        - Must contain at least 1 uppercase character.
+        - Must contain at least 1 digit (0 through 9).
+
+    :param password: Password to validate.
+    :return: Error message if password doesn't meet the specified criteria; None otherwise.
+    """
+
     errors: list[str] = []
     error_msg_prefix: str = "Password must contain"
     error_msg: str
@@ -25,7 +37,7 @@ def validate_password(password: str) -> None | str:
     digit: bool = False
 
     for char in password:
-        code: int = ord(char)
+        code: int = ord(char)  # Evaluating unicode codes (see ASCII Table)
 
         if code in range(48, 58):
             digit = True
@@ -66,6 +78,8 @@ def register_get() -> Response | str:
         flash("You must log out before creating a new account", category="error")
         return redirect("/profile")
 
+    # Load insensitive data back into the form after a failed
+    # submission so user does not need to re-enter it all.
     username: str = request.args.get("username", None)
     user_type: str = request.args.get("user_type", None)
 
@@ -85,29 +99,23 @@ def register_get() -> Response | str:
 
 @registration.route("/register", methods=["POST"])
 def register_post() -> Response:
-
-    def map_to_none(value: str) -> str | None:
-        """
-        Maps a string to None if it is an empty string.
-        """
-
-        return None if not value or value is None else value
-
-    print(request.form)
+    """
+    Function called when registration form is submitted.
+    """
 
     # Required inputs
-    username: str = map_to_none(request.form["register-username"])
-    password: str = map_to_none(request.form["register-password"])
-    confirm_password: str = map_to_none(request.form["register-confirm-password"])
-    captcha_response: str = map_to_none(request.form["g-recaptcha-response"])
+    username: str = str_to_none(request.form["register-username"])
+    password: str = str_to_none(request.form["register-password"])
+    confirm_password: str = str_to_none(request.form["register-confirm-password"])
+    captcha_response: str = str_to_none(request.form["g-recaptcha-response"])
     user_type: str = request.form.get("register-user-type", None)
 
     # Non required inputs
-    first_name: str = map_to_none(request.form["register-first-name"])
-    last_name: str = map_to_none(request.form["register-first-name"])
-    age: str = map_to_none(request.form["register-age"])
-    email: str = map_to_none(request.form["register-email"])
-    phone: str = map_to_none(request.form["register-phone"])
+    first_name: str = str_to_none(request.form["register-first-name"])
+    last_name: str = str_to_none(request.form["register-first-name"])
+    age: str = str_to_none(request.form["register-age"])
+    email: str = str_to_none(request.form["register-email"])
+    phone: str = str_to_none(request.form["register-phone"])
     gender: str = request.form.get("register-gender", None)
 
     page: Response = redirect(
@@ -148,13 +156,3 @@ def register_post() -> Response:
     )
 
     return redirect("/home")
-
-
-@registration.route("/privacy-policy")
-def privacy_policy() -> str:
-    return render_template("html/privacy-policy.html")
-
-
-@registration.route("/terms-and-conditions")
-def terms_and_conditions() -> str:
-    return render_template("html/terms-and-conditions.html")

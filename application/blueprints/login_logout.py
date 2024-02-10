@@ -9,7 +9,7 @@ from flask import (
 )
 from werkzeug import Response
 
-from ..util.database import query_db, user_approved
+from ..util.db_functions import query_db, user_approved
 from ..util.user_auth import password_match
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
@@ -80,7 +80,7 @@ def logout() -> Response:
 @login_logout.route("/profile")
 def profile() -> str | Response:
     """
-    Loads the account page (if a user session is active)
+    Loads the account page (if a user session is active).
     """
 
     if "user" not in session:
