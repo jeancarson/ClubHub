@@ -194,7 +194,11 @@ where club_id = {club_id} and date_and_time > CURRENT_TIMESTAMP
 order by date_and_time
 limit 3;
 """
-
+view_single_event = """
+select *
+from events
+where event_id = {event_id};
+"""
 
 
 
