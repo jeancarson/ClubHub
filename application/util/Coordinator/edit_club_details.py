@@ -10,7 +10,6 @@ Create table if not exists clubs(
   created datetime default CURRENT_TIMESTAMP,
   updated datetime DEFAULT CURRENT_TIMESTAMP,
   FOREIGN key (coordinator_id) REFERENCES coordinators(coordinator_id));
-  
 """
 
 
@@ -28,6 +27,11 @@ create_memberships_table = """
 
 
 #NOTE: this may not work, its erroing on sqlite online, need to check if this is correct bc I got help ~online~
+
+
+
+
+
 restrict_number_of_clubs_per_user = """
   CREATE TRIGGER check_max_clubs
   BEFORE INSERT ON club_memberships
@@ -43,16 +47,16 @@ restrict_number_of_clubs_per_user = """
 
 
 create_events_table = """
-  Create table if not exists events(
+ Create table if not exists events(
   event_id Integer primary key AUTOINCREMENT,
   club_id integer,
   event_name varchar(300),
   event_description varchar(1000),
   date_and_time datetime,
+  venue varchar(400),
   created datetime default CURRENT_TIMESTAMP,
   updated datetime DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN key (club_id) REFERENCES clubs(club_id));
-  
+  FOREIGN key (club_id) REFERENCES clubs(club_id))
 """
 
 
@@ -67,7 +71,13 @@ create_participants_table = """
   FOREIGN key (user_id) REFERENCES users(user_id)
   FOREIGN key (event_id) REFERENCES events(event_id));
 """
-
+# create_venues_table = """
+#   Create table if not exists venues(
+#   venue_id Integer primary key AUTOINCREMENT,
+#   venue_name varchar(400),
+#   created datetime default CURRENT_TIMESTAMP,
+#   updated datetime DEFAULT CURRENT_TIMESTAMP);
+#  """
 
 #-------------End of making tables-------------------#
 #-------------Start of button functions-------------------#
@@ -89,19 +99,24 @@ values('{club_name}', '{club_description}', {coordinator_id});
 
 save_club_details = """
 update  clubs
-set club_name = '{new_name}', club_description = '{new_description}'
+set club_name = '{new_name}', club_description = '{new_description}', updated = CURRENT_TIMESTAMP
 Where club_id = {club_id};
 """
 #Member commands
 #Here we can call this command in a for loop for all members, so its not excecuted until save is clicked. On save it can read the box for each user/participant and delete where relevant.
 # so save and delete are called together.
+
+save_members = """
+update club_memberships
+set validity = '{NEW_VALIDITY}'   
+where user_id = {user_id} and club_id = {club_id}, updated = CURRENT_TIMESTAMP;
+"""#new_validity will be read from the form on save.
+
+#called after save has been called for each member
 delete_members = """
 delete 
 from club_memberships
 where validity = 'Rejected' and club_id = {club_id};
-"""
-save_members = """
-{}{}{}
 """
 
 view_pending_members = """
@@ -115,40 +130,50 @@ from users join club_memberships on users.user_id = club_memberships.user_id
 where club_memberships.validity = 'Approved' and club_memberships.club_id = {club_id};
 """
 add_member = """
-{}{}{}
+insert into club_memberships(club_id, user_id)
+values ({club_id}, {user_id});
 """
 
 view_pending_participants = """
 select users.*
-from users join event_participants on users.user_id = event_participants.user_id join events on events.event_id = event_participants.event_id
-where event_participants.validity = 'Pending' and events.club_id = {club_id};
+from users join event_participants on users.user_id = event_participants.user_id 
+where event_participants.validity = 'Pending' and event_participants.event_id = {event_id};
 """
 view_approved_participants = """
 select users.*
 from users join event_participants on users.user_id = event_participants.user_id join events on events.event_id = event_participants.event_id
-where event_participants.validity = 'Approved' and events.club_id = {club_id};
+where event_participants.validity = 'Approved' and event_participants.event_id = {event_id};
 """
 
 save_participants = """
-{}{}{}
+update club_memberships
+set validity = '{NEW_VALIDITY}', updated = CURRENT_TIMESTAMP
+where user_id = {user_id} and event_id = {event_id};
 """
 delete_participants = """
-{}{}{}
+delete 
+from event_participants
+where validity = 'Rejected' and event_id = {event_id};
 """
 
 add_participant_member = """
-{}{}{}
+insert into event_participants(event_id, user_id, validity)
+values ({event_id}, {user_id}, 'Approved');
 """
 add_participant_non_member = """
-{}{}{}
-"""
+insert into event_participants(event_id, user_id)
+values ({event_id}, {user_id});"""
 
 
 insert_new_event = """
-{}{}{}
+insert into events(club_id, event_name, event_description, date_and_time)
+values({club_id}, '{event_name}', '{event_description}}', '{timestamp}');
 """
-edit_event_details = """
-{}{}{}
+
+save_event_details = """
+update events
+set event_name = '{event_name}', event_description = '{event_description}', date_and_time = '{timestamp}', venue = '{venue}', updated = CURRENT_TIMESTAMP
+where event_id = 7;
 """
 view_past_events = """
 select *
@@ -169,6 +194,13 @@ where club_id = {club_id} and date_and_time > CURRENT_TIMESTAMP
 order by date_and_time
 limit 3;
 """
+
+
+
+
+
+
+
 
 
 
