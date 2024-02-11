@@ -8,6 +8,7 @@ from .blueprints.main import main
 from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
 from .blueprints.registration import registration
+from .util.db_functions import get_db
 
 app: Flask = Flask(import_name=__name__, template_folder="templates", static_folder="static")
 app.config.from_prefixed_env()

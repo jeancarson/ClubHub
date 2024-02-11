@@ -112,7 +112,7 @@ def register_post() -> Response:
 
     # Non required inputs
     first_name: str = str_to_none(request.form["register-first-name"])
-    last_name: str = str_to_none(request.form["register-first-name"])
+    last_name: str = str_to_none(request.form["register-last-name"])
     age: str = str_to_none(request.form["register-age"])
     email: str = str_to_none(request.form["register-email"])
     phone: str = str_to_none(request.form["register-phone"])
