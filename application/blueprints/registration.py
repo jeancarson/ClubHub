@@ -10,7 +10,7 @@ from flask import (
 from werkzeug import Response
 
 # '..' means parent directory
-from ..util.db_functions import user_exists, create_new_user
+from ..util.db_functions import user_exists, create_user
 from ..util.user_auth import hash_password
 from ..util.util import str_to_none
 
@@ -112,7 +112,7 @@ def register_post() -> Response:
 
     # Non required inputs
     first_name: str = str_to_none(request.form["register-first-name"])
-    last_name: str = str_to_none(request.form["register-first-name"])
+    last_name: str = str_to_none(request.form["register-last-name"])
     age: str = str_to_none(request.form["register-age"])
     email: str = str_to_none(request.form["register-email"])
     phone: str = str_to_none(request.form["register-phone"])
@@ -150,7 +150,7 @@ def register_post() -> Response:
 
     flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
 
-    create_new_user(
+    create_user(
         username=username, password=hashed_pw, user_type=user_type, first_name=first_name,
         last_name=last_name, age=age, email=email, phone=phone, gender=gender
     )

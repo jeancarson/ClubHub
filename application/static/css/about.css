@@ -19,25 +19,39 @@
     position: relative;
 }
 
+.about-item img {
+    max-height: 17em;
+}
+
 .layered-images {
-    position: relative;
     flex-direction: unset;
-    height: auto;
 }
 
 .layered-images img {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
+#yoga-club-img {
+    max-height: 20em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    outline: 2px solid white;
+    border-radius: 1em;
+}
+
 .layered-images img:first-of-type {
     position: absolute;
-    top: 50px;
+    top: 10px;
     left: 75px;
     z-index: -1;
+    transform: rotate(-3deg);
 }
 
 .layered-images img:last-of-type {
     position: absolute;
-    top: 90px;
-    left: 150px;
+    top: 65px;
+    left: 125px;
+    transform: rotate(2deg);
 }
