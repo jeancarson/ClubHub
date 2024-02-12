@@ -234,25 +234,19 @@ footer {
 /* ========================== Footer start ========================== */
 /* Coordninator start  */
 .card-custom {
-    margin-bottom: 20px; /* Adjust the margin as needed */
-    margin-top: 20px; /* Adjust the margin as needed */
-    margin-right: 20px; /* Adjust the margin as needed */
-    margin-left: 20px;
+    margin: 20px;
     background-color: var(--lighter-blue) !important;
     color: white;
 }
 
 .custom-link {
     font-size: 40px; /* Adjust the font size as needed */
-    font-family: "Tahoma";
+    font-family: "Tahoma", serif;
     color: var(--white);
 }
 
 .custom-button {
-    margin-bottom: 20px; /* Adjust the margin as needed */
-    margin-top: 20px; /* Adjust the margin as needed */
-    margin-right: 20px; /* Adjust the margin as needed */
-    margin-left: 20px;
+    margin: 20px;
     background-color: var(--even-lighter-blue);
     color: var(--black);
 

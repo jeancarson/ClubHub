@@ -1,0 +1,27 @@
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+.main-child {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+    width: 60%;
+    padding-top: 0.4em;
+    gap: 20px;
+    background-color: var(--white);
+    border-top-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+    box-shadow: -6px 4px 8px 1px rgba(255,255,255,0.2);
+}
+
+.main-child::before {
+    margin-right: 1.8em;
+}
+
+#logo-with-slogan {
+    width: 30em;
+}
+
