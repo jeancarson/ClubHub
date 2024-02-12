@@ -27,11 +27,6 @@ create_memberships_table = """
 
 
 #NOTE: this may not work, its erroing on sqlite online, need to check if this is correct bc I got help ~online~
-
-
-
-
-
 restrict_number_of_clubs_per_user = """
   CREATE TRIGGER check_max_clubs
   BEFORE INSERT ON club_memberships
@@ -200,9 +195,27 @@ from events
 where event_id = {event_id};
 """
 
+count_approved_members = """
+select count(user_id)
+from club_memberships
+where club_id =6 and validity = 'Approved'
+"""
+count_pending_members = """
+select count(user_id)
+from club_memberships
+where club_id =6 and validity = 'Pending'
+"""
+count_pending_participants = """
+select count(user_id)
+from event_participants
+where event_id =6 and validity = 'Pending'
+"""
 
-
-
+count_approved_participants = """
+select count(user_id)
+from event_participants
+where event_id =6 and validity = 'Approved'
+"""
 
 
 
