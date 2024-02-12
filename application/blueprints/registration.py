@@ -5,7 +5,8 @@ from flask import (
     flash,
     redirect,
     request,
-    url_for
+    url_for,
+current_app
 )
 from werkzeug import Response
 
@@ -75,6 +76,7 @@ def register_get() -> Response | str:
     """
 
     if "user" in session:
+        current_app.logger.info(f"[page='/register'] => Authenticated user tried to access restricted page")
         flash("You must log out before creating a new account", category="error")
         return redirect("/profile")
 
@@ -125,29 +127,35 @@ def register_post() -> Response:
     )
 
     if not captcha_response:
+        current_app.logger.warning("[page='/register' (FORM)] => CAPTCHA not completed")
         flash("Please complete the CAPTCHA before form submission", category="error")
         return page
 
     if user_type is None:
+        current_app.logger.warning("[page='/register' (FORM)] => User account type not selected")
         flash("Please select a user type for your account", category="error")
         return page
 
     if user_exists(username):
+        current_app.logger.warning("[page='/register' (FORM)] => Given username is taken")
         flash(f"Sorry, the username {username!r} is taken!", category="error")
         return page
 
     password_error_msg: None | str = validate_password(password)
 
     if password_error_msg is not None:
+        current_app.logger.warning(f"[page='/register' (FORM)] => {password_error_msg}")
         flash(password_error_msg, category="error")
         return page
 
     if confirm_password != password:
+        current_app.logger.warning(f"[page='/register' (FORM)] => Password mismatch")
         flash("Passwords do not match", category="error")
         return page
 
     hashed_pw: str = hash_password(password=password)
 
+    current_app.logger.info(f"[page='/register' (FORM)] => Registration ticket opened for user: {username!r}")
     flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
 
     create_user(
