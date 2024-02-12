@@ -18,6 +18,8 @@
     --black: #000000;
     --dark-grey: #1e2e33;
     --email-red: #f44336;
+    --yt-red: #ff1c04;
+    --pink: #e33667;
     --turquoise: #028080;
 }
 
@@ -59,12 +61,31 @@ a {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    background: var(--even-lighter-blue);
     transition: 190ms width ease-in-out;
 }
 
 .underlined-link:hover::after {
     width: 100%;
+}
+
+.underlined-link-regular::after {
+    background-color: var(--even-lighter-blue);
+}
+
+.underlined-link-footer::after {
+    background-color: var(--darker-blue);
+}
+
+.underlined-link-yt::after {
+    background-color: var(--yt-red);
+}
+
+.underlined-link-x::after {
+    background-color: var(--black);
+}
+
+.underlined-link-insta::after {
+    background-color: var(--pink);
 }
 
 /* ======================= Message alert box start ======================= */
@@ -118,6 +139,8 @@ nav {
 }
 
 nav div {
+    grid-row: 1;
+    grid-column: auto;
     display: flex;
 }
 
@@ -148,6 +171,7 @@ nav div {
     text-decoration: underline;
     text-underline-position: under;
     text-decoration-thickness: 0.075rem;
+    text-underline-offset: 0.1rem;
 }
 
 nav div a {
@@ -161,16 +185,17 @@ nav div a {
     padding: 0 1rem;
     font-size: 1rem;
     background-color: transparent;
-    transition: background-color 300ms;
+    transition: all 300ms;
 }
 
 nav div a:hover {
     background-color: var(--white);
     color: var(--black);
+    font-weight: bold;
 }
 
-nav div a:hover:not(.nav-active-link a) {
-    text-decoration: none;
+.nav-active-link a:hover {
+    text-underline-offset: 0.3rem;
 }
 
 .navbar-left a img {
@@ -220,15 +245,45 @@ nav div a:hover:not(.nav-active-link a) {
 /* ========================== Footer start ========================== */
 
 footer {
-    display: flex;
+    display: grid;
     align-items: center;
-    justify-content: center;
+    grid-template-columns: auto auto 1fr auto auto auto;
     width: 100%;
     background-color: var(--white);
     color: var(--black);
     font-size: 0.8rem;
     padding: 1em;
     margin-top: auto;
+    gap: 1.5em;
+}
+
+.footer-center {
+    justify-content: center;
+    text-align: center;
+}
+
+footer div a {
+    color: var(--darker-blue);
+}
+
+footer div a img {
+    transition: all 100ms;
+}
+
+footer div a img:hover {
+    transform: translateY(-14%);
+}
+
+footer div a img {
+    width: 2em;
+}
+
+footer div:first-of-type {
+    margin-left: 2em;
+}
+
+footer div:last-of-type {
+    margin-right: 2em;
 }
 
 /* ========================== Footer start ========================== */
