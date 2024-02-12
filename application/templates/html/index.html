@@ -1,6 +1,12 @@
 {% extends "html/base.html" %}
 
-{% block header %}
+{% block links %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+{% endblock %}
+
+{% block content %}
 
     <header>
         <h1>{{ header if header else "Hello!" }}</h1>

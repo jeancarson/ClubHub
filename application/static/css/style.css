@@ -16,6 +16,9 @@
     --dark-red: #990f0f;
     --white: #ffffff;
     --black: #000000;
+    --dark-grey: #1e2e33;
+    --email-red: #f44336;
+    --turquoise: #028080;
 }
 
 * {
@@ -31,6 +34,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 header h1 {
