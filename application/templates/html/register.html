@@ -3,7 +3,16 @@
 {% block links %}
 
     <meta id="form-gender-value" data-value="{{ gender if gender else '' }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/forms.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="../../static/js/register.js" async defer></script>
+    <script async defer>
+        {% if user_type == "student" %}
+            student_radio.checked = true;
+        {% elif user_type == "coordinator" %}
+            coordinator_radio.checked = true;
+        {% endif %}
+    </script>
 
 {% endblock %}
 
@@ -149,16 +158,5 @@
             </p>
         </form>
     </div>
-
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src=" {{ url_for('static', filename='js/register.js') }}"></script>
-
-    <script>
-        {% if user_type == "student" %}
-            student_radio.checked = true;
-        {% elif user_type == "coordinator" %}
-            coordinator_radio.checked = true;
-        {% endif %}
-    </script>
 
 {% endblock %}

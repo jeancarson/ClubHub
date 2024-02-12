@@ -6,34 +6,38 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='ico/favicon.ico') }}" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="../../static/ico/favicon.ico" />
 
     {% block links %}
     {% endblock %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
     <title>ClubHub</title>
+
+    <script src="../../static/js/script.js" async defer></script>
+    <script src="../../static/js/alert_message.js" async defer></script>
 
     {% if "user" in session %}
         {% set second_link = "profile" %}
     {% else %}
-        {% if request.endpoint == "registration.register_get" %}
-            {% set second_link = "register" %}
-        {% elif request.endpoint == "login_logout.forgot_password" %}
-            {% set second_link = "forgot-password" %}
-            {% set second_link_name = "Reset Password" %}
-        {% elif request.endpoint == "registration.privacy_policy" %}
-            {% set second_link = "privacy-policy" %}
-            {% set second_link_name = "Privacy Policy" %}
-        {% elif request.endpoint == "registration.terms_and_conditions" %}
-            {% set second_link = "terms-and-conditions" %}
-            {% set second_link_name = "Terms and Conditions" %}
-        {% else %}
-            {% set second_link = "login" %}
-        {% endif %}
+        {% set second_link = "login" %}
+    {% endif %}
+
+    {% if request.endpoint == "registration.register_get" %}
+        {% set new_link = "register" %}
+        {% set add_link_to_nav = true %}
+    {% elif request.endpoint == "login_logout.forgot_password" %}
+        {% set new_link = "forgot-password" %}
+        {% set new_link_name = "Reset Password" %}
+        {% set add_link_to_nav = true %}
+    {% elif request.endpoint == "misc.privacy_policy" %}
+        {% set new_link = "privacy-policy" %}
+        {% set new_link_name = "Privacy Policy" %}
+        {% set add_link_to_nav = true %}
+    {% elif request.endpoint == "misc.terms_and_conditions" %}
+        {% set new_link = "terms-and-conditions" %}
+        {% set new_link_name = "Terms and Conditions" %}
+        {% set add_link_to_nav = true %}
     {% endif %}
 
     {% set flash_message = get_flashed_messages()[0] %}
@@ -51,6 +55,12 @@
                 {% endwith %}
             {% endwith %}
         }
+
+        {% if add_link_to_nav %}
+            nav {
+                grid-template-columns: 1fr auto auto auto auto auto 1fr;
+            }
+        {% endif %}
     </style>
 
     <!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
@@ -66,7 +76,7 @@
             <a href="/home" class="home-link index-link none-link">Home</a>
         </div>
         <div class="navbar-center">
-            <a href="/{{ second_link }}" class="{{ second_link }}-link">{{ second_link_name if second_link_name else second_link.capitalize() }}</a>
+            <a href="/{{ second_link }}" class="login-link">{{ second_link.capitalize() }}</a>
         </div>
         <div class="navbar-center">
             <a href="/about-us" class="about-link about-us-link">About Us</a>
@@ -77,6 +87,11 @@
         <div class="navbar-right">
             <a href="javascript:void(0);">&#9776;</a>
         </div>
+        {% if add_link_to_nav %}
+            <div class="navbar-center">
+                <a href="/{{ new_link }}" class="{{ new_link }}-link">{{ new_link_name if new_link_name else new_link.capitalize() }}</a>
+            </div>
+        {% endif %}
     </nav>
 
     <div class="alert-dialog-container">
@@ -95,9 +110,6 @@
     <footer id="footer">
         <div>© 2024 ClubHub, All rights reserved.</div>
     </footer>
-
-    <script src=" {{ url_for('static', filename='js/script.js') }}"></script>
-    <script src=" {{ url_for('static', filename='js/alert_message.js') }}"></script>
 
 </body>
 
