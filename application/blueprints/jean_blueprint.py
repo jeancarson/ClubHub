@@ -17,7 +17,7 @@ def cohome():
     return render_template("html/Coordinator/coordinator_dashboard.html", coordinator_name=coordinator_name, club_id = club_id, active_users=number_of_active_users, pending_users=number_of_pending_users, club_title = "Club 1", club_description = "Description 1")
 
   
-  def display_event_details():
+def display_event_details():
     limited_upcoming_events = dbf.query_db(ecd.limited_view_all_upcoming_events.format(club_id=club_id))
     for event in limited_upcoming_events:
         number_of_approved_participants = dbf.query_db(ecd.count_approved_participants.format(event_id=event["event_id"]))
