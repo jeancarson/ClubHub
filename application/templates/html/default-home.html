@@ -1,0 +1,47 @@
+{% extends "html/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" href="../../static/css/default-home.css">
+    <link rel="stylesheet" href="../../static/css/background-image.css">
+
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div id="main-left">
+            <h5>ClubHub, Sports Club Management System</h5>
+            <h1 id="main-left-header">Management,<br>Made Manageable</h1>
+            <p>
+                Welcome to ClubHub – Your All-in-One Sports Club Management Solution!
+                Streamline your club's operations effortlessly with our intuitive platform.
+            </p>
+            <p>
+                From membership management to event coordination, ClubHub empowers you to focus on
+                what matters most – your team's success. Join us in simplifying sports club management,
+                so you can spend more time on the field and less time in the office. Elevate your club
+                experience now!
+            </p>
+        </div>
+        <div id="main-right">
+            <img alt="[image of a football team]" src="../../static/jpg/football-team.jpg" />
+            <div id="main-right-caption">
+                <span class="line"></span>
+                <h3>Get Started Today!</h3>
+                <span class="line"></span>
+            </div>
+            <div id="main-right-links">
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            </div>
+        </div>
+    </main>
+
+    {% if header %}
+        <header>
+            <h1>{{ header if header}}</h1>
+        </header>
+    {% endif %}
+
+{% endblock %}
