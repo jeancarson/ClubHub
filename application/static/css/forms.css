@@ -1,0 +1,185 @@
+
+input:not(input[type=checkbox], input[type=radio]) {
+    display: block;
+    outline: none;
+    border: none;
+    margin-bottom: 1.3em;
+    padding: 2%;
+    width: 50%;
+    min-width: 7em;
+    border-radius: 5px;
+}
+
+input[type=checkbox] {
+    cursor: pointer;
+    width: 1.35em;
+    height: 1.35em;
+}
+
+input[type=radio] {
+    width: 1.1em;
+    height: 1.1em;
+}
+
+select {
+    width: 25%;
+    border-radius: 5px;
+    padding: 1.5%;
+    margin-bottom: 1.3em;
+}
+
+option {
+    font-size: 0.9rem;
+}
+
+input:not(input[type=checkbox], input[type=radio]):nth-of-type(2) {
+    margin-bottom: 0.5em;
+}
+
+input:not(input[type=checkbox], input[type=radio]):nth-of-type(3) {
+    margin-bottom: 0;
+}
+
+input:not(input[type=checkbox], input[type=radio]):hover, select:hover {
+    outline: 2px solid var(--light-grey);
+}
+
+input:not(input[type=checkbox], input[type=radio]):focus, select:focus {
+    outline: 2px solid var(--light-grey);
+}
+
+label {
+    display: block;
+}
+
+.submit-button {
+    border: none;
+    margin-bottom: 2em;
+    margin-top: 3em;
+    padding: 3%;
+    font-size: 0.9rem;
+    width: 25%;
+    min-width: 4em;
+    border-radius: 10px;
+    background-color: var(--lighter-green);
+    transition: transform 100ms linear;
+}
+
+.submit-button:hover {
+    backface-visibility: hidden;
+    transform: scale(1.0288);
+    cursor: pointer;
+    outline: 2px solid var(--dark-green);
+    text-decoration: underline;
+}
+
+.form-container {
+    display: flex;
+    width: 50%;
+    margin: auto auto 5%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 6%;
+    padding-bottom: 6%;
+    background-color: var(--dark-blue);
+    border-radius: 1em;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+#login-form div:nth-of-type(1) {
+    margin-top: 1em;
+}
+
+#login-form div:nth-of-type(1) a {
+    margin-left: 0.4em;
+    margin-bottom: -0.1em;
+}
+
+#login-form div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5em;
+    font-size: 0.9rem;
+    width: 50%;
+}
+
+#register-form {
+    padding-left: 10%;
+    padding-right: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    height: 100%;
+    width: 100%;
+}
+
+#register-form label {
+    font-size: 0.9rem;
+    margin-bottom: 2%;
+}
+
+#register-form label:not(:first-of-type) {
+    margin-top: 2%;
+}
+
+/* Hide password checkbox */
+#register-form label:nth-of-type(4), #login-form label:nth-of-type(3) {
+    display: flex;
+    align-items: center;
+    font-size: 0.75em;
+}
+
+/* Hide password checkbox */
+#login-form label:nth-of-type(3) {
+    justify-content: start;
+    width: 50%;
+    margin-bottom: 2em;
+    margin-top: 0.5em;
+}
+
+#register-form hr {
+    width: 100%;
+    margin-bottom: 10%;
+}
+
+#radio-inputs-container {
+    margin-top: 1em;
+    margin-left: 0.9em;
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+
+#radio-inputs-container div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    width: 50%;
+}
+
+#radio-inputs-container div label {
+    margin-bottom: 0;
+}
+
+.required-star {
+    color: var(--light-red);
+    font-size: 1.2rem;
+}
+
+.g-recaptcha {
+    margin-top: 1em;
+}

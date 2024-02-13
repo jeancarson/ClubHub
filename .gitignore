@@ -1,6 +1,7 @@
-.idea/
 .git/
-*/.__pycache__/
+.idea/
 .venv/
-
-*.pyc
+*/__pycache__/
+__pycache__/
+deprecated/
+.vscode/

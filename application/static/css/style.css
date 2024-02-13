@@ -1,0 +1,287 @@
+/* Importing the "Raleway" font */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+/* Color constants */
+:root {
+    --light-grey: #8a8988;
+    --light-blue: #0077b6;
+    --lighter-blue: #0096c7;
+    --even-lighter-blue: #90e0ef;
+    --dark-blue: #023e8a;
+    --darker-blue: #03045e;
+    --lighter-green: #5afa8d;
+    --light-green: #179645;
+    --dark-green: #237543;
+    --light-red: #db5658;
+    --dark-red: #990f0f;
+    --white: #ffffff;
+    --black: #000000;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--darker-blue);
+    font-family: "Raleway", Arial, serif;
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header h1 {
+    text-align: center;
+    margin-top: 1.65em;
+}
+
+a {
+    text-decoration: none;
+    color: var(--even-lighter-blue);
+}
+
+
+.underlined-link {
+    display: inline-block;
+}
+
+.underlined-link::after {
+    content: '';
+    width: 0;
+    height: 0.1em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: var(--even-lighter-blue);
+    transition: 190ms width ease-in-out;
+}
+
+.underlined-link:hover::after {
+    width: 100%;
+}
+
+/* ======================= Message alert box start ======================= */
+
+.alert-dialog-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.alert-dialog {
+    position: relative;
+    display: none;
+    background-color: var(--light-red);
+    width: auto;
+    max-width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    color: var(--white);
+    text-align: center;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+.alert-dialog-button {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: none;
+    font-size: 0.9rem;
+    color: var(--white);
+    background-color: transparent;
+}
+
+.alert-dialog-button:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ======================= Message alert box end ======================= */
+
+/* ======================= Navigation bar start ======================= */
+
+nav {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto 1fr;
+    background-color: var(--light-blue);
+    overflow: hidden;
+}
+
+nav div {
+    display: flex;
+}
+
+.navbar-left {
+    grid-row: 1;
+    grid-column: 1;
+    justify-content: left;
+}
+
+.navbar-center {
+    grid-row: 1;
+    grid-column: auto;
+    justify-content: center;
+    transition: height 0.25s;
+}
+
+.navbar-right {
+    grid-row: 1;
+    grid-column: -2;
+    justify-content: right;
+}
+
+.nav-active-link {
+    background-color: var(--light-blue);
+}
+
+.nav-active-link a {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 0.075rem;
+}
+
+nav div a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    line-height: 1rem;
+    text-decoration: none;
+    height: 2.75rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+    background-color: transparent;
+    transition: background-color 300ms;
+}
+
+nav div a:hover {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+nav div a:hover:not(.nav-active-link a) {
+    text-decoration: none;
+}
+
+.navbar-left a img {
+    height: 1.5rem;
+}
+
+.navbar-left a img:last-of-type {
+    display: none;
+}
+
+.navbar-left a:hover img:last-of-type {
+    display: block;
+}
+
+.navbar-left a:hover img:first-of-type {
+    display: none;
+}
+
+.navbar-right a {
+    visibility: hidden;
+}
+
+@media screen and (max-width: 600px) {
+
+    .navbar-right a {
+        visibility: visible;
+    }
+
+    nav {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .navbar-center {
+        height: 0;
+        grid-row: auto;
+        grid-column: span 2;
+    }
+
+    .navbar-center a {
+        width: 100%;
+    }
+
+}
+
+/* ======================= Navigation bar end ======================= */
+
+/* ========================== Footer start ========================== */
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--white);
+    color: var(--black);
+    font-size: 0.8rem;
+    padding: 1em;
+    margin-top: auto;
+}
+
+/* ========================== Footer start ========================== */
+/* Coordninator start  */
+.card-custom {
+    margin-bottom: 20px; /* Adjust the margin as needed */
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-right: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
+    background-color: var(--lighter-blue) !important;
+    color: white;
+}
+
+.custom-link {
+    font-size: 40px; /* Adjust the font size as needed */
+    font-family: "Tahoma";
+    color: var(--white);
+}
+
+.custom-button {
+    margin-bottom: 20px; /* Adjust the margin as needed */
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-right: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
+    background-color: var(--even-lighter-blue);
+    color: var(--black);
+
+}
+
+.custom-hover:hover {
+    background-color: var(--even-lighter-blue);
+    color: var(--black);
+}
+
+.custom-hover {
+    background-color: var(--light-blue);
+    color: var(--white);
+}
+
+.light_blue_bckgrnd {
+    background-color: var(--light-blue);
+}
+
+.dark_link {
+    color: var(--darker-blue)
+}
+
+.white-txt {
+    color: var(--white);
+}
+
+.vlight_blue_txt {
+    color: var(--even-lighter-blue);
+}
+
+/* Coordinator end */
+
+.event-name-column {
+    width: 300px;;
+}

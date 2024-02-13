@@ -66,10 +66,6 @@ def user():
 def go_profile():
     return render_template("usersFolder/profile.html")
 
-@app.route("/edit")
-def edit_profile():
-    return render_template("usersFolder/edit.html")
-
 @app.route("/clubss")
 def go_clubs():
     return render_template("usersFolder/clubss.html")
