@@ -198,7 +198,7 @@ where event_id = {event_id};
 count_approved_members = """
 select count(user_id)
 from club_memberships
-where club_id =6 and validity = 'Approved'
+where club_id ={club_id} and validity = 'Approved'
 """
 count_pending_members = """
 select count(user_id)
