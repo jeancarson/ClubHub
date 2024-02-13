@@ -4,38 +4,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Events Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-F4PQVnpM7o/q9NrrG7ckKTtnoJvEJjAPbkDWZZxAnXmd6jbqncuFA1+iITeDThsl+4aVkD2yZUgKb7JmC+qbIw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        .event-card {
+            margin-bottom: 20px;
+            color: black;
+        }
+
         body {
             background-color: #03045e;
-        }
-        .navbar-nav .nav-link {
-            color: white; /*should be white*/
-        }
-        
-        .nav.navbar-nav.navbar-item {
             color: white;
         }
-    </style>
-</head> 
-<body> 
-    <div class="card-group">
-        <div class="card">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="card">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
+
+        .navbar-nav .nav-link {
+            color: white !important;
+        }
+
+        h1 {
+            color: white;
+        }
+        h2 {
+            color: white;
+        }
+
+        .marquee-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .marquee {
+            color: white;
+            border: #0077b6 4px solid;
+            padding: 10px;
+        }
+
+        .container {
+            color: black;
+        }
+
         
+        .qa-section {
+            background-color:  #0077b6;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .qa-section summary {
+            color: white; 
+            font-size: 18px; 
+        }
+        
+        .qa-section p {
+            color: white; 
+            font-size: 16px; 
+        }
+        
+        .modal-body {
+            color: black; 
+            text-align: center; 
+        }
+
+        .question {
+            cursor: pointer;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .answer {
+            display: none;
+            color: white;
+        }
+
+        .answer p {
+            color: white;
+        }
+        .events-jumbotron {
+            background-color: #0077b6;
+            color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <!--<div class="marquee-container">
+        <marquee direction="right" behavior="alternate" class="marquee">ClubHub</marquee>
+    </div> -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0077b6;">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="auto" height="30">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/eventss">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/clubss">Clubs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- search bar, we'll have to implement the logic later lolz -->
+        <div class="input-group mb-3 search-bar">
+            <input type="text" class="form-control" placeholder="Search for events..." aria-label="Search for events"
+                aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+            </div>
+        </div>
+
+        <h1 class="text-center mb-4">Upcoming Events</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card event-card">
+                    <div class="card-header">Event 1 </div>
+                    <div class="card-body">
+                        <p class="card-text">Lets say golf</p>
+
+                        <a href="#" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card event-card">
+                    <div class="card-header">Event 2</div>
+                    <div class="card-body">
+                        <p class="card-text">Lets say jujitsu</p>
+
+                        <a href="#" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card event-card">
+                    <div class="card-header">Event 3</div>
+                    <div class="card-body">
+                        <p class="card-text">Lets say volleyball</p>
+
+                        <a href="#" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    here we'll have to do it somehow for specific clubs currently idk how besties hehe.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="events-jumbotron">
+            <h3 class="text-center">Past Events</h3>
+        </div>
+    </div>
+
+   
+    <div class="container mt-4">
+        <div class="events-jumbotron">
+            <h3 class="text-center">All Events</h3>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <div class="qa-section">
+            <details open>
+                <summary>
+                    What types of events does Club Hub organize?
+                    <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                    </svg>
+                    <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                    </svg>
+                </summary>
+                <p>Club Hub organizes a wide range of events including social gatherings, workshops and sports tournaments.</p>
+            </details>
+
+            <details>
+                <summary>
+                    How can I stay updated about upcoming events at Club Hub?
+                    <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                    </svg>
+                    <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                    </svg>
+                </summary>
+                <p>You can stay updated by regularly checking our website's event calendar or following our social media accounts.</p>
+            </details>
+
+            <details>
+                <summary>
+                    Do I need to pay to attend Club Hub events?
+                    <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                    </svg>
+                    <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                    </svg>
+                </summary>
+                <p>No, all free</p>
+            </details>
+
+            <details>
+                <summary>
+                    Can I host my own event at Club Hub?
+                    <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                    </svg>
+                    <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                    </svg>
+                </summary>
+                <p>If you have enough cash yes</p>
+            </details>
+
+            <details>
+                <summary>
+                    Can I attend a Club Hub event if I'm allergic to fun?
+                    <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                    </svg>
+                    <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                    </svg>
+                </summary>
+                <p>No </p>
+            </details>
+            <details>
+                <summary>
+                    Do you have a lost and found for things like lost dignity or lame dance moves?
+                    <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                    </svg>
+                    <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                    </svg>
+                </summary>
+                <p>No go back to the hell hole you came from</p>
+            </details>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
+
+</html>

@@ -5,6 +5,7 @@ cursor = conn.cursor()
 
 sql = """CREATE TABLE IF NOT EXISTS users(
     userID INT SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
     type CHAR(30) NOT NULL,
     login FOREGIN KEY,
     contact_phone INT NOT NULL,
@@ -25,13 +26,14 @@ cursor.execute(sql)
 
 
 
-sql = """CREATE TABLE IF NOT EXISTS connections(
-    id PRIMARY KEY,
+sql = """CREATE TABLE IF NOT EXISTS membership(
+    userID PRIMARY KEY,
     club VARCHAR(50)
     )"""
 
 cursor.execute(sql)
 
+#coordinator name
 
 
 

@@ -11,41 +11,105 @@
             background-color: #03045e;
         }
         .navbar-nav .nav-link {
-            color: white; /*should be white*/
-        }
-        
-        .nav.navbar-nav.navbar-item {
-            color: white;
+            color: white !important; /* Text color of navbar links */
         }
         h2{
           color: white;
+        }
+        .jumbotron {
+            background-color: #90e0ef; /* Set jumbotron background color */
+            border-radius: 10px; /* Add border radius */
+            margin: 0 auto; /* Center the jumbotron horizontally */
+            max-width: 90%; /* Set maximum width */
+            padding: 20px; /* Add padding */
+            position: relative; /* Position relative for absolute positioning */
+            top: 100px; /* Move jumbotron down */
+        }
+        .btn-group {
+            margin-top: 150px; 
+            background-color:white;
         }
     </style>
 </head> 
 <!--SCREAMING CRYING PERFECT STORM I CAN MAKE ALL THE TABLES TURN AAAAAAAAAAA-->
 <body>
 
-  
-
-  
-    <nav class="navbar navbar-dark" style="background-color: #0077b6;">
-        <a class="navbar-brand" href="#">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="auto" height="30">
-        </a>
-          <ul class="nav nav-pills">
-            <li class="nav-item">
-              <a class="nav-link" href="/profile">Your Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/clubss">Clubs</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/eventss">Events</a>
-            </li>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0077b6;">
+      <a class="navbar-brand" href="#">
+          <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="auto" height="30">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                  <a class="nav-link" href="/eventss">Events</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/clubss">Clubs</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/user">Home</a>
+              </li>
           </ul>
-       
-      </nav>
-      <h2>Hello bestie and welcome to the user home page!</h2>
+      </div>
+  </nav>
+      
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to ClubHub!</h1>
+        <p class="lead">Where Passion Meets Performance</p>
+        <p>Get Ready to Play, Connect, and Excel!</p>
+        <hr class="my-4">
+        <p>Ready to Dive into the World of Clubs and Sports?</p>
+        <p>Welcome to ClubHub, the ultimate destination for all things campus recreation! Whether you're a seasoned athlete or just looking to try something new, ClubHub has everything you need to fuel your passion for sports and clubs.</p>
+    </div>
+
+    <div class="container text-center">
+        <div class="btn-group">
+            <a class="btn btn-primary btn-lg" href="/profile" role="button">You profile</a>
+            <a class="btn btn-primary btn-lg" href="/clubss" role="button">Clubs</a>
+            <a class="btn btn-primary btn-lg" href="/eventss" role="button">Events</a>
+            <a class="btn btn-primary btn-lg" href="/user", role="button">Home</a>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+          <div class="jumbotron">
+              <h1 class="display-4">Events</h1>
+              <p class="lead">Discover Exciting Events Happening on Campus</p>
+              <hr class="my-4">
+              <h2>Football Tournament</h2>
+              <p>Date: February 15, 2024</p>
+              <p>Time: 10:00 AM - 4:00 PM</p>
+              <p>Location: Campus Stadium</p>
+              <p>Description: Join us for an action-packed day of football as teams compete for glory in our annual tournament. Whether you're a player or a spectator, there's fun for everyone!</p>
+          </div>
+      </div>
+      
+      <div class="col-sm-4">
+          <div class="jumbotron">
+              <h1 class="display-4">Clubs</h1>
+              <p class="lead">Explore Various Clubs and Organizations</p>
+              <hr class="my-4">
+              <h2>Chess Club</h2>
+              <p>Description: Join our Chess Club and sharpen your strategic skills! Whether you're a grandmaster or just learning the game, everyone is welcome to participate in our weekly tournaments and casual matches.</p>
+          </div>
+      </div>
+      
+      <div class="col-sm-4">
+          <div class="jumbotron">
+              <h1 class="display-4">General info</h1>
+              <p class="lead">Join clubs ig and see multiple events</p>
+          </div>
+      </div>
+  </div>
+
 </body>
 
 </html>
