@@ -1,0 +1,88 @@
+
+main {
+    display: flex;
+}
+
+main div {
+    flex: 1;
+}
+
+#main-left {
+    font-size: 5rem;
+    padding: 0.5em;
+}
+
+#main-left h5 {
+    font-size: 0.95rem;
+    font-weight: normal
+}
+
+#main-left h1 {
+    font-family: "Lexend", Arial, serif;
+    margin-top: 0;
+    font-size: 3.5rem;
+    font-weight: normal;
+}
+
+#main-left p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+#main-right {
+    padding-top: 4em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#main-right img {
+    max-width: 65%;
+    min-width: 10%;
+    border: 5px solid var(--light-blue);
+}
+
+#main-right-links {
+    display: flex;
+    align-items: center;
+    width: 65%;
+    padding: 1em 0;
+    gap: 1em;
+}
+
+#main-right-caption {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    width: 65%;
+}
+
+#main-right-caption h3 {
+    font-weight: normal;
+    margin: 0 1em;
+    color: var(--white);
+    text-shadow: -2px 2px 3px rgba(0, 0, 0, 0.43);
+}
+
+#main-right-caption .line {
+    flex: auto;
+    background-color: var(--white);
+    height: 0.1em;
+}
+
+#main-right-links a {
+    flex: 1;
+    font-size: 1.5rem;
+    background-color: var(--darker-blue);
+    color: var(--even-lighter-blue);
+    padding: 1em;
+    text-align: center;
+    transition: translate 250ms, background-color 500ms, color 500ms;
+
+}
+
+#main-right-links a:hover {
+    translate: 0 -8%;
+    background-color: var(--even-lighter-blue);
+    color: var(--darker-blue);
+}

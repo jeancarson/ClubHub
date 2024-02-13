@@ -1,5 +1,5 @@
-/* Importing the "Raleway" font */
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+/* Importing the "Raleway" and "Lexend" fonts */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Lexend&display=swap');
 
 /* Color constants */
 :root {
@@ -98,7 +98,8 @@ a {
 }
 
 .alert-dialog {
-    position: relative;
+    position: absolute;
+    top: 2.75rem;
     display: none;
     background-color: var(--light-red);
     width: auto;
