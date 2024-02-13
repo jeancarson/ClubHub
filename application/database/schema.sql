@@ -1,27 +1,32 @@
 CREATE TABLE users (
     user_id     INTEGER     NOT NULL PRIMARY KEY,
-    username    TEXT        NOT NULL UNIQUE,
+    username    TEXT        NOT NULL,
     password    TEXT        NOT NULL,
-    approved    INTEGER     NOT NULL CHECK (approved in (0, 1)),
+    approved    TEXT        DEFAULT 'Pending' CHECK (approved IN ('Pending', 'Approved', 'Rejected')),
     first_name  TEXT,
     last_name   TEXT,
     age         INTEGER,
     email       TEXT,
     phone       TEXT,
-    gender      TEXT
+    gender      TEXT,
+    FOREIGN KEY (username) REFERENCES login(username)
 );
 
-CREATE TABLE students (
-    user_id     INTEGER     PRIMARY KEY,
-    FOREIGN KEY (user_id)   REFERENCES users (user_id)
+
+
+CREATE TABLE login (
+    username    TEXT        NOT NULL,
+    password    TEXT        NOT NULL,
+    FOREIGN KEY (username) REFERENCES users(username)
 );
+
 
 CREATE TABLE coordinators (
-    user_id     INTEGER     PRIMARY KEY,
+    coordinator_id  INTEGER PRIMARY KEY,
     FOREIGN KEY (user_id)   REFERENCES users (user_id)
 );
 
-CREATE TABLE administrators (
+CREATE TABLE admin (
     user_id     INTEGER     PRIMARY KEY,
     FOREIGN KEY (user_id)   REFERENCES users (user_id)
 );

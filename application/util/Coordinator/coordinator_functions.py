@@ -1,3 +1,6 @@
+from sqlite3 import Cursor
+from sqlite3.dbapi2 import _CursorT
+from tkinter import _Cursor
 import edit_club_details as ecd
 import __init__ as init
 import db_functions as dbf
@@ -7,7 +10,7 @@ def save_club_details(club_id, club_name, club_description):
 
 
 def view_pending_members(club_id):
-    cursor.execute(ecd.view_pending_members.format(club_id=club_id))
+    Cursor.execute(ecd.view_pending_members.format(club_id=club_id))
     return cursor.fetchall()
 
 def view_approved_members(club_id):
@@ -16,11 +19,11 @@ def view_approved_members(club_id):
 
 def view_pending_participants(event_id):
     cursor.execute(ecd.view_pending_participants.format(event_id=event_id))
-    return cursor.fetchall()
+    return _Cursor.fetchall()
 
 def view_approved_participants(event_id):
     cursor.execute(ecd.view_approved_participants.format(event_id=event_id))
-    return cursor.fetchall()
+    return _CursorT.fetchall()
 
 def save_members(club_id, user_id, new_validity):
     cursor.execute(ecd.save_members.format(club_id=club_id, user_id=user_id, new_validity=new_validity))

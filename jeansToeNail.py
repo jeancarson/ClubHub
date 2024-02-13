@@ -1,47 +1,58 @@
 import sqlite3
 
-conn = sqlite3.connect('Database.db')
+conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
 
-sql = """CREATE TABLE IF NOT EXISTS users(
-    userID INT SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    type CHAR(30) NOT NULL,
-    login FOREGIN KEY,
+
+sql_users = """
+CREATE TABLE IF NOT EXISTS users(
+    userID INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
     contact_phone INT NOT NULL,
-    email VARCHAR(50) NOT NULL,
-    gender CHAR(20) NOT NULL,
+    email TEXT NOT NULL,
+    gender TEXT NOT NULL,
     approved TEXT CHECK (approved IN('Pending', 'Approved', 'Rejected'))
-    )"""
-
-cursor.execute(sql)
-
-sql = """CREATE TABLE IF NOT EXISTS login(
-    userID INT PRIMARY KEY,
-    username CHAR(30) NOT NULL,
-    password VARCHAR(120) NOT NULL,
-)"""
-
-cursor.execute(sql)
+)
+"""
+cursor.execute(sql_users)
 
 
-
-sql = """CREATE TABLE IF NOT EXISTS membership(
-    userID PRIMARY KEY,
-    club VARCHAR(50)
-    )"""
-
-cursor.execute(sql)
-
-#coordinator name
+sql_login = """
+CREATE TABLE IF NOT EXISTS login (
+    loginID INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES users(userID)
+)
+"""
+cursor.execute(sql_login)
 
 
 
-print("PASAPORTE")
 
+
+sql_coordinators = """
+CREATE TABLE IF NOT EXISTS coordinators (
+    coordinatorID INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER UNIQUE,
+    clubID INTEGER,
+    FOREIGN KEY (userID) REFERENCES users(userID),
+    FOREIGN KEY (clubID) REFERENCES clubs(clubID)
+)
+"""
+cursor.execute(sql_coordinators)
+
+
+sql_membership = """
+CREATE TABLE IF NOT EXISTS membership (
+    userID INTEGER,
+    clubID INTEGER,
+    PRIMARY KEY (userID, clubID)
+)
+"""
+cursor.execute(sql_membership)
 
 conn.commit()
 conn.close()
-
-
-
