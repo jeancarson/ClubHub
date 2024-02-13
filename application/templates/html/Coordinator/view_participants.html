@@ -8,7 +8,7 @@
 {% block header %}
     <header>
         <h1 style="color: white;">{{ header if header else "View your " ~ status ~ " participants" }}</h1>
-    </header>
+    </header><br><br>
     <style>
         body {
             background-color: #03045e;
@@ -30,9 +30,9 @@
         <div class="card-body">
             <h6 class="card-subtitle mb-2 dark_link">Click to edit participants status. Note: rejecting a participant
                 will delete them from the database. Click save to update.</h6>
-            <a class="btn btn-warning" href="{{ url_for('jean_blueprint.cohome') }}"
-               style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Delete
-                rejected participants and save</a>
+            <a class="btn btn-warning custom-button" href="{{ url_for('jean_blueprint.cohome') }}"
+               style="--bs-btn-font-size: .75rem;">Delete
+                rejected participants and save</a><br>
 
             <ul class="list-group">
                 <li class="list-group-item " style="background-color: var(--light-blue); color: white">
