@@ -1,11 +1,11 @@
-{% extends "html/base.html" %}
+{% extends "html/misc/base.html" %}
 
 {% block links %}
 
     <meta id="form-gender-value" data-value="{{ gender if gender else '' }}" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/forms.css" />
+    <link rel="stylesheet" type="text/css" href="../../../static/css/forms.css" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="../../static/js/register.js" async defer></script>
+    <script src="../../../static/js/register.js" async defer></script>
     <script async defer>
         {% if user_type == "student" %}
             student_radio.checked = true;

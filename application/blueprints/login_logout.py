@@ -30,7 +30,7 @@ def login_get() -> Response | str:
         flash(f"You are already logged in as {current_user!r}", category="error")
         return redirect("/profile")
 
-    return render_template("html/login.html", form_username_value=form_username_value)
+    return render_template("html/auth/login.html", form_username_value=form_username_value)
 
 
 @login_logout.route("/login", methods=["POST"])
@@ -105,4 +105,4 @@ def forgot_password() -> str:
     Loads the forgot password page.
     """
 
-    return render_template("html/forgot-password.html")
+    return render_template("html/auth/forgot-password.html")

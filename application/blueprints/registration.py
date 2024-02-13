@@ -93,7 +93,7 @@ def register_get() -> Response | str:
     gender: str = request.args.get("gender", None)
 
     return render_template(
-        template_name_or_list="html/register.html",
+        template_name_or_list="html/auth/register.html",
         username=username, user_type=user_type, first_name=first_name,
         last_name=last_name, age=age, email=email, phone=phone, gender=gender
     )

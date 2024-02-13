@@ -20,17 +20,17 @@ def members_info():
     else:
         user_rows = None
 
-    return render_template('html/adminFolder/inform.html', user_rows=user_rows)
+    return render_template('html/admin/inform.html', user_rows=user_rows)
 
 
 @mia_blueprint.route("/pending_users")
 def pending_users():
-    return render_template("html/adminFolder/pending.html")
+    return render_template("html/admin/pending.html")
 
 
 @mia_blueprint.route("/admin")
 def admin():
-    return render_template("html/adminFolder/admin_main.html")
+    return render_template("html/admin/admin-main.html")
 
 
 @mia_blueprint.route("/user")
@@ -38,21 +38,21 @@ def user():
     """
     Loads the user MAIN page.
     """
-    return render_template("html/usersFolder/user_main.html", header="User Page")
+    return render_template("html/student/student-main.html", header="User Page")
 
 
 # @mia_blueprint.route("/profile")
 # def go_profile():
-#     return render_template("html/usersFolder/profile.html")  -> I had to comment this out because
+#     return render_template("html/student/profile.html")  -> I had to comment this out because
 #                                                                 there is another profile.html file in templates folder
 #                                                                 hope u dont mind :3
 
 
-@mia_blueprint.route("/clubss")  # Why is there two s's this has ruined my day Mia
+@mia_blueprint.route("/clubs")
 def go_clubs():
-    return render_template("html/usersFolder/clubss.html")
+    return render_template("html/student/clubs.html")
 
 
-@mia_blueprint.route("/eventss")
+@mia_blueprint.route("/events")
 def go_events():
-    return render_template("html/usersFolder/eventss.html")
+    return render_template("html/student/events.html")
