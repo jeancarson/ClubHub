@@ -79,9 +79,9 @@ def edit_event():
 
 # --------------End of Pages functions-----------------
 
-@jean_blueprint.route("/cohome", methods=["POST"])
-def save_club_details(club_id, club_name, club_description):
-    dbf.modify_db(ecd.save_club_details.format(club_id=club_id, club_name=club_name, club_description=club_description))
-    return render_template("html/Coordinator/coordinator_dashboard.html", coordinator_name=coordinator_name, club_id = club_id, club_title = club_name, club_description = club_description)
-
+# @jean_blueprint.route("/cohome", methods=["POST"])
+# def save_club_details(club_id, club_name, club_description):
+#     dbf.modify_db(ecd.save_club_details.format(club_id=club_id, club_name=club_name, club_description=club_description))
+#     return render_template("html/Coordinator/coordinator_dashboard.html", coordinator_name=coordinator_name, club_id = club_id, club_title = club_name, club_description = club_description)
+#
 
