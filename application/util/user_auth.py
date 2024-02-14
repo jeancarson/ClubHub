@@ -1,4 +1,5 @@
 from bcrypt import hashpw, checkpw, gensalt
+from flask import session
 
 
 def hash_password(password: str) -> str:
@@ -29,3 +30,17 @@ def password_match(password: str, hashed: str) -> bool:
     hashed_bytes: bytes = bytes.fromhex(hashed)
 
     return checkpw(password=pw_bytes, hashed_password=hashed_bytes)
+
+
+def current_user() -> str | None:
+    return session.get("user", None)
+
+
+def login(username: str, user_type: str) -> None:
+    session["user"] = username
+    session["user-type"] = user_type
+
+
+def logout() -> None:
+    del session["user"]
+    del session["user-type"]

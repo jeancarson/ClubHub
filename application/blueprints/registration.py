@@ -6,13 +6,12 @@ from flask import (
     redirect,
     request,
     url_for,
-current_app
+    current_app
 )
 from werkzeug import Response
 
-# '..' means parent directory
+from ..util.user_auth import hash_password, login, current_user
 from ..util.db_functions import user_exists, create_user
-from ..util.user_auth import hash_password
 from ..util.util import str_to_none
 
 registration: Blueprint = Blueprint("registration", __name__)
@@ -75,7 +74,9 @@ def register_get() -> Response | str:
     Loads the registration page.
     """
 
-    if "user" in session:
+    user: str | None = current_user()
+
+    if user is not None:
         current_app.logger.info(f"[page='/register'] => Authenticated user tried to access restricted page")
         flash("You must log out before creating a new account", category="error")
         return redirect("/profile")
@@ -155,12 +156,18 @@ def register_post() -> Response:
 
     hashed_pw: str = hash_password(password=password)
 
-    current_app.logger.info(f"[page='/register' (FORM)] => Registration ticket opened for user: {username!r}")
-    flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
-
-    create_user(
+    first_user: bool = create_user(
         username=username, password=hashed_pw, user_type=user_type, first_name=first_name,
         last_name=last_name, age=age, email=email, phone=phone, gender=gender
     )
+
+    if first_user:
+        login(username=username, user_type="ADMINISTRATOR")
+
+        current_app.logger.info(f"[page='/register' (FORM)] => Administrator registration successful: {username!r}")
+        flash(f"You are now logged in, {username}!", category="info")
+    else:
+        current_app.logger.info(f"[page='/register' (FORM)] => Registration ticket opened for user: {username!r}")
+        flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
 
     return redirect("/home")

@@ -10,8 +10,8 @@ from flask import (
 )
 from werkzeug import Response
 
-from ..util.db_functions import query_db, user_approved
-from ..util.user_auth import password_match
+from ..util.user_auth import password_match, login, logout, current_user
+from ..util.db_functions import query_db
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
 
@@ -23,11 +23,11 @@ def login_get() -> Response | str:
     """
 
     form_username_value: str = request.args.get("username", "")
+    user: str | None = current_user()
 
-    if "user" in session:
-        current_user: str = session["user"]
+    if user is not None:
         current_app.logger.info(f"[page='/login'] => Authenticated user tried to access restricted page")
-        flash(f"You are already logged in as {current_user!r}", category="error")
+        flash(f"You are already logged in as {user!r}", category="error")
         return redirect("/profile")
 
     return render_template("html/auth/login.html", form_username_value=form_username_value)
@@ -42,11 +42,11 @@ def login_post() -> Response | str:
     username: str = request.form["login-username"]
     password: str = request.form["login-password"]
 
-    match = query_db(f"SELECT password FROM users WHERE username='{username}'", single=True)
+    match = query_db(f"SELECT * FROM login WHERE username={username!r}", single=True)
 
     if match is None:
         current_app.logger.info(f"[page='/login' (FORM)] => Invalid username")
-        flash(f"User {username!r} not found", category="error")
+        flash(f"User not found: {username!r} ", category="error")
         return redirect("/login")
 
     if not password_match(password, match["password"]):
@@ -54,33 +54,34 @@ def login_post() -> Response | str:
         flash("Incorrect password", category="error")
         return redirect(url_for(".login_get", username=username))
 
-    if not user_approved(username=username):
+    if match["approved"] != "APPROVED":
         current_app.logger.info(f"[page='/login' (FORM)] => Account still awaiting administrator approval")
         flash("Your account is awaiting administrator approval", category="error")
         return redirect("/home")
 
-    current_app.logger.info(f"[page='/login' (FORM)] => Login successful for user: {username!r}")
-    flash(f"Successfully logged in as {username!r}", category="info")
+    login(username=username, user_type=match["user_type"])
 
-    # Create a user session
-    session["user"] = username
+    current_app.logger.info(f"[page='/login' (FORM)] => Login successful for user: {username!r}")
+    flash(f"Successfully logged in: {username!r}", category="info")
 
     return redirect("/profile")
 
 
 @login_logout.route("/logout")
-def logout() -> Response:
+def logout_get() -> Response:
     """
     Logs out of the current session (if any) and redirects to home page.
     """
 
-    if "user" in session:
-        username: str = session["user"]
-        current_app.logger.info(f"[page='/logout'] => Logout successful for user: {username!r}")
-        flash(f"You have been logged out. See you later {username!r}!", category="info")
-        session.pop("user", None)
-    else:
+    user: str | None = current_user()
+
+    if user is None:
         flash("You can not log out if you are not logged in!", category="error")
+    else:
+        logout()
+        current_app.logger.info(f"[page='/logout'] => Logout successful for user: {user!r}")
+        flash(f"You have been logged out. See you later {user}!", category="info")
+        session.pop("user", None)
 
     return redirect("/home")
 
@@ -91,12 +92,14 @@ def profile() -> str | Response:
     Loads the account page (if a user session is active).
     """
 
-    if "user" not in session:
+    user: str | None = current_user()
+
+    if user is None:
         current_app.logger.info(f"[page='/profile'] => Unauthenticated user tried to access restricted page")
         flash("You cannot access this page as you are not logged in", category="error")
         return redirect("/home")
 
-    return render_template("html/profile.html", user=session["user"])
+    return render_template("html/profile.html", user=user)
 
 
 @login_logout.route("/forgot-password")

@@ -6,6 +6,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    {% block bootstrap_links %}
+    {% endblock %}
+
     <link rel="stylesheet" type="text/css" href="../../../static/css/base.css" />
     <link rel="icon" type="image/x-icon" href="../../../static/ico/favicon.ico" />
 
@@ -62,11 +66,6 @@
             </a>
         </div>
 
-        <div class="navbar-right">
-            <a href="javascript:void(0);">&#9776;</a>
-        </div>
-
-
         <div class="navbar-center">
             <a href="/home" class="home-link index-link none-link">Home</a>
         </div>
@@ -77,23 +76,23 @@
                 <a href="/profile" class="profile-link">Profile</a>
             </div>
 
-            {% if session["user-type"] == "administrator" %}
+            {% if session["user-type"] == "ADMINISTRATOR" %}
 
                 <div class="navbar-center">
-                    <a href="/pending-users" class="pending-users-link">Pending Requests</a>
+                    <a href="/admin/users/info" class="admin/users/pending-link">Pending Requests</a>
                 </div>
                 <div class="navbar-center">
-                    <a href="/member-info" class="member-info-link">Users</a>
+                    <a href="/admin/users/info" class="admin/users/info-link">Users</a>
                 </div>
 
-            {% elif session["user-type"] == "coordinator" %}
+            {% elif session["user-type"] == "COORDINATOR" %}
 
                 <div class="navbar-center">
                     <a href="#" class="#-link">...</a>
                 </div>
                 {% print("hi") %}
 
-            {% elif session["user-type"] == "student" %}
+            {% elif session["user-type"] == "STUDENT" %}
 
                 <div class="navbar-center">
                     <a href="#" class="#-link">...</a>
@@ -122,6 +121,10 @@
             </div>
 
         {% endif %}
+
+        <div class="navbar-right">
+            <a href="javascript:void(0);">&#9776;</a>
+        </div>
 
     </nav>
 
