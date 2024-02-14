@@ -3,7 +3,6 @@ from sqlite3 import Row
 from flask import Blueprint, request, render_template, session
 
 from ..util.db_functions import get_users_info
-from ..util.authentication import UserType
 from ..util.authentication.alerts import error, Error
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
@@ -22,7 +21,7 @@ def validate_access_perms(*, endpoint: str) -> str | None:
         return render_template("html/misc/default-home.html")
 
     user_type = session["user-type"]
-    if user_type != UserType.ADMINISTRATOR:
+    if user_type != "ADMINISTRATOR":
         error(errtype=Error.RESTRICTED_PAGE_ADMIN, endpoint=endpoint, user_type=user_type)
         return render_template("html/misc/default-home.html")
 
