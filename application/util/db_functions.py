@@ -1,6 +1,5 @@
-from typing import Optional
-
 from sqlite3 import Connection, Cursor, Row, connect
+from typing import Optional
 
 from flask import g, current_app
 

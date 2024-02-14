@@ -1,10 +1,32 @@
 from sqlite3 import Row
 
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, session
 
 from ..util.db_functions import get_users_info
+from ..util.authentication import UserType
+from ..util.authentication.alerts import error, Error
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
+
+
+def validate_access_perms(*, endpoint: str) -> str | None:
+    """
+    Returns the default home page if no user is currently logged in,
+    or if they do not have administrator privileges. Returns None otherwise.
+
+    :param endpoint: Endpoint of url user wants to access.
+    """
+
+    if "user" not in session:
+        error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint=endpoint)
+        return render_template("html/misc/default-home.html")
+
+    user_type = session["user-type"]
+    if user_type != UserType.ADMINISTRATOR:
+        error(errtype=Error.RESTRICTED_PAGE_ADMIN, endpoint=endpoint, user_type=user_type)
+        return render_template("html/misc/default-home.html")
+
+    return None
 
 
 @admin.route("/users/info")
@@ -16,6 +38,11 @@ def users_info():
 
     selected: str | None = request.args.get("selected", None)
     user_rows: list[Row] | None
+
+    invalid = validate_access_perms(endpoint="/admin/users/info")
+
+    if invalid:
+        return invalid
 
     if selected is not None:
         selected = selected.upper()
@@ -33,9 +60,19 @@ def users_info():
 
 @admin.route("/users/pending")
 def users_pending():
+    invalid = validate_access_perms(endpoint="/admin/users/pending")
+
+    if invalid:
+        return invalid
+
     return render_template("html/admin/admin-users-pending.html")
 
 
 @admin.route("/")
 def admin_main():
+    invalid = validate_access_perms(endpoint="/admin")
+
+    if invalid:
+        return invalid
+
     return render_template("html/admin/admin-main.html")

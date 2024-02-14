@@ -1,6 +1,6 @@
-from flask import Blueprint, session, render_template
+from flask import Blueprint, render_template
 
-from ..util.user_auth import current_user
+from ..util.authentication import current_user
 
 main: Blueprint = Blueprint("main", __name__)
 

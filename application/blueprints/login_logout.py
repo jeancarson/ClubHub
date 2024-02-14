@@ -10,8 +10,10 @@ from flask import (
 )
 from werkzeug import Response
 
-from ..util.user_auth import password_match, login, logout, current_user
 from ..util.db_functions import query_db
+from ..util.authentication import current_user, login, logout
+from ..util.authentication.alerts import error, success, Error, Success
+from ..util.authentication.passwords import password_match
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
 
@@ -26,8 +28,7 @@ def login_get() -> Response | str:
     user: str | None = current_user()
 
     if user is not None:
-        current_app.logger.info(f"[page='/login'] => Authenticated user tried to access restricted page")
-        flash(f"You are already logged in as {user!r}", category="error")
+        error(errtype=Error.RESTRICTED_PAGE_LOGGED_IN, endpoint="/login", user=user)
         return redirect("/profile")
 
     return render_template("html/auth/login.html", form_username_value=form_username_value)
@@ -59,10 +60,10 @@ def login_post() -> Response | str:
         flash("Your account is awaiting administrator approval", category="error")
         return redirect("/home")
 
-    login(username=username, user_type=match["user_type"])
+    user_type: str = match["user_type"]
 
-    current_app.logger.info(f"[page='/login' (FORM)] => Login successful for user: {username!r}")
-    flash(f"Successfully logged in: {username!r}", category="info")
+    login(username=username, user_type=user_type)
+    success(successtype=Success.LOGIN, endpoint="/login", form=True, username=username, user_type=user_type)
 
     return redirect("/profile")
 
@@ -76,11 +77,10 @@ def logout_get() -> Response:
     user: str | None = current_user()
 
     if user is None:
-        flash("You can not log out if you are not logged in!", category="error")
+        error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint="/logout")
     else:
         logout()
-        current_app.logger.info(f"[page='/logout'] => Logout successful for user: {user!r}")
-        flash(f"You have been logged out. See you later {user}!", category="info")
+        success(successtype=Success.LOGOUT, endpoint="/logout", user=user)
         session.pop("user", None)
 
     return redirect("/home")
@@ -95,8 +95,7 @@ def profile() -> str | Response:
     user: str | None = current_user()
 
     if user is None:
-        current_app.logger.info(f"[page='/profile'] => Unauthenticated user tried to access restricted page")
-        flash("You cannot access this page as you are not logged in", category="error")
+        error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint="/profile")
         return redirect("/home")
 
     return render_template("html/profile.html", user=user)

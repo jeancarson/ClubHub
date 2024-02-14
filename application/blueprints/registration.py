@@ -1,17 +1,16 @@
 from flask import (
     Blueprint,
     render_template,
-    session,
-    flash,
     redirect,
     request,
-    url_for,
-    current_app
+    url_for
 )
 from werkzeug import Response
 
-from ..util.user_auth import hash_password, login, current_user
 from ..util.db_functions import user_exists, create_user
+from ..util.authentication import current_user, login
+from ..util.authentication.alerts import error, success, Error, Success
+from ..util.authentication.passwords import hash_password
 from ..util.util import str_to_none
 
 registration: Blueprint = Blueprint("registration", __name__)
@@ -77,8 +76,7 @@ def register_get() -> Response | str:
     user: str | None = current_user()
 
     if user is not None:
-        current_app.logger.info(f"[page='/register'] => Authenticated user tried to access restricted page")
-        flash("You must log out before creating a new account", category="error")
+        error(errtype=Error.RESTRICTED_PAGE_LOGGED_IN, endpoint="/register", user=user)
         return redirect("/profile")
 
     # Load insensitive data back into the form after a failed
@@ -128,30 +126,25 @@ def register_post() -> Response:
     )
 
     if not captcha_response:
-        current_app.logger.warning("[page='/register' (FORM)] => CAPTCHA not completed")
-        flash("Please complete the CAPTCHA before form submission", category="error")
+        error(errtype=Error.NO_CAPTCHA, endpoint="/register", form=True)
         return page
 
     if user_type is None:
-        current_app.logger.warning("[page='/register' (FORM)] => User account type not selected")
-        flash("Please select a user type for your account", category="error")
+        error(errtype=Error.NO_USER_TYPE, endpoint="/register", form=True)
         return page
 
     if user_exists(username):
-        current_app.logger.warning("[page='/register' (FORM)] => Given username is taken")
-        flash(f"Sorry, the username {username!r} is taken!", category="error")
+        error(errtype=Error.USERNAME_TAKEN, endpoint="/register", form=True, username=username)
         return page
 
     password_error_msg: None | str = validate_password(password)
 
     if password_error_msg is not None:
-        current_app.logger.warning(f"[page='/register' (FORM)] => {password_error_msg}")
-        flash(password_error_msg, category="error")
+        error(errtype=Error.INVALID_PW, endpoint="/register", form=True, err=password_error_msg)
         return page
 
     if confirm_password != password:
-        current_app.logger.warning(f"[page='/register' (FORM)] => Password mismatch")
-        flash("Passwords do not match", category="error")
+        error(errtype=Error.PW_MISMATCH, endpoint="/register", form=True)
         return page
 
     hashed_pw: str = hash_password(password=password)
@@ -163,11 +156,8 @@ def register_post() -> Response:
 
     if first_user:
         login(username=username, user_type="ADMINISTRATOR")
-
-        current_app.logger.info(f"[page='/register' (FORM)] => Administrator registration successful: {username!r}")
-        flash(f"You are now logged in, {username}!", category="info")
+        success(successtype=Success.REGISTER_ADMIN, endpoint="/register", form=True, username=username)
     else:
-        current_app.logger.info(f"[page='/register' (FORM)] => Registration ticket opened for user: {username!r}")
-        flash(f"Registration ticket opened. Awaiting administrator approval for: {username!r}", category="info")
+        success(successtype=Success.REGISTER, endpoint="/register", form=True, username=username)
 
     return redirect("/home")
