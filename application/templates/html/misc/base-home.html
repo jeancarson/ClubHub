@@ -1,0 +1,43 @@
+{% extends "html/misc/base.html" %}
+
+{% block links %}
+
+    {% block bootstrap_links %}
+    {% endblock %}
+
+    <link rel="stylesheet" href="../../../static/css/base-home.css">
+
+    {% block other_links %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block content %}
+
+    <main>
+        <div id="main-left">
+            <h5>ClubHub, Sports Club Management System</h5>
+            <h1 id="main-left-header">Management,<br>Made Manageable</h1>
+            <p>
+                Welcome to ClubHub – Your All-in-One Sports Club Management Solution!
+                Streamline your club's operations effortlessly with our intuitive platform.
+            </p>
+            <p>
+                From membership management to event coordination, ClubHub empowers you to focus on
+                what matters most – your team's success. Join us in simplifying sports club management,
+                so you can spend more time on the field and less time in the office. Elevate your club
+                experience now!
+            </p>
+        </div>
+
+        <div id="main-right">
+            {% block main_right %}
+            {% endblock %}
+        </div>
+
+    </main>
+
+    {% block after_main %}
+    {% endblock %}
+
+{% endblock %}

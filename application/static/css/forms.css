@@ -1,4 +1,10 @@
 
+body {
+    background-image: url("../png/blue-background-flipped-x.png");
+    background-size: cover;
+    background-position: center center;
+}
+
 input:not(input[type=checkbox], input[type=radio]) {
     display: block;
     outline: none;
@@ -54,7 +60,6 @@ label {
 
 .submit-button {
     border: none;
-    margin-bottom: 2em;
     margin-top: 3em;
     padding: 3%;
     font-size: 0.9rem;
@@ -79,10 +84,10 @@ label {
     margin: auto auto 5%;
     align-items: center;
     justify-content: center;
-    padding-top: 6%;
-    padding-bottom: 6%;
+    padding: 6% 0;
     background-color: var(--dark-blue);
-    border-radius: 1em;
+    border: 0.15em solid var(--darker-blue);
+    box-shadow: -10px 10px 12px 0 rgba(2, 62, 138, 0.75);
 }
 
 #login-form {

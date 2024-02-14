@@ -5,6 +5,14 @@
     <link rel="stylesheet" type="text/css" href="../../../static/css/forms.css" />
     <script src="../../../static/js/login.js" async defer></script>
 
+    <style>
+        body {
+            background-image: url("../../../static/png/blue-background-flipped-x.png");
+            background-size: cover;
+            background-position: center center;
+        }
+    </style>
+
 {% endblock %}
 
 {% block header %}
@@ -26,6 +34,7 @@
                    placeholder="Username"
                    autocomplete="on"
                    value="{{ form_username_value }}"
+                   autofocus
                    required>
 
             <label for="login-password-input"></label>

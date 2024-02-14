@@ -14,6 +14,16 @@
         {% endif %}
     </script>
 
+    <style>
+        body {
+            background-image: url("../../../static/png/blue-background-flipped-y.png");
+        }
+
+        .form-container {
+            box-shadow: -10px 10px 12px 0 rgba(3, 4, 94, 0.75);
+        }
+    </style>
+
 {% endblock %}
 
 {% block header %}
@@ -41,6 +51,7 @@
                    maxlength="40"
                    value="{{ username if username else '' }}"
                    autocomplete="on"
+                   autofocus
                    required
                    aria-required="true">
 

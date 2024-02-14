@@ -1,0 +1,43 @@
+
+body {
+    background-image: url("../png/blue-background.png");
+    background-size: cover;
+    background-position: center center;
+}
+
+main {
+    display: flex;
+}
+
+main div {
+    flex: 1;
+}
+
+#main-left {
+    font-size: 5rem;
+    padding: 0.5em;
+}
+
+#main-left h5 {
+    font-size: 0.95rem;
+    font-weight: normal
+}
+
+#main-left h1 {
+    font-family: "Lexend", Arial, serif;
+    margin-top: 0;
+    font-size: 3.5rem;
+    font-weight: normal;
+}
+
+#main-left p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+#main-right {
+    padding-top: 4em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

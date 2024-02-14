@@ -1,0 +1,19 @@
+{% extends "html/misc/base-home.html" %}
+
+{% block main_right %}
+
+    <header>
+        <h1>{{ header }}</h1>
+    </header>
+
+    <div>
+        {% if admin %}
+            <a href="/pending">Pending Registration Requests</a>
+            <a href="/member-info">User Information</a>
+        {% endif %}
+
+        <a href="{{ '#' if coordinator else '#' }}">Go to Dashboard</a>
+
+    </div>
+
+{% endblock %}

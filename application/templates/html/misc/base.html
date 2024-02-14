@@ -17,12 +17,6 @@
     <script src="../../../static/js/base.js" async defer></script>
     <script src="../../../static/js/alert-message.js" async defer></script>
 
-    {% if "user" in session %}
-        {% set second_link = "profile" %}
-    {% else %}
-        {% set second_link = "login" %}
-    {% endif %}
-
     {% if request.endpoint == "registration.register_get" %}
         {% set new_link = "register" %}
         {% set add_link_to_nav = true %}
@@ -55,57 +49,80 @@
                 {% endwith %}
             {% endwith %}
         }
-
-        {% if add_link_to_nav %}
-            nav {
-                grid-template-columns: 1fr auto auto auto auto auto 1fr;
-            }
-
-            @media screen and (max-width: 600px) {
-
-                nav {
-                    grid-template-columns: 1fr 1fr;
-                }
-
-                .navbar-center {
-                    height: 0;
-                    grid-row: auto;
-                    grid-column: span 2;
-                }
-
-            }
-        {% endif %}
     </style>
 
     <!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
 
     <nav id="navbar">
+
         <div class="navbar-left">
             <a href="/home">
                 <img src="../../../static/png/logo.png" alt="[logo]">
                 <img src="../../../static/png/logo-dark.png" alt="[logo]">
             </a>
         </div>
-        <div class="navbar-center">
-            <a href="/home" class="home-link index-link none-link">Home</a>
-        </div>
-        <div class="navbar-center">
-            <a href="/{{ second_link }}" class="login-link">{{ second_link.capitalize() }}</a>
-        </div>
-        <div class="navbar-center">
-            <a href="/about-us" class="about-link about-us-link">About Us</a>
-        </div>
-        <div class="navbar-center">
-            <a href="/contact-us" class="contact-link contact-us-link">Contact</a>
-        </div>
+
         <div class="navbar-right">
             <a href="javascript:void(0);">&#9776;</a>
         </div>
+
+
+        <div class="navbar-center">
+            <a href="/home" class="home-link index-link none-link">Home</a>
+        </div>
+
+        {% if "user" in session %}
+
+            <div class="navbar-center">
+                <a href="/profile" class="profile-link">Profile</a>
+            </div>
+
+            {% if session["user-type"] == "administrator" %}
+
+                <div class="navbar-center">
+                    <a href="/pending-users" class="pending-users-link">Pending Requests</a>
+                </div>
+                <div class="navbar-center">
+                    <a href="/member-info" class="member-info-link">Users</a>
+                </div>
+
+            {% elif session["user-type"] == "coordinator" %}
+
+                <div class="navbar-center">
+                    <a href="#" class="#-link">...</a>
+                </div>
+                {% print("hi") %}
+
+            {% elif session["user-type"] == "student" %}
+
+                <div class="navbar-center">
+                    <a href="#" class="#-link">...</a>
+                </div>
+
+            {% endif %}
+
+        {% else %}
+
+            <div class="navbar-center">
+                <a href="/login" class="login-link">Login</a>
+            </div>
+            <div class="navbar-center">
+                <a href="/about-us" class="about-link about-us-link">About Us</a>
+            </div>
+            <div class="navbar-center">
+                <a href="/contact-us" class="contact-link contact-us-link">Contact</a>
+            </div>
+
+        {% endif %}
+
         {% if add_link_to_nav %}
+
             <div class="navbar-center">
                 <a href="/{{ new_link }}" class="{{ new_link }}-link">{{ new_link_name if new_link_name else new_link.capitalize() }}</a>
             </div>
+
         {% endif %}
+
     </nav>
 
     <div class="alert-dialog-container">

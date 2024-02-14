@@ -5,7 +5,7 @@ from ..util.db_functions import get_users
 mia_blueprint = Blueprint("mia_blueprint", __name__)
 
 
-@mia_blueprint.route("/members_info")
+@mia_blueprint.route("/member-info")
 def members_info():
 
     # When the user selects one of the links on the page, a HTTP GET request is sent
@@ -23,7 +23,7 @@ def members_info():
     return render_template('html/admin/inform.html', user_rows=user_rows)
 
 
-@mia_blueprint.route("/pending_users")
+@mia_blueprint.route("/pending-users")
 def pending_users():
     return render_template("html/admin/pending.html")
 

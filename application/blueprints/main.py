@@ -17,6 +17,6 @@ def home() -> str:
         # Get user type here (we could store it in the session variable) and
         # redirect to coordinator or member home page
 
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+        return render_template("html/misc/user-home.html", header=f"Hello {user}!")
 
     return render_template("html/misc/default-home.html")
