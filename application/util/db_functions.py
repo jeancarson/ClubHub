@@ -20,6 +20,9 @@ def get_db() -> Connection:
 
     return db
 
+from flask import g
+
+
 
 def query_db(query: str, *args, single: bool = False) -> list[Row] | Row | None:
     """
@@ -40,7 +43,7 @@ def query_db(query: str, *args, single: bool = False) -> list[Row] | Row | None:
     results: list[Row] = cursor.fetchall()
     cursor.close()
 
-    if not results:
+    if results is None:
         return None
 
     return results[0] if single else results

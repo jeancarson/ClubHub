@@ -8,9 +8,13 @@
 {% endblock %}
 
 {% block header %}
+
+
     <header>
         <h1 style="color: white;">{{ header if header else "Welcome to your dashboard,  " ~ coordinator_name ~ "!" }}</h1>
     </header>
+
+
 
     <br><br>
 
@@ -21,39 +25,45 @@
     </style>
 <!-- TODO I havent a notion what I'm at send help plz ...if I can get this example right I think I can do the rest-->
     <!-- Club Description -->
-    <div class="card card-custom">
-        <div class="card-body">
-            <h5 class="card-title white-txt" id="editable_text1" contenteditable="false">{{ club_title }}</h5>
-            <h6 class="card-subtitle mb-2 t vlight_blue_txt">Club description</h6>
-            <p class="card-text white-txt" id="editable_text2" contenteditable="false">{{ club_description }}</p>
-            <button class="btn btn-warning custom-button" href = "{{ url_for('jean_blueprint.save_club_details', club_id = 4, club_name = editable_text1.innerText, club_description = editable_text2.innerText) }}" role="button" 
-                    onclick="toggleEditMode('editable_text1'), toggleEditMode('editable_text2');">Edit
-            </button>
+    <form id="clubForm" action="{{ url_for('jean_blueprint.save_club_details', club_id=club_id) }}" method="POST">
+        <!-- Club Description -->
+        <div class="card card-custom">
+            <div class="card-body">
+                <h5 class="card-title white-txt" id="editable_text1" contenteditable="false">{{ club_title }}</h5>
+                <h6 class="card-subtitle mb-2 t vlight_blue_txt">Club description</h6>
+                <p class="card-text white-txt" id="editable_text2" contenteditable="false">{{ club_description }}</p>
+                <input type="hidden" name="club_id" value="{{ club_id }}">
+                <input type="text" name="club_name" value="{{ club_title }}" style="display:none;"> <!-- Hidden input -->
+                <input type="text" name="club_description" value="{{ club_description }}" style="display:none;"> <!-- Hidden input -->
+                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text1', 'club name', this);">Edit club name</button>
+                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text2', 'club description', this);">Edit description</button>
+                <button type="submit" class="btn btn-warning custom-button">Save changes</button>
+                
+            </div>
         </div>
-    </div>
+    </form>
+    
 
     <script>
-        function toggleEditMode(elementId) {
-            let editableElement = document.getElementById(elementId);
-            let button = document.querySelector('.btn-warning');
+    function toggleEditMode(elementId, field, button) {
+        let editableElement = document.getElementById(elementId);
 
-            if (editableElement.contentEditable === 'false') {
-                // I want to add a border around the text here
-                editableElement.style.border = '1px solid #ccc';
-                
+        if (editableElement.contentEditable === 'false') {
+            // Add a border around the text here
+            editableElement.style.border = '1px solid #ccc';
 
-                // Enable editing
-                editableElement.contentEditable = 'true';
-                button.innerText = 'Save';
-            } else {
-                // Disable editing
-                editableElement.style.border = '0px solid #ccc';
-                
-                editableElement.contentEditable = 'false';
-                button.innerText = 'Edit';
-                saveText(elementId);
-            }
+            // Enable editing
+            editableElement.contentEditable = 'true';
+            button.innerText = 'Exit editing mode';
+        } else {
+            // Disable editing
+            editableElement.style.border = '0px solid #ccc';
+
+            editableElement.contentEditable = 'false';
+            button.innerText = 'Edit ' + field;
+            saveText(elementId);
         }
+    }
 
         function saveText(elementId) {
             let editableElement = document.getElementById(elementId);
@@ -89,6 +99,11 @@
         }
     </style>
 
+<!-- TODO having issues writing to file here. reading seems to be ok. -->
+
+
+
+
 
     <!-- Members -->
     <br>
@@ -105,6 +120,10 @@
             </div>
         </div>
 
+
+
+
+
         <!-- EVENTS -->
     </div>
     <br><br>
@@ -112,67 +131,37 @@
         <div class="card-body">
             <h5 class="card-title white-txt">Upcoming events</h5>
 
-            <!-- this has to have some way of being modularised - variables have to be able to be subbed in but also we must eb able to display any number of events. -->
-            <ul class="list-group">
-                <li class="list-group-item" style="display: inline-flex">
-                    <span class="date-column dark_link">2024-10-12</span>
-                    <span class="event-name-column">
-              <a href="{{ url_for('jean_blueprint.edit_event') }}" class="card-link dark_link">Event1 name</a></span>
-                    <span class="button-column">
-              <a class="btn btn-primary card-custom custom-hover"
-                 href="{{ url_for('jean_blueprint.parview', status = 'Approved') }}" role="button">
-                 Approved Participants
-                <span class="badge bg-danger">45</span>
-              </a>
-              <a class="btn btn-primary card-custom custom-hover"
-                 href="{{ url_for('jean_blueprint.parview', status = 'Pending') }}" role="button">
-                Participant requests
-                <span class="badge bg-danger">99+</span>
-              </a>
-            </span>
-                </li>
-                <li class="list-group-item" style="display: inline-flex">
-                    <span class="date-column dark_link">2024-04-14</span>
-                    <span class="event-name-column">
-            <a href="{{ url_for('jean_blueprint.edit_event') }}" class="card-link dark_link">Event2 name</a></span>
-                    <span class="button-column">
-              <a class="btn btn-primary card-custom custom-hover"
-                 href="{{ url_for('jean_blueprint.parview', status = 'Approved') }}" role="button">
-                 Approved Participants
-                <span class="badge bg-danger">45</span>
-              </a>
-              <a class="btn btn-primary card-custom custom-hover"
-                 href="{{ url_for('jean_blueprint.parview', status = 'Pending') }}" role="button">
-                Participant requests
-                <span class="badge bg-danger">99+</span>
-              </a>
-            </span>
-                </li>
-                <li class="list-group-item" style="display: inline-flex">
-                    <span class="date-column dark_link">2024-06-05</span>
-                    <span class="event-name-column">
-            <a href="{{ url_for('jean_blueprint.edit_event') }}" class="card-link dark_link">Event3 name</a></span>
-                    <span class="button-column">
-              <a class="btn btn-primary card-custom custom-hover"
-                 href="{{ url_for('jean_blueprint.parview', status = 'Approved') }}" role="button">
-                 Approved Participants
-                <span class="badge bg-danger">45</span>
-              </a>
-              <a class="btn btn-primary card-custom custom-hover"
-                 href="{{ url_for('jean_blueprint.parview', status = 'Pending') }}" role="button">
-                Participant requests
-                <span class="badge bg-danger">99+</span>
-              </a>
-            </span>
-                </li>
-            </ul>
+        {% for event in limited_events %}
+        <ul class="list-group">
+            <li class="list-group-item" style="display: inline-flex">
+                <span class="date-column dark_link">{{ event.event_date }}</span>
+                <span class="event-name-column">
+                    <a href="{{ url_for('jean_blueprint.edit_event', event_id=event.event_id) }}" class="card-link dark_link">{{ event.event_name }}</a>
+                </span>
+                <span class="button-column">
+                    <a class="btn btn-primary card-custom custom-hover"
+                        href="{{ url_for('jean_blueprint.parview', status='Approved') }}" role="button">
+                        Approved Participants
+                        <span class="badge bg-danger">{{ event.approved_participants }}</span>
+                    </a>
+                    <a class="btn btn-primary card-custom custom-hover"
+                        href="{{ url_for('jean_blueprint.parview', status='Pending') }}" role="button">
+                        Participant requests
+                        <span class="badge bg-danger">{{ event.pending_participants }}</span>
+                    </a>
+                </span>
+            </li>
+        </ul>
+        {% endfor %}
 
-            <br><a href="{{ url_for('jean_blueprint.see_events', timeline = 'Upcoming') }}" class="card-link">View
+            
+
+            <br><a href="{{ url_for('jean_blueprint.see_events', timeline = 'Upcoming') }}" class="card-link dark_link" >View
             More</a><br>
             <a class="btn btn-warning custom-button"
                href="{{ url_for('jean_blueprint.see_events', timeline = 'Past') }}" role="button">Past Events</a>
 
-            <a class="btn btn-warning custom-button" href="{{ url_for('jean_blueprint.edit_event') }}"
+            <a class="btn btn-warning custom-button" href="{{ url_for('jean_blueprint.new_event') }}"
                role="button">Add Event</a>
 
         </div>
@@ -181,4 +170,4 @@
 {% endblock %}
 
 
-<!-- TODO add variables here instead of striaght values. -->
+
