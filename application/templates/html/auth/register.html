@@ -29,7 +29,7 @@
 {% block header %}
 
     <header>
-        <h1>Create an account for ClubHub {{ register_value }}</h1>
+        <h1>Create an account for ClubHub</h1>
     </header>
 
 {% endblock %}
@@ -123,7 +123,7 @@
                    name="register-age"
                    type="number"
                    placeholder="18"
-                   min="10"
+                   min="0"
                    max="99"
                    value="{{ age if age else '' }}"
                    autocomplete="on">

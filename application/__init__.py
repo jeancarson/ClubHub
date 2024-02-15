@@ -10,6 +10,7 @@ from .blueprints.admin import admin
 from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
 from .blueprints.registration import registration
+from .blueprints.profile import profile
 from .util.db_functions import get_db
 
 app: Flask = Flask(import_name=__name__, template_folder="templates", static_folder="static")
@@ -19,6 +20,7 @@ app.logger.setLevel(INFO)
 app.register_blueprint(main)
 app.register_blueprint(login_logout)
 app.register_blueprint(registration)
+app.register_blueprint(profile)
 app.register_blueprint(misc)
 app.register_blueprint(admin)
 app.register_blueprint(jean_blueprint)

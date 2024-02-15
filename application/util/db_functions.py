@@ -189,6 +189,10 @@ def get_users_info(user_type: Optional[str] = None, *, admin_permission: Optiona
     return user_results
 
 
+def get_user_info(user_id: int) -> Row | None:
+    return query_db(f"SELECT * FROM users WHERE user_id={user_id}", single=True)
+
+
 def delete_user(*, username: Optional[str] = None, user_id: Optional[int] = None) -> None:  # noqa
     """
     Deletes a user, specified by either their username or user id, from the users table.

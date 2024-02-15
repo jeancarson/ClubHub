@@ -155,7 +155,7 @@ def register_post() -> Response:
     )
 
     if first_user:
-        login(username=username, user_type="ADMINISTRATOR")
+        login(user_id=1, username=username, user_type="ADMINISTRATOR")
         success(successtype=Success.REGISTER_ADMIN, endpoint="/register", form=True, username=username)
     else:
         success(successtype=Success.REGISTER, endpoint="/register", form=True, username=username)

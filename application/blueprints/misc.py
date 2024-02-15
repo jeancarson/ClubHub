@@ -39,3 +39,12 @@ def terms_and_conditions() -> str:
     """
 
     return render_template("html/misc/terms-and-conditions.html")
+
+
+@misc.route("/forgot-password")
+def forgot_password() -> str:
+    """
+    Loads the forgot password page.
+    """
+
+    return render_template("html/auth/forgot-password.html")

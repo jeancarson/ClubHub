@@ -11,7 +11,7 @@ from flask import (
 from werkzeug import Response
 
 from ..util.db_functions import query_db
-from ..util.authentication import current_user, login, logout
+from ..util.authentication import current_user, current_user_info, login, logout
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import password_match
 
@@ -60,9 +60,10 @@ def login_post() -> Response | str:
         flash("Your account is awaiting administrator approval", category="error")
         return redirect("/home")
 
+    user_id: int = match["user_id"]
     user_type: str = match["user_type"]
 
-    login(username=username, user_type=user_type)
+    login(user_id=user_id, username=username, user_type=user_type)
     success(successtype=Success.LOGIN, endpoint="/login", form=True, username=username, user_type=user_type)
 
     return redirect("/profile")
@@ -84,27 +85,3 @@ def logout_get() -> Response:
         session.pop("user", None)
 
     return redirect("/home")
-
-
-@login_logout.route("/profile")
-def profile() -> str | Response:
-    """
-    Loads the account page (if a user session is active).
-    """
-
-    user: str | None = current_user()
-
-    if user is None:
-        error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint="/profile")
-        return redirect("/home")
-
-    return render_template("html/profile.html", user=user)
-
-
-@login_logout.route("/forgot-password")
-def forgot_password() -> str:
-    """
-    Loads the forgot password page.
-    """
-
-    return render_template("html/auth/forgot-password.html")
