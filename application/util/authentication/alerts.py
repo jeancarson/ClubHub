@@ -79,8 +79,8 @@ def _alert(*, alert_type: Error | Success, endpoint: str, category: str, form: O
 
     form_str: str = " (FORM)" if form else ""
 
-    print(f"[endpoint={endpoint!r}{form_str}] => {alert_type.value.log.format(**kwargs)}")
-    print(alert_type.value.message.format(**kwargs))
+    current_app.logger.info(f"[endpoint={endpoint!r}{form_str}] => {alert_type.value.log.format(**kwargs)}")
+    flash(alert_type.value.message.format(**kwargs))
 
 
 def error(*, errtype: Error, endpoint: str, form: Optional[bool] = None, **kwargs) -> None:
