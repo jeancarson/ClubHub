@@ -33,20 +33,24 @@
                 <h6 class="card-subtitle mb-2 t vlight_blue_txt">Club description</h6>
                 <p class="card-text white-txt" id="editable_text2" contenteditable="false">{{ club_description }}</p>
                 <input type="hidden" name="club_id" value="{{ club_id }}">
-                <input type="text" name="club_name" value="{{ club_title }}" style="display:none;"> <!-- Hidden input -->
-                <input type="text" name="club_description" value="{{ club_description }}" style="display:none;"> <!-- Hidden input -->
-                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text1', 'club name', this);">Edit club name</button>
-                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text2', 'club description', this);">Edit description</button>
+                <input type="text" id = "club_name_value" name="club_name" value="{{ club_title }}" style="display:none;"> <!-- Hidden input -->
+                <input type="text" id = "club_description_value" name="club_description" value="{{ club_description }}" style="display:none;"> <!-- Hidden input -->
+                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text1', 'club name', this, 'club_name_value');">Edit club name</button>
+                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text2', 'club description', this, 'club_description_value');">Edit description</button>
                 <button type="submit" class="btn btn-warning custom-button">Save changes</button>
                 
             </div>
         </div>
     </form>
+
+    
     
 
     <script>
-    function toggleEditMode(elementId, field, button) {
+    function toggleEditMode(elementId, field, button, valueID) {
         let editableElement = document.getElementById(elementId);
+        let hiddenInput = document.getElementById(valueID);
+
 
         if (editableElement.contentEditable === 'false') {
             // Add a border around the text here
@@ -61,19 +65,10 @@
 
             editableElement.contentEditable = 'false';
             button.innerText = 'Edit ' + field;
-            saveText(elementId);
+            hiddenInput.value = editableElement.innerText;
         }
     }
 
-        function saveText(elementId) {
-            let editableElement = document.getElementById(elementId);
-            let editedText = editableElement.innerText;
-
-            // You can now send the edited text to the server using AJAX
-            // and update it in the backend database, if applicable.
-            // This example only logs the edited text to the console.
-            console.log("Edited Text:", editedText);
-        }
     </script>
 
     <style>

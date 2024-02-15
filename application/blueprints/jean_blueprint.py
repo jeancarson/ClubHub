@@ -3,8 +3,9 @@ from flask import render_template, session, Blueprint, request, flash, redirect,
 from ..util import db_functions as dbf
 from ..util.coordinator import edit_club_details as ecd
 
+import logging
+
 jean_blueprint = Blueprint("jean_blueprint", __name__)
-club_id = 1
 coordinator_name = "John Doe"
 
 
@@ -45,8 +46,12 @@ coordinator_name = "John Doe"
 
 from flask import request, render_template
 
+
 @jean_blueprint.route("/cohome", methods=["GET"])
 def cohome():
+
+    club_id = request.args.get('club_id', 0)
+
     if "user" in session:
         user = session["user"]
         return render_template("html/misc/default-home.html", header=f"Hello {user}!")
@@ -94,13 +99,14 @@ def cohome():
 
 @jean_blueprint.route("/cohome", methods=["POST"])
 def save_club_details():
-    club_id = request.form["club_id"]
+    club_id = request.args.get('club_id', 0)
     club_name = request.form["club_name"]
     club_description = request.form["club_description"]
 
+    
     try:
         # Update the database
-        dbf.modify_db(ecd.save_club_details.format(club_id=club_id, new_name=club_name, new_description=club_description))
+        dbf.modify_db(ecd.save_club_details.format(club_id=club_id, new_name=str(club_name), new_description=str(club_description)))
 
         # Print a message for debugging
         print("Database updated successfully")
@@ -110,6 +116,7 @@ def save_club_details():
 
     except Exception as e:
         # Print an error message for debugging
+        logging.warning(f"Error updating database: {e}")
         print(f"Error updating database: {e}")
 
     # Redirect to the /cohome route after processing the form

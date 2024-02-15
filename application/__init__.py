@@ -1,5 +1,5 @@
 ﻿from sqlite3 import Connection
-from logging import INFO
+from logging import INFO, DEBUG
 
 from flask import Flask, g
 
@@ -15,7 +15,7 @@ from .util.db_functions import get_db
 
 app: Flask = Flask(import_name=__name__, template_folder="templates", static_folder="static")
 app.config.from_prefixed_env()
-app.logger.setLevel(INFO)
+app.logger.setLevel(DEBUG)
 
 app.register_blueprint(main)
 app.register_blueprint(login_logout)
