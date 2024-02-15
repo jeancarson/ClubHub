@@ -1,4 +1,6 @@
-from flask import Blueprint, session, render_template
+from flask import Blueprint, render_template
+
+from ..util.authentication import current_user
 
 main: Blueprint = Blueprint("main", __name__)
 
@@ -11,10 +13,11 @@ def home() -> str:
     Loads the home (default) page.
     """
 
-    if "user" in session:
-        user: str = session["user"]
+    user: str | None = current_user()
 
-        # Get user type here (we could store it in the session variable) and
+    if user is not None:
+
+        # Get user type here (stored in session variable) and
         # redirect to coordinator or member home page
 
         return render_template("html/misc/user-home.html", header=f"Hello {user}!")

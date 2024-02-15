@@ -4,6 +4,8 @@
 /* Color constants */
 :root {
     --light-grey: #8a8988;
+    --lighter-grey: #c4c4c4;
+    --even-lighter-grey: #f2f2f2;
     --cyan: #3bbbd2;
     --light-blue: #0077b6;
     --lighter-blue: #0096c7;
@@ -47,10 +49,9 @@ header h1 {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--even-lighter-blue);
 }
-
 
 .underlined-link {
     display: inline-block;
@@ -88,6 +89,10 @@ a {
 
 .underlined-link-insta::after {
     background-color: var(--pink);
+}
+
+.underlined-link-logout::after {
+    background-color: var(--light-red);
 }
 
 /* ======================= Message alert box start ======================= */

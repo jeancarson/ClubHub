@@ -1,7 +1,7 @@
-from typing import Optional
 from sqlite3 import Connection, Cursor, Row, connect
+from typing import Optional
 
-from flask import g
+from flask import g, current_app
 
 DB_PATH: str = "application/database/database.db"
 
@@ -77,18 +77,7 @@ def user_exists(username: str) -> bool:
     :param username: Username to check the existence of.
     """
 
-    return query_db(f"SELECT username FROM users WHERE username={username!r}") is not None
-
-
-def user_approved(username: str) -> bool:
-    """
-    Returns True if the given username corresponds to an approved
-    user, and False otherwise.
-
-    :param username: User to check approval of.
-    """
-
-    return query_db(f"SELECT username FROM users WHERE username={username!r} AND approved=1") is not None
+    return query_db(f"SELECT username FROM login WHERE username={username!r}") is not None
 
 
 def get_last_user() -> Row | None:
@@ -110,61 +99,104 @@ def create_user(
         age: Optional[str] = None,
         email: Optional[str] = None,
         phone: Optional[str] = None,
-        gender: Optional[str] = None) -> None:
+        gender: Optional[str] = None) -> bool:
     """
     Creates a new user in the database.
     ID is automatically generated. Users are not approved by default.
+
+    :return: True if user is the first on the system, False otherwise.
     """
 
     age: Optional[int] = int(age) if age is not None else None
 
     last_user: Row | None = get_last_user()
     user_id: int
+    approved: str
 
     if last_user is None:
         user_id = 1
+        user_type = "ADMINISTRATOR"
+        approved = "APPROVED"  # Override approval if registration is the first on the system
     else:
         user_id = last_user["user_id"] + 1
+        user_type = user_type.upper()
+        approved = "PENDING"
 
     modify_db(
-        "INSERT INTO users"
-        "(user_id, username, password, approved, first_name, last_name, age, email, phone, gender) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        user_id, username, password, 0, first_name, last_name, age, email, phone, gender
+        """
+        INSERT INTO users 
+        (user_id, first_name, last_name, age, email, phone, gender) VALUES
+        (?, ?, ?, ?, ?, ?, ?);
+        """,
+        user_id, first_name, last_name, age, email, phone, gender,
     )
 
-    if user_type == "coordinator":
-        modify_db("INSERT INTO coordinators (user_id) VALUES (?)", user_id)
-    elif user_type == "student":
-        modify_db("INSERT INTO students (user_id) VALUES (?)", user_id)
+    modify_db(
+        """
+        INSERT INTO login
+        (user_id, username, password, user_type, approved) VALUES
+        (?, ?, ?, ?, ?)
+        """,
+        user_id, username, password, user_type, approved
+    )
+
+    if user_type == "ADMINISTRATOR":
+        return True
+
+    return False
 
 
-def get_users(table: Optional[str] = None) -> list[Row] | None:
+def get_users_info(user_type: Optional[str] = None, *, admin_permission: Optional[bool] = None) -> list[Row] | None:
     """
-    Returns a list containing the rows from the given table, if there are any.
+    Returns a list containing the rows from the users table, if there are any.
 
-    :param table: Should be either "users" (default), "coordinators", or "students"
+    :param user_type: Should be either "STUDENT", "COORDINATOR", "ADMIN", or None (for all users).
+    :param admin_permission: If true, also includes information (except password) from the login table.
     """
 
-    table: str = "users" if table is None else table
-    results: list[Row] | None = query_db(f"SELECT user_id FROM {table}")
+    user_results: list[Row] | None
+    login_results: list[Row] | None
 
-    if results is None:
+    current_app.logger.info(user_type)
+
+    if user_type is None:
+        if admin_permission:
+            user_results = query_db("""
+                SELECT *
+                FROM users
+                FULL OUTER JOIN login
+                ON users.user_id = login.user_id
+            """)
+        else:
+            user_results = query_db("SELECT * FROM users")
+    else:
+        join_type: str
+        if admin_permission:
+            join_type = "FULL OUTER"
+        else:
+            join_type = "INNER"
+
+        user_results = query_db(f"""
+            SELECT *
+            FROM users
+            {join_type} JOIN login 
+            ON users.user_id = login.user_id
+            WHERE login.user_type = {user_type!r}
+        """)
+
+    current_app.logger.info(user_results)
+
+    if user_results is None:
         return None
 
-    if table == "coordinators":
-        # Include the admin coordinator too I suppose
-        admin_results: list[Row] | None = query_db("SELECT user_id FROM administrators")
-
-        if admin_results is not None:
-            results.extend(admin_results)
-
-    query_string: str = ", ".join(str(user["user_id"]) for user in results)
-
-    return query_db(f"SELECT * FROM users WHERE user_id IN ({query_string})")
+    return user_results
 
 
-def delete_user(*, username: Optional[str] = None, user_id: Optional[int] = None) -> None:
+def get_user_info(user_id: int) -> Row | None:
+    return query_db(f"SELECT * FROM users WHERE user_id={user_id}", single=True)
+
+
+def delete_user(*, username: Optional[str] = None, user_id: Optional[int] = None) -> None:  # noqa
     """
     Deletes a user, specified by either their username or user id, from the users table.
 
@@ -175,19 +207,4 @@ def delete_user(*, username: Optional[str] = None, user_id: Optional[int] = None
     Exactly of the above keyword arguments must be provided.
     """
 
-    if (username is None and user_id is None) or (username is not None and user_id is not None):
-        raise ValueError("Exactly one of the keyword arguments, username or user_id must be given")
-
-    if username is not None:
-        if not user_exists(username):
-            return None
-
-    elif user_id is not None:
-        result = query_db(f"SELECT username FROM users WHERE user_id={user_id}", single=True)
-
-        if result is None:
-            return None
-
-        username: str = result["username"]
-
-    modify_db(f"DELETE FROM users WHERE username={username!r}")
+    ...

@@ -3,7 +3,7 @@ from bcrypt import hashpw, checkpw, gensalt
 
 def hash_password(password: str) -> str:
     """
-    Hashes the password using the bcrypt password-hashing function,
+    Hashes the password using the bcrypt password-passwords.py function,
     which incorporates a randomly generated salt.
 
     :param password: Password to hash (in plain text).
