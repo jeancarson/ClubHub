@@ -185,9 +185,9 @@ order by date_and_time;
 limited_view_all_upcoming_events = """
 select *
 from events
-where club_id = {club_id} and date_and_time > CURRENT_TIMESTAMP
+where club_id = {club_id} and date_and_time >= CURRENT_TIMESTAMP
 order by date_and_time
-limit 3;
+limit {limit};
 """
 view_single_event = """
 select *
@@ -198,28 +198,41 @@ where event_id = {event_id};
 count_approved_members = """
 select count(user_id)
 from club_memberships
-where club_id ={club_id} and validity = 'Approved'
+where club_id ={club_id} and validity = 'APPROVED'
 """
 count_pending_members = """
 select count(user_id)
 from club_memberships
-where club_id =6 and validity = 'Pending'
+where club_id ={club_id} and validity = 'PENDING'
 """
 count_pending_participants = """
 select count(user_id)
 from event_participants
-where event_id =6 and validity = 'Pending'
+where event_id ={event_id} and validity = 'PENDING'
 """
 
 count_approved_participants = """
 select count(user_id)
 from event_participants
-where event_id =6 and validity = 'Approved'
+where event_id ={event_id} and validity = 'APPROVED'
+"""
+get_club_details="""
+select *
+from clubs
+where club_id = {club_id};
 """
 
 
-
-
+count_upcoming_events= """
+select count(event_id)
+from events
+where club_id = {club_id} and date_and_time > CURRENT_TIMESTAMP;
+"""
+count_past_events= """
+select count(event_id)
+from events
+where club_id = {club_id} and date_and_time < CURRENT_TIMESTAMP;
+"""
 
 
 #TODO I've done this with string formatting, ask Darragh what the original idea was again as I have forgotten.

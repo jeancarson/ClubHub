@@ -14,6 +14,8 @@
     </style>
 
     <div class="card card-custom ">
+        <a class="btn btn-warning custom-button" href="{{ url_for('jean_blueprint.cohome') }}"
+        role="button">Back to dashboard</a>
 
         <div class="mb-3 card-custom">
 
@@ -36,7 +38,7 @@
                       placeholder="What's going to happen at your event?"></textarea>
             <script>
                 // Assuming you have a variable named event_name_default
-                let event_desc_default = "{{ event_desc }}";
+                let event_desc_default = "{{ event_description }}";
 
                 // Set the initial value of the input to the variable
                 document.getElementById('exampleFormControlTextarea1').value = event_desc_default;
@@ -69,7 +71,7 @@
         </div>
 
         <div class="mb-3 card-custom">
-            <label for="exampleFormControlInput4" class="form-label" style="color: white;">Time</label>
+            <label for="exampleFormControlInput4" class="form-label" style="color: white;"> Time</label>
             <input type="text" class="form-control" id="exampleFormControlInput4" placeholder="HH:MM">
             <script>
                 // Assuming you have a variable named event_name_default
