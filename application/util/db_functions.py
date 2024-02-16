@@ -164,7 +164,7 @@ def get_users_info(
 
     if user_type is None:
         if unapproved:
-            condition = "WHERE users.approved='UNAPPROVED'"
+            condition = "WHERE users.approved='PENDING'"
         else:
             condition = ";"
 
@@ -182,7 +182,7 @@ def get_users_info(
         join_type: str
 
         if unapproved:
-            condition = " AND users.approved='UNAPPROVED';"
+            condition = " AND users.approved='PENDING';"
         else:
             condition = ";"
 
@@ -196,7 +196,8 @@ def get_users_info(
             FROM users
             {join_type} JOIN login 
             ON users.user_id = login.user_id
-            WHERE users.user_type = {user_type!r}{condition}
+            WHERE users.user_type={user_type!r}
+            {condition}
         """)
 
     current_app.logger.info(user_results)
