@@ -4,12 +4,6 @@
 
     <link rel="stylesheet" href="../../../static/css/profile.css">
 
-    <script async defer>
-        {% if user_info["gender"] %}
-            document.querySelector("#gender-option-{{ user_info["gender"] }}").selected = true;
-        {% endif %}
-    </script>
-
 {% endblock %}
 
 {% block header %}
@@ -27,9 +21,10 @@
     <form id="profile-form" action="/profile" method="post">
         <div id="profile-edit">
             {% if edit %}
-                <a style="background-color: var(--dark-green);"
-                   href="."
-                   onclick="document.getElementById('profile-form').submit();">Save Changes</a>
+                <button type="submit"></button>
+{#                <a style="background-color: var(--dark-green);"#}
+{#                   href="."#}
+{#                   onclick="document.getElementById('profile-form').submit();">Save Changes</a>#}
             {% else %}
                 <a href="/profile/edit">Edit Profile</a>
             {% endif %}
@@ -38,7 +33,7 @@
             <div class="profile-row">
                 <div><label for="id-input">ID</label></div>
                 <div>
-                    <input id="id-input" type="number" value="{{ user_info["user_id"] if user_info["user_id"] }}" disabled>
+                    <input id="id-input" type="number" value="{{ session["user-id"] }}" disabled>
                 </div>
             </div>
             <div class="profile-row">
@@ -82,15 +77,15 @@
             <div class="profile-row">
                 <div><label for="gender-input">Gender</label></div>
                 <div>
-                    <select id="gender-input" name="register-gender"
-                            {% if edit %} > {% else %} disabled> {% endif %}
-                    <option id="gender-option-" value="" disabled aria-disabled="true"
-                            selected>{{ "Choose Gender" if edit else "" }}</option>
-                    <option id="gender-option-male" value="male">Male</option>
-                    <option id="gender-option-female" value="female">Female</option>
-                    <option id="gender-option-non-binary" value="non-binary">Non-binary</option>
-                    <option id="gender-option-other" value="other">Other</option>
-                    <option id="gender-option-none" value="none">Prefer not to say</option>
+                    <select id="gender-input" name="gender-input"
+                        {% if edit %} > {% else %} disabled> {% endif %}
+                        <option value="" disabled aria-disabled="true"
+                                selected>{{ "Choose Gender" if edit else "" }}</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="non-binary">Non-binary</option>
+                        <option value="other">Other</option>
+                        <option value="none">Prefer not to say</option>
                     </select>
                 </div>
             </div>
@@ -127,6 +122,14 @@
             {% endif %}
         </div>
     </form>
+
+    {% print(user_info["gender"]) %}
+
+    <script async defer>
+        {% if user_info["gender"] %}
+            document.querySelector("#gender-input").value = "{{ user_info['gender'] }}";
+        {% endif %}
+    </script>
 
 
 {% endblock %}

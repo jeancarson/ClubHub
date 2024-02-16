@@ -1,5 +1,6 @@
-from flask import session
 from sqlite3 import Row
+
+from flask import session
 
 from ..db_functions import get_user_info
 
@@ -19,5 +20,6 @@ def login(user_id: int, username: str, user_type: str) -> None:
 
 
 def logout() -> None:
+    del session["user-id"]
     del session["user"]
     del session["user-type"]

@@ -1,8 +1,8 @@
+from dataclasses import dataclass
+from enum import Enum
 from typing import Optional
 
 from flask import current_app, flash
-from dataclasses import dataclass
-from enum import Enum
 
 
 @dataclass(kw_only=True)
@@ -19,7 +19,7 @@ class Error(Enum):
 
     RESTRICTED_PAGE_LOGGED_IN = Alert(
         log="Authenticated user tried to access restricted page",
-        message="You are already logged in as {user!r}"
+        message="You are already logged in as {user}"
     )
 
     RESTRICTED_PAGE_ADMIN = Alert(
@@ -39,7 +39,7 @@ class Error(Enum):
 
     USERNAME_TAKEN = Alert(
         log="Given username is taken",
-        message="Sorry, the username {username!r} is taken!"
+        message="Sorry, the username {username} is taken!"
     )
 
     INVALID_PW = Alert(
@@ -50,6 +50,21 @@ class Error(Enum):
     PW_MISMATCH = Alert(
         log="Password mismatch",
         message="Passwords do not match"
+    )
+
+    UNAPPROVED = Alert(
+        log="Account {username!r} still awaiting administrator approval",
+        message="Your account, {username}, is awaiting administrator approval"
+    )
+
+    INCORRECT_PW = Alert(
+        log="Incorrect password for {username!r}",
+        message="Incorrect password"
+    )
+
+    INVALID_USERNAME = Alert(
+        log="Invalid username: {username!r}",
+        message="User not found: {username}"
     )
 
 
@@ -76,7 +91,6 @@ class Success(Enum):
 
 
 def _alert(*, alert_type: Error | Success, endpoint: str, category: str, form: Optional[bool] = None, **kwargs) -> None:
-
     form_str: str = " (FORM)" if form else ""
 
     current_app.logger.info(f"[endpoint={endpoint!r}{form_str}] => {alert_type.value.log.format(**kwargs)}")

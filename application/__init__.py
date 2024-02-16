@@ -1,16 +1,16 @@
-﻿from sqlite3 import Connection
-from logging import INFO, DEBUG
+﻿from logging import DEBUG
+from sqlite3 import Connection
 
 from flask import Flask, g
 
+from .blueprints.admin import admin
 from .blueprints.jean_blueprint import jean_blueprint
 from .blueprints.login_logout import login_logout
 from .blueprints.main import main
-from .blueprints.admin import admin
 from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
-from .blueprints.registration import registration
 from .blueprints.profile import profile
+from .blueprints.registration import registration
 from .util.db_functions import get_db
 
 app: Flask = Flask(import_name=__name__, template_folder="templates", static_folder="static")

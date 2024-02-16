@@ -16,7 +16,6 @@ def home() -> str:
     user: str | None = current_user()
 
     if user is not None:
-
         # Get user type here (stored in session variable) and
         # redirect to coordinator or member home page
 

@@ -16,7 +16,6 @@ CREATE TABLE users (
 CREATE TABLE login (
     user_id             INTEGER         NOT NULL,
     username            TEXT            NOT NULL,
-
     -------------------------------------------------
     PRIMARY KEY (username),
     FOREIGN KEY (user_id) REFERENCES users(user_id)

@@ -7,11 +7,11 @@ from flask import (
 )
 from werkzeug import Response
 
-from ..util.db_functions import user_exists, create_user
 from ..util.authentication import current_user, login
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import hash_password
-from ..util.util import str_to_none
+from ..util.db_functions import user_exists, create_user
+from ..util.util import str_to_none, get_form_user_details
 
 registration: Blueprint = Blueprint("registration", __name__)
 
@@ -111,13 +111,8 @@ def register_post() -> Response:
     captcha_response: str = str_to_none(request.form["g-recaptcha-response"])
     user_type: str = request.form.get("register-user-type", None)
 
-    # Non required inputs
-    first_name: str = str_to_none(request.form["register-first-name"])
-    last_name: str = str_to_none(request.form["register-last-name"])
-    age: str = str_to_none(request.form["register-age"])
-    email: str = str_to_none(request.form["register-email"])
-    phone: str = str_to_none(request.form["register-phone"])
-    gender: str = request.form.get("register-gender", None)
+    # Non-required inputs
+    first_name, last_name, age, email, phone, gender = get_form_user_details(form_data=request.form)
 
     page: Response = redirect(
         url_for(endpoint=".register_get", username=username, user_type=user_type,

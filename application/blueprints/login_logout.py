@@ -3,17 +3,15 @@ from flask import (
     render_template,
     request,
     session,
-    flash,
     url_for,
     redirect,
-    current_app
 )
 from werkzeug import Response
 
-from ..util.db_functions import query_db
-from ..util.authentication import current_user, current_user_info, login, logout
+from ..util.authentication import current_user, login, logout
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import password_match
+from ..util.db_functions import get_username_match
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
 
@@ -43,21 +41,18 @@ def login_post() -> Response | str:
     username: str = request.form["login-username"]
     password: str = request.form["login-password"]
 
-    match = query_db(f"SELECT * FROM login WHERE username={username!r}", single=True)
+    match = get_username_match(username=username)
 
     if match is None:
-        current_app.logger.info(f"[page='/login' (FORM)] => Invalid username")
-        flash(f"User not found: {username!r} ", category="error")
+        error(errtype=Error.INVALID_USERNAME, endpoint="/register", form=True, username=username)
         return redirect("/login")
 
     if not password_match(password, match["password"]):
-        current_app.logger.info(f"[page='/login' (FORM)] => Incorrect password")
-        flash("Incorrect password", category="error")
+        error(errtype=Error.INCORRECT_PW, endpoint="/login", form=True, username=username)
         return redirect(url_for(".login_get", username=username))
 
     if match["approved"] != "APPROVED":
-        current_app.logger.info(f"[page='/login' (FORM)] => Account still awaiting administrator approval")
-        flash("Your account is awaiting administrator approval", category="error")
+        error(errtype=Error.UNAPPROVED, endpoint="/login", form=True, username=username)
         return redirect("/home")
 
     user_id: int = match["user_id"]
