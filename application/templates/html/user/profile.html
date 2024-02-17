@@ -1,4 +1,4 @@
-{% extends "html/misc/base.html" %}
+{% extends "html/base/base.html" %}
 
 {% block links %}
 
@@ -112,8 +112,6 @@
             {% endif %}
         </div>
     </form>
-
-    {% print(user_info["gender"]) %}
 
     <script async defer>
         {% if user_info["gender"] %}

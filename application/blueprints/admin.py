@@ -18,12 +18,12 @@ def validate_access_perms(*, endpoint: str) -> str | None:
 
     if "user" not in session:
         error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint=endpoint)
-        return render_template("html/misc/default-home.html")
+        return render_template("html/misc/home.html")
 
     user_type = session["user-type"]
     if user_type != "ADMINISTRATOR":
         error(errtype=Error.RESTRICTED_PAGE_ADMIN, endpoint=endpoint, user_type=user_type)
-        return render_template("html/misc/default-home.html")
+        return render_template("html/misc/home.html")
 
     return None
 

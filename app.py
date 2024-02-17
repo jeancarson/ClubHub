@@ -12,6 +12,7 @@ with app.app_context():
     # # Approve all the users
     # for user in unapproved_users:
     #     approve_user(user_id=user["user_id"])
+    approve_user(user_id=6)
 
 if __name__ == '__main__':
     app.run()

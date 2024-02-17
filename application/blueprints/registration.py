@@ -11,7 +11,7 @@ from ..util.authentication import current_user, login
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import hash_password
 from ..util.db_functions import user_exists, create_user
-from ..util.util import str_to_none, get_form_user_details
+from ..util import str_to_none, get_form_user_details
 
 registration: Blueprint = Blueprint("registration", __name__)
 
@@ -85,7 +85,6 @@ def register_get() -> Response | str:
     user_type: str = request.args.get("user_type", None)
     club_name: str = request.args.get("club_name", None)
     club_description: str = request.args.get("club_description")
-
     first_name: str = request.args.get("first_name", None)
     last_name: str = request.args.get("last_name", None)
     age: str = request.args.get("age", None)
