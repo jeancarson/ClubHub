@@ -10,7 +10,7 @@ from werkzeug import Response
 from ..util.authentication import current_user, login, logout
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import password_match
-from ..util.db_functions import get_username_match
+from ..util.db_functions.users import get_username_match
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
 

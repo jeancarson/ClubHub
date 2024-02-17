@@ -10,7 +10,7 @@ from werkzeug import Response
 from ..util.authentication import current_user, login
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import hash_password
-from ..util.db_functions import user_exists, create_user
+from ..util.db_functions.users import user_exists, create_user
 from ..util import str_to_none, get_form_user_details
 
 registration: Blueprint = Blueprint("registration", __name__)

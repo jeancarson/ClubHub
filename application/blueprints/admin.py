@@ -3,7 +3,7 @@ from sqlite3 import Row
 from flask import Blueprint, request, render_template, session
 
 from ..util.authentication.alerts import error, Error
-from ..util.db_functions import get_users_info
+from ..util.db_functions.users import get_users_info
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 

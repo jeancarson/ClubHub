@@ -9,7 +9,7 @@ from flask import (
 
 from ..util.authentication import current_user, current_user_info
 from ..util.authentication.alerts import error, Error
-from ..util.db_functions import update_user_info
+from ..util.db_functions.users import update_user_info
 from ..util import get_form_user_details
 
 profile: Blueprint = Blueprint("profile", __name__, url_prefix="/profile")
