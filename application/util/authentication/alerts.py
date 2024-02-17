@@ -43,13 +43,18 @@ class Error(Enum):
     )
 
     INVALID_PW = Alert(
-        log="{errmsg}",
-        message="{errmsg}"
+        log="{err}",
+        message="{err}"
     )
 
     PW_MISMATCH = Alert(
         log="Password mismatch",
         message="Passwords do not match"
+    )
+
+    NO_CLUB_NAME = Alert(
+        log="No club name given for user of type COORDINATOR",
+        message="Please provide a club name"
     )
 
     UNAPPROVED = Alert(
@@ -71,7 +76,7 @@ class Error(Enum):
 class Success(Enum):
     LOGIN = Alert(
         log="Login successful for user: {username!r} <{user_type}>",
-        message="Successfully logged in: {username!r}"
+        message="Successfully logged in: {username}"
     )
 
     LOGOUT = Alert(
@@ -81,7 +86,7 @@ class Success(Enum):
 
     REGISTER = Alert(
         log="Registration ticket opened for user: {username!r}",
-        message="Registration ticket opened. Awaiting administrator approval for: {username!r}"
+        message="Registration ticket opened. Awaiting administrator approval for: {username}"
     )
 
     REGISTER_ADMIN = Alert(

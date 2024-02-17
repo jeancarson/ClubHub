@@ -83,6 +83,8 @@ def register_get() -> Response | str:
     # submission so user does not need to re-enter it all.
     username: str = request.args.get("username", None)
     user_type: str = request.args.get("user_type", None)
+    club_name: str = request.args.get("club_name", None)
+    club_description: str = request.args.get("club_description")
 
     first_name: str = request.args.get("first_name", None)
     last_name: str = request.args.get("last_name", None)
@@ -93,8 +95,8 @@ def register_get() -> Response | str:
 
     return render_template(
         template_name_or_list="html/auth/register.html",
-        username=username, user_type=user_type, first_name=first_name,
-        last_name=last_name, age=age, email=email, phone=phone, gender=gender
+        username=username, user_type=user_type, club_name=club_name, club_description=club_description,
+        first_name=first_name, last_name=last_name, age=age, email=email, phone=phone, gender=gender
     )
 
 
@@ -104,20 +106,24 @@ def register_post() -> Response:
     Function called when registration form is submitted.
     """
 
+    print(request.form)
+
     # Required inputs
-    username: str = str_to_none(request.form["register-username"])
-    password: str = str_to_none(request.form["register-password"])
-    confirm_password: str = str_to_none(request.form["register-confirm-password"])
-    captcha_response: str = str_to_none(request.form["g-recaptcha-response"])
-    user_type: str = request.form.get("register-user-type", None)
+    username: str | None = str_to_none(request.form["register-username"])
+    password: str | None = str_to_none(request.form["register-password"])
+    confirm_password: str | None = str_to_none(request.form["register-confirm-password"])
+    captcha_response: str | None = str_to_none(request.form["g-recaptcha-response"])
+    user_type: str | None = request.form.get("register-user-type", None)
+    club_name: str | None = str_to_none(request.form["register-club-name"])
 
     # Non-required inputs
+    club_description: str | None = str_to_none(request.form["register-club-description"])
     first_name, last_name, age, email, phone, gender = get_form_user_details(form_data=request.form)
 
     page: Response = redirect(
         url_for(endpoint=".register_get", username=username, user_type=user_type,
-                first_name=first_name, last_name=last_name, age=age, email=email,
-                phone=phone, gender=gender)
+                club_name=club_name, club_description=club_description, first_name=first_name,
+                last_name=last_name, age=age, email=email, phone=phone, gender=gender)
     )
 
     if not captcha_response:
@@ -126,6 +132,10 @@ def register_post() -> Response:
 
     if user_type is None:
         error(errtype=Error.NO_USER_TYPE, endpoint="/register", form=True)
+        return page
+
+    elif user_type == "COORDINATOR" and club_name is None:
+        error(errtype=Error.NO_CLUB_NAME, endpoint="/register", form=True)
         return page
 
     if user_exists(username):
@@ -146,7 +156,8 @@ def register_post() -> Response:
 
     first_user: bool = create_user(
         username=username, password=hashed_pw, user_type=user_type, first_name=first_name,
-        last_name=last_name, age=age, email=email, phone=phone, gender=gender
+        last_name=last_name, age=age, email=email, phone=phone, gender=gender, club_name=club_name,
+        club_description=club_description
     )
 
     if first_user:

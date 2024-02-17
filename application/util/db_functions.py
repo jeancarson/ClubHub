@@ -96,13 +96,17 @@ def create_user(
         age: Optional[str] = None,
         email: Optional[str] = None,
         phone: Optional[str] = None,
-        gender: Optional[str] = None) -> bool:
+        gender: Optional[str] = None,
+        club_name: Optional[str] = None,
+        club_description: Optional[str] = None) -> bool:
     """
     Creates a new user in the database.
     ID is automatically generated. Users are not approved by default.
 
     :return: True if user is the first on the system, False otherwise.
     """
+
+    # TODO: Club name / description
 
     age: int | None = int(age) if age is not None else None
 
@@ -116,7 +120,7 @@ def create_user(
         approved = "APPROVED"  # Override approval if registration is the first on the system
     else:
         user_id = last_user["user_id"] + 1
-        user_type = user_type.upper()
+        user_type = user_type
         approved = "PENDING"
 
     modify_db(
@@ -160,8 +164,6 @@ def get_users_info(
     login_results: list[Row] | None
     condition: str
 
-    current_app.logger.info(user_type)
-
     if user_type is None:
         if unapproved:
             condition = "WHERE users.approved='PENDING'"
@@ -199,8 +201,6 @@ def get_users_info(
             WHERE users.user_type={user_type!r}
             {condition}
         """)
-
-    current_app.logger.info(user_results)
 
     if user_results is None:
         return None
@@ -246,6 +246,17 @@ def update_user_info(
         WHERE user_id=?;
         """,
         first_name, last_name, age, email, phone, gender, user_id
+    )
+
+
+def approve_user(user_id: int) -> None:
+    modify_db(
+        """
+        UPDATE users set
+        approved='APPROVED'
+        WHERE user_id=?;
+        """,
+        user_id
     )
 
 

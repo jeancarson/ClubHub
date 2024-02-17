@@ -77,6 +77,5 @@ def logout_get() -> Response:
     else:
         logout()
         success(successtype=Success.LOGOUT, endpoint="/logout", user=user)
-        session.pop("user", None)
 
     return redirect("/home")

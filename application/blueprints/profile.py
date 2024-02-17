@@ -51,8 +51,6 @@ def profile_post() -> Response:
     Loaded when profile is saved.
     """
 
-    print("posty")
-
     user_id = session["user-id"]
 
     # Updated values
