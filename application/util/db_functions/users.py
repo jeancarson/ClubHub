@@ -5,6 +5,8 @@ from .main import (
     modify_db,
     last_id
 )
+from .clubs import create_club, approve_club
+from .. import get_current_timestamp
 
 
 def user_exists(username: str) -> bool:
@@ -71,7 +73,10 @@ def create_user(
         """, user_id, username
     )
 
-    if user_type == "ADMINISTRATOR":
+    if user_type == "COORDINATOR":
+        create_club(creator_user_id=user_id, club_name=club_name, club_description=club_description)
+
+    elif user_type == "ADMINISTRATOR":
         return True
 
     return False
@@ -132,7 +137,7 @@ def get_username_match(username: str) -> Row | None:
     """
 
     return query_db(
-        f"""
+        """
         SELECT * 
         FROM users 
         FULL OUTER JOIN login 
@@ -166,7 +171,10 @@ def update_user_profile_info(
         email: Optional[str] = None,
         phone: Optional[str] = None,
         gender: Optional[str] = None) -> None:
+
     age: int | None = int(age) if age is not None else None
+
+    # TODO: 'updated' attribute
 
     modify_db(
         """
@@ -189,6 +197,17 @@ def approve_user(user_id: int) -> None:
 
     :param user_id: User's ID number.
     """
+
+    user: Row | None = query_db(
+        """
+            SELECT * 
+            FROM users 
+            WHERE user_id=?
+        """, user_id, single=True
+    )
+
+    if user["user_type"] == "COORDINATOR":
+        approve_club(creator_user_id=user_id)
 
     modify_db(
         """
