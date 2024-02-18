@@ -1,18 +1,21 @@
 from application import app
-from application.util.db_functions import get_users_info, approve_user
+# from application.util.db_functions.users import *
 
+# You can use this to get all rows of "PENDING" users:
+# ====================================================
+# from util.db_functions.users import get_users_info, approve_user
+#
+# unapproved_users = get_users_info(pending=True, admin_permission=True)
+#
 
-# DARRAGH – TODO: Fix styles overriding each other and add navbar to admin pages
+# Approve all the users
+# =====================
+# for user in unapproved_users:
+#     approve_user(user_id=user["user_id"])
+#
 
-with app.app_context():
+# TODO: "Delete my account button on profile"
 
-    # MIA! You can use this to get all rows of "PENDING" users:
-    unapproved_users = get_users_info(unapproved=True, admin_permission=True)
-
-    # # Approve all the users
-    # for user in unapproved_users:
-    #     approve_user(user_id=user["user_id"])
-    approve_user(user_id=6)
 
 if __name__ == '__main__':
     app.run()

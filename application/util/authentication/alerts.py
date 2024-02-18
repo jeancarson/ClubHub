@@ -27,6 +27,11 @@ class Error(Enum):
         message="Only Administrators can access that page!"
     )
 
+    RESTRICTED_PAGE_COORDINATOR = Alert(
+        log="{user_type} tried to access Coordinator-only page",
+        message="Only Coordinators can access that page!"
+    )
+
     NO_CAPTCHA = Alert(
         log="CAPTCHA not completed",
         message="Please complete the CAPTCHA before form submission"
