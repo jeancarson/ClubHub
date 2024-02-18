@@ -11,11 +11,9 @@ def user():
     return render_template("html/student/student-main.html", header="User Page")
 
 
-# @mia_blueprint.route("/profile")
-# def go_profile():
-#     return render_template("html/student/profile.html")  -> I had to comment this out because
-#                                                                 there is another profile.html file in templates folder
-#                                                                 hope u dont mind :3
+@mia_blueprint.route("/profile1")
+def go_profile():
+    return render_template("html/student/profile.html")  
 
 
 @mia_blueprint.route("/clubs")
