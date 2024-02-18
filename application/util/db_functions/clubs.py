@@ -62,6 +62,6 @@ def delete_club(creator_user_id: int) -> None:
     modify_db(
         """
             DELETE FROM clubs
-            WHERE user_id=?
+            WHERE creator=?
         """, creator_user_id
     )
