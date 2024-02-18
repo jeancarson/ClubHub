@@ -47,7 +47,7 @@ def approve_club(creator_user_id: int) -> None:
             UPDATE clubs set 
             validity='APPROVED',
             updated=?
-            WHERE user_id=?
+            WHERE creator=?
         """, timestamp, creator_user_id
     )
 

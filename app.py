@@ -1,5 +1,5 @@
 from application import app
-# from application.util.db_functions.users import *
+from application.util.db_functions.users import *
 
 # You can use this to get all rows of "PENDING" users:
 # ====================================================
@@ -14,7 +14,7 @@ from application import app
 #     approve_user(user_id=user["user_id"])
 #
 
-# TODO: "Delete my account button on profile"
+# TODO: "Delete my account ability on profile page"
 
 
 if __name__ == '__main__':
