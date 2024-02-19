@@ -62,9 +62,17 @@ body {
     color: var(--white);
 }
 
-.registered {
+.registered,
+.pending {
     cursor: default;
+}
+
+.registered {
     background-color: var(--light-blue);
+}
+
+.pending {
+    background-color: var(--light-red);
 }
 
 .unregistered {

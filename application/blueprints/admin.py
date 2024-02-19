@@ -1,6 +1,8 @@
 from sqlite3 import Row
 
-from flask import Blueprint, request, render_template, session
+from flask import Blueprint, redirect, request, render_template, session, url_for
+
+from application.util.db_functions.main import modify_db, query_db
 
 from ..util.authentication.alerts import error, Error
 from ..util.db_functions.users import users_info
@@ -54,17 +56,36 @@ def users_info():
     else:
         user_rows = None
 
-    return render_template('html/admin/admin-users-info.html', user_rows=user_rows)
+    return render_template('html/admin/users-info.html', user_rows=user_rows)
 
 
-@admin.route("/users/pending")
+@admin.route("/users/pending", methods=["GET", "POST"])
 def users_pending():
     invalid = validate_access_perms(endpoint="/admin/users/pending")
 
     if invalid:
         return invalid
+    
+    approved_users = query_db("SELECT * FROM users WHERE approved = 'APPROVED'")
+    rejected_users = query_db("SELECT * FROM users WHERE approved = 'RJEECTED'")
+    pending_users = query_db("SELECT * FROM users WHERE approved = 'PENDING'")
+    
 
-    return render_template("html/admin/admin-users-pending.html")
+    if request.method == "POST":
+        user_id = request.form.get("user_id")
+        action = request.form.get("action")  
+
+        if action == "approve":
+            modify_db("UPDATE users SET approved='APPROVED' WHERE user_id=?", user_id)
+        elif action == "reject":
+            modify_db("UPDATE users SET approved='REJECTED' WHERE user_id=?", user_id)
+
+        #modify_db("DELETE FROM pending_users WHERE user_id=?", user_id) we could make a pending users table if needed/ move convinient (idk how to spell that)
+
+        
+        return redirect(url_for("admin.users_pending"))
+
+    return render_template("html/admin/pending-users.html")
 
 
 @admin.route("/")
@@ -75,3 +96,18 @@ def admin_main():
         return invalid
 
     return render_template("html/admin/admin-main.html")
+
+
+@admin.route("/approve_user", methods=["POST"])
+def approve_user1():
+    user_id = request.form.get("user_id")
+    approve_type = request.form.get("approve_type")
+
+    if approve_type == "Reject":
+        modify_db("UPDATE users SET approved='REJECTED' WHERE user_id=?", user_id)
+    else:
+        modify_db("UPDATE users SET approved='APPROVED' WHERE user_id=?", user_id)
+
+    return redirect(url_for("admin.admin_main"))
+
+

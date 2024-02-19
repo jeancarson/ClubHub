@@ -9,6 +9,8 @@ CREATE TABLE users (
     password            TEXT            NOT NULL,
     user_type           TEXT            NOT NULL CHECK (user_type IN ('STUDENT', 'COORDINATOR', 'ADMINISTRATOR')),
     approved            TEXT            CHECK (approved IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
     -------------------------------------------------
     PRIMARY KEY (user_id)
 );
@@ -16,6 +18,7 @@ CREATE TABLE users (
 CREATE TABLE login (
     user_id             INTEGER         NOT NULL,
     username            TEXT            NOT NULL,
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
     -------------------------------------------------
     PRIMARY KEY (username),
     FOREIGN KEY (user_id) REFERENCES users(user_id)

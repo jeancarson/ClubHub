@@ -77,8 +77,10 @@ def modify_db(statement: str, *args) -> None:
 
 def last_id(table: str) -> Row | None:
     """
-    Fetches and returns the id of the last user in the database if present,
-    and None otherwise.
+    Fetches and returns the ID of the last entry in the given table.
+    Returns None if table is empty.
+
+    :param table: Table name.
     """
 
     attr: str
