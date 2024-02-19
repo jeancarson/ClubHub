@@ -5,6 +5,7 @@ from .main import (
     modify_db,
     last_id
 )
+from .. import get_current_timestamp
 from .clubs import create_club, approve_club
 
 
@@ -16,7 +17,7 @@ def user_exists(username: str) -> bool:
     :param username: Username to check the existence of.
     """
 
-    return query_db(f"SELECT username FROM login WHERE username={username!r}", single=True) is not None
+    return query_db(f"SELECT NULL FROM login WHERE username={username!r}", single=True) is not None
 
 
 def create_user(
@@ -38,8 +39,6 @@ def create_user(
 
     :return: True if user is the first on the system, False otherwise.
     """
-
-    # TODO: Club name / description
 
     age: int | None = int(age) if age is not None else None
 
@@ -150,7 +149,7 @@ def user_profile_info(user_id: int) -> Row | None:
     """
     Returns all profile-related (editable) attributes of a user.
 
-    :param user_id: User's ID number.
+    :param user_id: User's ID.
     """
     return query_db(
         f"""
@@ -170,10 +169,14 @@ def update_user_profile_info(
         email: Optional[str] = None,
         phone: Optional[str] = None,
         gender: Optional[str] = None) -> None:
+    """
+    Updates the profile information for the user with the given ID.
+    """
 
     age: int | None = int(age) if age is not None else None
 
-    # TODO: 'updated' attribute
+    # TODO: 'created' & 'updated' attribute in schema
+    updated: str = get_current_timestamp()  # noqa
 
     modify_db(
         """
@@ -189,16 +192,20 @@ def update_user_profile_info(
         first_name, last_name, age, email, phone, gender, user_id
     )
 
-def get_pending_users():
-    return query_db("SELECT * FROM users WHERE approved='PENDING'") #might use this one or the other one 
 
+def get_pending_users() -> list[Row] | None:
+    """
+    Returns a list containing each user with an approved status of 'PENDING'.
+    """
+
+    return query_db("SELECT * FROM users WHERE approved='PENDING'")  # might use this one or the other one
 
 
 def approve_user(user_id: int) -> None:
     """
     Approve a pending user (set approved attribute to 'APPROVED' in users table).
 
-    :param user_id: User's ID number.
+    :param user_id: User's ID.
     """
 
     user: Row | None = query_db(
@@ -221,11 +228,11 @@ def approve_user(user_id: int) -> None:
     )
 
 
-def delete_user(user_id: Optional[int] = None) -> None:  # noqa
+def delete_user(user_id: int) -> None:
     """
     Deletes a user from the users & login table.
 
-    :param user_id: User's ID number.
+    :param user_id: User's ID.
     """
 
     modify_db(
@@ -241,13 +248,3 @@ def delete_user(user_id: Optional[int] = None) -> None:  # noqa
             WHERE user_id=?
         """, user_id
     )
-
-
-#I will cry soon it took me ages for this and its not even 3 LOLZAAAA
-def count_club_memberships(user_id):
-    clubs_info = query_db("SELECT COUNT(*) FROM club_memberships WHERE user_id = ?", (user_id,))
-    return clubs_info[0]['COUNT(*)'] if clubs_info else 0
-
-
-def insert_club_membership(club_id, user_id):
-    query_db("INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?)", (club_id, user_id))

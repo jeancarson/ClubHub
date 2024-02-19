@@ -1,7 +1,7 @@
 from flask import render_template, session, Blueprint, request, flash, redirect, url_for
 
 from ..util import db_functions as dbf
-from ..util.coordinator import coordinator_functions as cf
+# from ..util.coordinator import coordinator_functions as cf
 
 import logging
 

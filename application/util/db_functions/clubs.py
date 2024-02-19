@@ -1,5 +1,6 @@
 from typing import Optional
 
+from . import query_db
 from .main import Row, last_id, modify_db
 from .. import get_current_timestamp
 
@@ -9,8 +10,9 @@ def create_club(*, creator_user_id: int, club_name: str, club_description: Optio
     Creates a new club in the database.
     ID is automatically generated. Clubs are not approved by default.
 
-    :param creator_user_id: User ID of the creator.
-    :param club_name: Name of the club.
+    Keyword Arguments:
+        :param creator_user_id: User ID of the creator.
+        :param club_name: Name of the club.
 
     Optional Keyword Arguments:
         :param club_description: Description for the club.
@@ -45,8 +47,8 @@ def approve_club(creator_user_id: int) -> None:
     modify_db(
         """ 
             UPDATE clubs set 
-            validity='APPROVED',
-            updated=?
+                validity='APPROVED',
+                updated=?
             WHERE creator=?
         """, timestamp, creator_user_id
     )
@@ -65,3 +67,29 @@ def delete_club(creator_user_id: int) -> None:
             WHERE creator=?
         """, creator_user_id
     )
+
+
+def is_club_member(user_id: int, club_id: int) -> None:
+    """
+    Returns True if the given user is registered to be a member of the
+    given club and their validity status is 'APPROVED'.
+
+    :param user_id: User's ID.
+    :param club_id: Club's ID.
+    """
+
+    return query_db(
+        """
+            SELECT NULL FROM club_memberships
+            WHERE club_id=? AND user_id=? AND validity='APPROVED'
+        """, club_id, user_id
+    ) is not None
+
+
+def count_club_memberships(user_id):
+    clubs_info = query_db("SELECT COUNT(*) FROM club_memberships WHERE user_id = ?", (user_id,))
+    return clubs_info[0]['COUNT(*)'] if clubs_info else 0
+
+
+def insert_club_membership(club_id, user_id):
+    query_db("INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?)", (club_id, user_id))

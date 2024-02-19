@@ -56,7 +56,7 @@ def users_info():
     else:
         user_rows = None
 
-    return render_template('html/admin/admin-users-info.html', user_rows=user_rows)
+    return render_template('html/admin/users-info.html', user_rows=user_rows)
 
 
 @admin.route("/users/pending", methods=["GET", "POST"])
@@ -85,7 +85,7 @@ def users_pending():
         
         return redirect(url_for("admin.users_pending"))
 
-    return render_template("html/admin/admin-users-pending.html")
+    return render_template("html/admin/pending-users.html")
 
 
 @admin.route("/")
