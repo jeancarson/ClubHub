@@ -1,69 +1,4 @@
-from sqlite3 import Connection, Cursor, Row, connect
-from typing import Optional
-
-from flask import g, current_app
-
-DB_PATH: str = "application/database/database.db"
-
-
-def get_db() -> Connection:
-    """
-    Returns the global database connection instance.
-    """
-
-    db: Connection | None = getattr(g, "_database", None)
-
-    if db is None:
-        db: Connection = connect(DB_PATH)
-        db.row_factory = Row
-        g._database = db
-
-    return db
-
-
-def query_db(query: str, *args, single: bool = False) -> list[Row] | Row | None:
-    """
-    Execute an SQLite query on the database.
-
-    :param query: SQLite query to execute.
-    :param args: Arguments to pass to the given query.
-    :param single: If True, only returns the first value in the list of results (if there are any).
-    :return: None if there are no results; otherwise, the list of results or the single result.
-
-    Example:
-        print(query_db("SELECT * FROM table))
-    """
-
-    cursor: Cursor = get_db().cursor()
-    cursor.execute(query, args)
-
-    results: list[Row] = cursor.fetchall()
-    cursor.close()
-
-    if not results:
-        return None
-
-    return results[0] if single else results
-
-
-def modify_db(statement: str, *args) -> None:
-    """
-    Execute an SQLite manipulation statement on the database.
-
-    :param statement: SQLite statement to perform.
-    :param args: Arguments to pass to the given statement.
-
-    Example:
-        modify_db("INSERT INTO table VALUES (1, 17, 98)")
-    """
-
-    connection: Connection = get_db()
-    cursor: Cursor = connection.cursor()
-
-    cursor.execute(statement, args)
-    connection.commit()
-
-    cursor.close()
+from main import Row, Optional, query_db, modify_db
 
 
 def user_exists(username: str) -> bool:
@@ -96,13 +31,17 @@ def create_user(
         age: Optional[str] = None,
         email: Optional[str] = None,
         phone: Optional[str] = None,
-        gender: Optional[str] = None) -> bool:
+        gender: Optional[str] = None,
+        club_name: Optional[str] = None,
+        club_description: Optional[str] = None) -> bool:
     """
     Creates a new user in the database.
     ID is automatically generated. Users are not approved by default.
 
     :return: True if user is the first on the system, False otherwise.
     """
+
+    # TODO: Club name / description
 
     age: int | None = int(age) if age is not None else None
 
@@ -116,7 +55,7 @@ def create_user(
         approved = "APPROVED"  # Override approval if registration is the first on the system
     else:
         user_id = last_user["user_id"] + 1
-        user_type = user_type.upper()
+        user_type = user_type
         approved = "PENDING"
 
     modify_db(
@@ -151,20 +90,19 @@ def get_users_info(
     """
     Returns a list containing the rows from the users table, if there are any.
 
-    :param user_type: Should be either "STUDENT", "COORDINATOR", "ADMIN", or None (for all users).
-    :param unapproved: Only includes unapproved users.
-    :param admin_permission: If true, also includes username in results.
+    Optional Keyword arguments:
+        :param user_type: Should be either "STUDENT", "COORDINATOR", "ADMIN", or None (for all users).
+        :param unapproved: Only includes unapproved users.
+        :param admin_permission: If true, also includes username in results.
     """
 
     user_results: list[Row] | None
     login_results: list[Row] | None
     condition: str
 
-    current_app.logger.info(user_type)
-
     if user_type is None:
         if unapproved:
-            condition = "WHERE users.approved='UNAPPROVED'"
+            condition = "WHERE users.approved='PENDING'"
         else:
             condition = ";"
 
@@ -182,7 +120,7 @@ def get_users_info(
         join_type: str
 
         if unapproved:
-            condition = " AND users.approved='UNAPPROVED';"
+            condition = " AND users.approved='PENDING';"
         else:
             condition = ";"
 
@@ -196,10 +134,9 @@ def get_users_info(
             FROM users
             {join_type} JOIN login 
             ON users.user_id = login.user_id
-            WHERE users.user_type = {user_type!r}{condition}
+            WHERE users.user_type={user_type!r}
+            {condition}
         """)
-
-    current_app.logger.info(user_results)
 
     if user_results is None:
         return None
@@ -245,6 +182,17 @@ def update_user_info(
         WHERE user_id=?;
         """,
         first_name, last_name, age, email, phone, gender, user_id
+    )
+
+
+def approve_user(user_id: int) -> None:
+    modify_db(
+        """
+        UPDATE users set
+        approved='APPROVED'
+        WHERE user_id=?;
+        """,
+        user_id
     )
 
 

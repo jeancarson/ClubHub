@@ -13,7 +13,7 @@ coordinator_name = "John Doe"
 # def cohome():
 #     if "user" in session:
 #         user: str = session["user"]
-#         return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+#         return render_template("html/misc/home.html", header=f"Hello {user}!")
 #     # club_id = club_id
 #     club_details = dbf.query_db(ecd.get_club_details.format(club_id=club_id))
 #     club_name = club_details["club_name"]
@@ -54,7 +54,7 @@ def cohome():
 
     if "user" in session:
         user = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+        return render_template("html/misc/home.html", header=f"Hello {user}!")
 
     club_details = dbf.query_db(ecd.get_club_details.format(club_id=club_id))[0]
     club_name = club_details["club_name"]
@@ -132,7 +132,7 @@ def save_club_details():
 def parview(status):
     if "user" in session:
         user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+        return render_template("html/misc/home.html", header=f"Hello {user}!")
 
     return render_template("html/coordinator/view-participants.html", status=status)
 
@@ -141,7 +141,7 @@ def parview(status):
 def memview(status):
     if "user" in session:
         user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+        return render_template("html/misc/home.html", header=f"Hello {user}!")
 
     return render_template("html/coordinator/member-view.html", status=status)
 
@@ -150,7 +150,7 @@ def memview(status):
 def see_events(timeline):
     if "user" in session:
         user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+        return render_template("html/misc/home.html", header=f"Hello {user}!")
 
     return render_template("html/coordinator/multi-event-view.html", timeline=timeline)
 
@@ -159,7 +159,7 @@ def see_events(timeline):
 def new_event():
     if "user" in session:
         user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+        return render_template("html/misc/home.html", header=f"Hello {user}!")
 
     return render_template("html/coordinator/single-event-view.html")
 
@@ -171,7 +171,7 @@ def new_event():
 def edit_event(event_id):
     if "user" in session:
         user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+        return render_template("html/misc/home.html", header=f"Hello {user}!")
     event_details = dbf.query_db(ecd.view_single_event.format(event_id=event_id))[0]
     return render_template("html/coordinator/single-event-view.html",  event_name = event_details["event_name"], event_date=event_details["date_and_time"],
                             event_location=event_details["venue"], event_description=event_details["event_description"],)

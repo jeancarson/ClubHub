@@ -9,8 +9,8 @@ from flask import (
 
 from ..util.authentication import current_user, current_user_info
 from ..util.authentication.alerts import error, Error
-from ..util.db_functions import update_user_info
-from ..util.util import get_form_user_details
+from ..util.db_functions.users import update_user_info
+from ..util import get_form_user_details
 
 profile: Blueprint = Blueprint("profile", __name__, url_prefix="/profile")
 
@@ -27,7 +27,7 @@ def profile_get() -> str | Response:
         error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint="/profile")
         return redirect("/home")
 
-    return render_template("html/misc/profile.html", user_info=current_user_info())
+    return render_template("html/user/profile.html", user_info=current_user_info())
 
 
 @profile.route("/edit")
@@ -42,7 +42,7 @@ def profile_edit() -> str | Response:
         error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint="/profile")
         return redirect("/home")
 
-    return render_template("html/misc/profile.html", user_info=current_user_info(), edit=True)
+    return render_template("html/user/profile.html", user_info=current_user_info(), edit=True)
 
 
 @profile.route("/", methods=["POST"])
@@ -50,8 +50,6 @@ def profile_post() -> Response:
     """
     Loaded when profile is saved.
     """
-
-    print("posty")
 
     user_id = session["user-id"]
 

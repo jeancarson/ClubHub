@@ -43,6 +43,10 @@ body {
     overflow-x: hidden;
 }
 
+::placeholder {
+    opacity: 0.6;
+}
+
 header h1 {
     text-align: center;
     margin: 1.65em 0;

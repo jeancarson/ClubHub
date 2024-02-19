@@ -2,7 +2,6 @@ from flask import (
     Blueprint,
     render_template,
     request,
-    session,
     url_for,
     redirect,
 )
@@ -11,7 +10,7 @@ from werkzeug import Response
 from ..util.authentication import current_user, login, logout
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import password_match
-from ..util.db_functions import get_username_match
+from ..util.db_functions.users import get_username_match
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
 
@@ -77,6 +76,5 @@ def logout_get() -> Response:
     else:
         logout()
         success(successtype=Success.LOGOUT, endpoint="/logout", user=user)
-        session.pop("user", None)
 
     return redirect("/home")
