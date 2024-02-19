@@ -24,7 +24,7 @@ app.register_blueprint(profile)
 app.register_blueprint(misc)
 app.register_blueprint(admin)
 app.register_blueprint(jean_blueprint)
-
+app.register_blueprint(mia_blueprint)
 
 @app.teardown_appcontext
 def close_connection(_exception) -> None:

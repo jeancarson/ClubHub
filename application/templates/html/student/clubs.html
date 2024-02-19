@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events Page</title>
+    <title>Clubs Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
@@ -91,9 +91,9 @@
 </head>
 
 <body>
-    <div class="marquee-container">
+    <!--<div class="marquee-container">
         <marquee direction="right" behavior="alternate" class="marquee">ClubHub</marquee>
-    </div>
+    </div>-->
 
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0077b6;">
         <a class="navbar-brand" href="#">
@@ -136,7 +136,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="card event-card">
-                    <div class="card-header">Event 1 </div>
+                    <div class="card-header">Club 1 </div>
                     <div class="card-body">
                         <p class="card-text">Lets say golf</p>
 
@@ -147,7 +147,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card event-card">
-                    <div class="card-header">Event 2</div>
+                    <div class="card-header">Club 2</div>
                     <div class="card-body">
                         <p class="card-text">Lets say jujitsu</p>
 
@@ -158,7 +158,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card event-card">
-                    <div class="card-header">Event 3</div>
+                    <div class="card-header">Club 3</div>
                     <div class="card-body">
                         <p class="card-text">Lets say volleyball</p>
 
@@ -189,6 +189,27 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     <button type="button" class="'btn btn-secondary" data-dismiss="modal">Sign Up</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card event-card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Click here to see the list of all clubs</h5>
+            <button class="btn btn-primary" id="showAllClubs">Show All Clubs</button>
+            <div id="allClubs" style="display: none;">
+                <hr>
+                <h5>All Clubs</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Club 1</h5>
+        
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -278,6 +299,19 @@
             
         </div>
     </div>
+    <script>
+        // JavaScript code to toggle visibility of All Clubs section
+        document.getElementById("showAllClubs").addEventListener("click", function() {
+            var allClubs = document.getElementById("allClubs");
+            if (allClubs.style.display === "none") {
+                allClubs.style.display = "block";
+                this.textContent = "Show Less";
+            } else {
+                allClubs.style.display = "none";
+                this.textContent = "Read More";
+            }
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

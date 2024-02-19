@@ -57,7 +57,7 @@
   <a href="/admin" class="btn btn-custom"> <-- </a>
 <div class="container">
     <div class="row">
-        <!-- Approved Members -->
+       
         <div class="col-md-4">
             <div class="window">
                 <h4 class="text-center">Approved Members</h4>
@@ -70,19 +70,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Sample approved members data -->
+                            {% for user in approved_users %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Student</td>
+                                <th scope="row">{{ user.user_id }}</th>
+                                <td>{{ user.user_type }}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Coordinator</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Student</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -98,60 +91,58 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">UserID</th>
-                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for user in rejected_users %}
                             <tr>
-                                <th scope="row">3</th>
-                                <td><button class="btn btn-danger btn-sm">X</button></td>
+                                <th scope="row">{{ user.user_id }}</th>
                             </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td><button class="btn btn-danger btn-sm">X</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Pending Members -->
-        <div class="col-md-4">
-            <div class="window">
-                <h4 class="text-center">Pending Members</h4>
-                <div class="scrollable-table">
-                    <table class="table table-bordered mt-3">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">UserID</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>
-                                    <button class="btn btn-success btn-sm">Coordinator</button>
-                                    <button class="btn btn-success btn-sm">Student</button>
-                                    <button class="btn btn-danger btn-sm">Reject</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>
-                                    <button class="btn btn-success btn-sm">Coordinator</button>
-                                    <button class="btn btn-success btn-sm">Student</button>
-                                    <button class="btn btn-danger btn-sm">Reject</button>
-                                </td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+        
+        <!-- Pending Members -->
+        
+    <div class="col-md-4">
+        <div class="window">
+            <h4 class="text-center">Pending Members</h4>
+            <div class="scrollable-table">
+                <table class="table table-bordered mt-3">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">UserID</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in pending_users %}
+                        <tr>
+                            <th scope="row">{{ user.user_id }}</th>
+                            <td>{{ user.user_type }}</td>
+                            <td>
+                                <form action="{{ url_for('admin.users_pending') }}" method="post">
+                                    <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                    <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
+                                    <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    
+        </div>
+    </div>
+    </div>
 </div>
+
 
 </body>
 </html>
