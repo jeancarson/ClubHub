@@ -189,6 +189,10 @@ def update_user_profile_info(
         first_name, last_name, age, email, phone, gender, user_id
     )
 
+def get_pending_users():
+    return query_db("SELECT * FROM users WHERE approved='PENDING'") #might use this one or the other one 
+
+
 
 def approve_user(user_id: int) -> None:
     """
@@ -237,3 +241,13 @@ def delete_user(user_id: Optional[int] = None) -> None:  # noqa
             WHERE user_id=?
         """, user_id
     )
+
+
+#I will cry soon it took me ages for this and its not even 3 LOLZAAAA
+def count_club_memberships(user_id):
+    clubs_info = query_db("SELECT COUNT(*) FROM club_memberships WHERE user_id = ?", (user_id,))
+    return clubs_info[0]['COUNT(*)'] if clubs_info else 0
+
+
+def insert_club_membership(club_id, user_id):
+    query_db("INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?)", (club_id, user_id))

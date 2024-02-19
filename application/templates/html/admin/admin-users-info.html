@@ -48,7 +48,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="?admin">Home</a>
+                <a class="nav-link" href="/admin">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/members_info">Information</a>
@@ -97,6 +97,8 @@
                         <th scope="col">Gender</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
+                        <th scope="'col">Created</th>
+                        <th scope="'col">Updated</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -112,6 +114,8 @@
                                     <td>{{ user["gender"] }}</td>
                                     <td>{{ user["email"] }}</td>
                                     <td>{{ user["phone"] }}</td>
+                                    <td>{{ user["created"] }}</td>
+                                    <td>{{ user["updated"] }}</td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
