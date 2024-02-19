@@ -1,15 +1,6 @@
-from sqlite3 import OperationalError
+from application import app
 
-from application import app, initialise_db
-
-
-try:
-    initialise_db()
-except OperationalError:
-    pass
-
-
-# DARRAGH – TODO: Fix styles overriding each other and add navbar to admin pages
+# TODO: "'Delete my account' ability on profile page"
 
 
 if __name__ == '__main__':
