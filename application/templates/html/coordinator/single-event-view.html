@@ -71,17 +71,18 @@
             function validateForm() {
                 let dateInput = document.getElementById('date').value;
                 let timeInput = document.getElementById('time').value;
-
-                let dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-                let timeRegex = /^\d{2}:\d{2}$/;
-
+        
+                let dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+                let timeRegex = /^(0?[1-9]|1[0-2]):[0-5]\d$/;
+        
                 if (!dateRegex.test(dateInput) || !timeRegex.test(timeInput)) {
-                    alert("Invalid date or time format. Please use YYYY-MM-DD for date and HH:MM for time.");
+                    alert("Invalid date or time format. Please use YYYY-MM-DD for date and HH:MM for time. Please make sure you have valid dates and times");
                     return false;
                 }
-
+        
                 return true;
             }
         </script>
+        
     </div>
 {% endblock %}
