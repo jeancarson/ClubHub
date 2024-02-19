@@ -3,6 +3,5 @@
 .venv/
 */__pycache__/
 __pycache__/
-.vscode/
 .DS_Store
 */.DS_Store

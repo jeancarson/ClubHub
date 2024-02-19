@@ -147,9 +147,23 @@ def see_events(timeline):
     if "user" in session:
         user: str = session["user"]
         return render_template("html/misc/default-home.html", header=f"Hello {user}!")
-    timelined_events = cf.view_all_events(club_id, timeline)
 
-    return render_template("html/coordinator/multi-event-view.html", timeline=timeline, timelined_events=timelined_events)
+    timelined_events = cf.view_all_events(club_id, timeline)
+    event_details = []
+    if timelined_events is None:
+        timelined_events = []
+    else:
+        for event in timelined_events:
+            number_of_pending_participants = cf.count_pending_participants(event["event_id"])
+            number_of_approved_participants = cf.count_approved_participants(event["event_id"])
+            event_details.append({
+                'event_id': event["event_id"],
+                'event_name': event["event_name"],
+                'event_date': event["date"],
+                'approved_participants': number_of_approved_participants,
+                'pending_participants': number_of_pending_participants,
+            })
+    return render_template("html/coordinator/multi-event-view.html", timeline=timeline, timelined_events=event_details)
 
 # ----------------------------Start of single event--------------------------------------------
 @jean_blueprint.route("/new-event")
