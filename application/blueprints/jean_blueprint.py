@@ -1,7 +1,7 @@
 from flask import render_template, session, Blueprint, request, flash, redirect, url_for
 
 from ..util import db_functions as dbf
-# from ..util.coordinator import coordinator_functions as cf
+from ..util.coordinator import coordinator_functions as cf
 
 import logging
 
@@ -183,7 +183,7 @@ def add_event():
     event_location = request.form["venue"]
     event_description = request.form["description"]
 
-    cf.add_event(event_name=event_name, event_date=event_date, event_time=event_time, event_location=event_location, event_description=event_description)
+    cf.add_event(event_name=event_name, event_date=event_date, event_time=event_time, event_location=event_location, event_description=event_description, club_id=club_id)
 
     return redirect(url_for('jean_blueprint.cohome', club_id=club_id))
 
