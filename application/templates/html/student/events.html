@@ -1,0 +1,98 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" href="../../../static/css/events.css">
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>Upcoming Club Events</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="events-container">
+        <div id="events-main">
+            {% if registered %}
+                {% if registered | length == 1 %}
+                    {% set plural = "" %}
+                {% else %}
+                    {% set plural = "s" %}
+                {% endif %}
+                <div>
+                    <h2>Events You Have Signed Up For</h2>
+                    <p>Showing {{ registered | length }} Event{{ plural }}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Event ID</th>
+                            <th scope="col">Event Name</th>
+                            <th scope="col">Hosted By</th>
+                            <th scope="col">Event Description</th>
+                            <th scope="col">Venue</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in registered %}
+                            <tr>
+                                <td>{{ event["event_id"] }}</td>
+                                <td>{{ event["event_name"] }}</td>
+                                <td>{{ event["club_name"] }}</td>
+                                <td>{{ event["event_description"] }}</td>
+                                <td>{{ event["venue"] }}</td>
+                                <td>{{ event["date_and_time"] }}</td>
+                                <td><a class="registered" disabled>Signed Up</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% if unregistered %}
+                {% if unregistered | length == 1 %}
+                    {% set plural = "" %}
+                {% else %}
+                    {% set plural = "s" %}
+                {% endif %}
+                <div>
+                    <h2>Upcoming Events</h2>
+                    <p>Showing {{ unregistered | length }} Event{{ plural }}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Event ID</th>
+                            <th scope="col">Event Name</th>
+                            <th scope="col">Hosted By</th>
+                            <th scope="col">Event Description</th>
+                            <th scope="col">Venue</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in unregistered %}
+                            <tr>
+                                <td>{{ event["event_id"] }}</td>
+                                <td>{{ event["event_name"] }}</td>
+                                <td>{{ event["club_name"] }}</td>
+                                <td>{{ event["event_description"] }}</td>
+                                <td>{{ event["venue"] }}</td>
+                                <td>{{ event["date_and_time"] }}</td>
+                                <td>
+                                    <a class="unregistered" href="/events/register?event_id={{ event["event_id"] }}&event_name={{ event["event_name"] }}">Sign Up</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

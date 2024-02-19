@@ -2,16 +2,15 @@ from flask import (
     Blueprint,
     render_template,
     request,
-    session,
-    flash,
     url_for,
     redirect,
-    current_app
 )
 from werkzeug import Response
 
-from ..util.db_functions import query_db, user_approved
-from ..util.user_auth import password_match
+from ..util.authentication import current_user, login, logout
+from ..util.authentication.alerts import error, success, Error, Success
+from ..util.authentication.passwords import password_match
+from ..util.db_functions.users import username_match
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
 
@@ -23,14 +22,13 @@ def login_get() -> Response | str:
     """
 
     form_username_value: str = request.args.get("username", "")
+    user: str | None = current_user()
 
-    if "user" in session:
-        current_user: str = session["user"]
-        current_app.logger.info(f"[page='/login'] => Authenticated user tried to access restricted page")
-        flash(f"You are already logged in as {current_user!r}", category="error")
+    if user is not None:
+        error(errtype=Error.RESTRICTED_PAGE_LOGGED_IN, endpoint="/login", user=user)
         return redirect("/profile")
 
-    return render_template("html/login.html", form_username_value=form_username_value)
+    return render_template("html/auth/login.html", form_username_value=form_username_value)
 
 
 @login_logout.route("/login", methods=["POST"])
@@ -42,67 +40,41 @@ def login_post() -> Response | str:
     username: str = request.form["login-username"]
     password: str = request.form["login-password"]
 
-    match = query_db(f"SELECT password FROM users WHERE username='{username}'", single=True)
+    match = username_match(username=username)
 
     if match is None:
-        current_app.logger.info(f"[page='/login' (FORM)] => Invalid username")
-        flash(f"User {username!r} not found", category="error")
+        error(errtype=Error.INVALID_USERNAME, endpoint="/register", form=True, username=username)
         return redirect("/login")
 
     if not password_match(password, match["password"]):
-        current_app.logger.info(f"[page='/login' (FORM)] => Incorrect password")
-        flash("Incorrect password", category="error")
+        error(errtype=Error.INCORRECT_PW, endpoint="/login", form=True, username=username)
         return redirect(url_for(".login_get", username=username))
 
-    if not user_approved(username=username):
-        current_app.logger.info(f"[page='/login' (FORM)] => Account still awaiting administrator approval")
-        flash("Your account is awaiting administrator approval", category="error")
+    if match["approved"] != "APPROVED":
+        error(errtype=Error.UNAPPROVED, endpoint="/login", form=True, username=username)
         return redirect("/home")
 
-    current_app.logger.info(f"[page='/login' (FORM)] => Login successful for user: {username!r}")
-    flash(f"Successfully logged in as {username!r}", category="info")
+    user_id: int = match["user_id"]
+    user_type: str = match["user_type"]
 
-    # Create a user session
-    session["user"] = username
+    login(user_id=user_id, username=username, user_type=user_type)
+    success(successtype=Success.LOGIN, endpoint="/login", form=True, username=username, user_type=user_type)
 
     return redirect("/profile")
 
 
 @login_logout.route("/logout")
-def logout() -> Response:
+def logout_get() -> Response:
     """
     Logs out of the current session (if any) and redirects to home page.
     """
 
-    if "user" in session:
-        username: str = session["user"]
-        current_app.logger.info(f"[page='/logout'] => Logout successful for user: {username!r}")
-        flash(f"You have been logged out. See you later {username!r}!", category="info")
-        session.pop("user", None)
+    user: str | None = current_user()
+
+    if user is None:
+        error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint="/logout")
     else:
-        flash("You can not log out if you are not logged in!", category="error")
+        logout()
+        success(successtype=Success.LOGOUT, endpoint="/logout", user=user)
 
     return redirect("/home")
-
-
-@login_logout.route("/profile")
-def profile() -> str | Response:
-    """
-    Loads the account page (if a user session is active).
-    """
-
-    if "user" not in session:
-        current_app.logger.info(f"[page='/profile'] => Unauthenticated user tried to access restricted page")
-        flash("You cannot access this page as you are not logged in", category="error")
-        return redirect("/home")
-
-    return render_template("html/profile.html", user=session["user"])
-
-
-@login_logout.route("/forgot-password")
-def forgot_password() -> str:
-    """
-    Loads the forgot password page.
-    """
-
-    return render_template("html/forgot-password.html")

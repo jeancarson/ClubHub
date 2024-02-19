@@ -1,0 +1,121 @@
+
+body {
+    background-image: url("../png/blue-background-flipped-x.png");
+    background-size: cover;
+    background-position: center center;
+}
+
+#profile-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 7.5em;
+}
+
+#profile-main {
+    background-color: var(--white);
+    width: 50%;
+    padding: 0 0.5em;
+    box-shadow: -9px 8px 5px 0 rgba(2, 62, 138, 0.75);
+    outline: 0.3em solid var(--lighter-blue);
+}
+
+#profile-edit {
+    display: flex;
+    align-items: center;
+    width: 49%;
+    color: var(--white);
+}
+
+#profile-edit a,
+#profile-edit button {
+    border: none;
+    display: block;
+    font-size: 1rem;
+    color: var(--white);
+    background-color: var(--darker-blue);
+    padding: 1em 3em;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    transition: all 400ms;
+    outline: 0.15em solid transparent;
+}
+
+#profile-edit button {
+    background-color: var(--dark-green);
+}
+
+#profile-edit a:hover,
+#profile-edit button:hover {
+    cursor: pointer;
+    outline-color: var(--lighter-blue);
+}
+
+#profile-edit button:hover {
+    outline-color: var(--white);
+}
+
+.profile-row {
+    margin: 0;
+    font-size: 1.15rem;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    color: var(--black);
+    border-bottom: 1px solid var(--lighter-grey);
+}
+
+.profile-row div:first-child {
+    padding: 1em;
+}
+
+.profile-row div:last-child {
+    padding: 0 1em;
+}
+
+#logout-link {
+    grid-column: span 2;
+    padding: 2em 1.5em 2em;
+    font-size: 0.75rem;
+}
+
+#logout-link a {
+    color: var(--light-red);
+    transition: all 350ms;
+}
+
+#logout-link a:hover {
+    transform: translate(0, -25%);
+}
+
+.profile-row div input {
+    display: block;
+    border: 1px solid var(--light-grey);
+    padding: 0.75em;
+    width: 100%;
+    border-radius: 0.5em;
+    outline: none;
+}
+
+.profile-row div input:not(:disabled):hover {
+    background-color: var(--even-lighter-grey);
+}
+
+.profile-row div input,
+.profile-row div select {
+    opacity: 1;
+    display: block;
+    border: 1px solid var(--light-grey);
+    padding: 0.75em;
+    width: 100%;
+    border-radius: 0.5em;
+    outline: none;
+}
+
+.profile-row div input:focus,
+.profile-row div select:focus {
+    outline: 1px solid var(--light-grey);
+}

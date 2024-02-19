@@ -1,4 +1,10 @@
 
+body {
+    background-image: url("../png/blue-background-flipped-x.png");
+    background-size: cover;
+    background-position: center center;
+}
+
 #contact-container {
     padding-top: 2.5em;
     display: flex;
@@ -63,4 +69,13 @@
     background-color: var(--turquoise);
 }
 
+@media screen and (max-height: 560px) {
+    #contact-container {
+        flex-direction: column;
+        align-items: center;
+    }
 
+    #contact-box {
+        width: 70%;
+    }
+}

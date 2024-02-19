@@ -1,0 +1,61 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" type="text/css" href="../../../static/css/forms.css" />
+    <script src="../../../static/js/login.js" async defer></script>
+
+    <style>
+        body {
+            background-image: url("../../../static/png/blue-background-flipped-x.png");
+            background-size: cover;
+            background-position: center center;
+        }
+    </style>
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>Log in to ClubHub</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="form-container">
+        <form id="login-form" action="/login" method="post">
+            <label for="login-username-input"></label>
+            <input id="login-username-input"
+                   name="login-username"
+                   type="text"
+                   placeholder="Username"
+                   autocomplete="on"
+                   value="{{ form_username_value }}"
+                   autofocus
+                   required>
+
+            <label for="login-password-input"></label>
+            <input id="login-password-input"
+                   name="login-password"
+                   type="password"
+                   placeholder="Password"
+                   autocomplete="on"
+                   required>
+
+            <!-- toggle password visibility -->
+            <label id="login-show-password-input-label" for="login-show-password-input">
+                Show password&nbsp
+                <input id="login-show-password-input" type="checkbox" onclick="" class="show-password-box">
+            </label>
+
+            <div>Dont have an account?<a class="underlined-link underlined-link-regular" href="/register">Sign up</a></div>
+            <div><a class="underlined-link underlined-link-regular" href="/forgot-password">Forgotten your password?</a></div>
+
+            <button class="submit-button" type="submit">Login</button>
+        </form>
+    </div>
+
+{% endblock %}

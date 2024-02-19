@@ -1,0 +1,54 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" type="text/css" href="../../../static/css/contact.css" />
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>Contact ClubHub</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="contact-container">
+        <div id="contact-box">
+            <img alt="[phone icon]" src="../../../static/png/phone.png">
+            <h2>By Phone</h2>
+            <p>
+                <b>Monday – Friday<br />
+                9:00 to 17:00</b>
+            </p>
+            <span>+353 88 888 8888</span>
+            <a id="phone-button" href="tel:+353888888888">Call Now</a>
+        </div>
+        <div id="contact-box">
+            <img alt="[email icon]" src="../../../static/png/email.png">
+            <h2>Send an Email</h2>
+            <p><b>Have a query?</b></p>
+            <span>Just send us your questions or concerns and we will respond promptly!</span>
+            <a id="email-button" href="mailto:help@clubhub.ie">Email</a>
+        </div>
+        <div id="contact-box">
+            <img alt="[location icon]" src="../../../static/png/location.png">
+            <h2>Our Main Office</h2>
+            <p>
+                78 Pomegranate St.<br />
+                Castletroy<br>
+                Co. Limerick.
+            </p>
+            <span>V93 DNM0</span>
+            <a id="loc-button"
+               href="https://www.google.com/maps/place/Immersive+Software+Engineering+(ISE)/@52.6737343,-8.5803633,17z/data=!3m1!4b1!4m6!3m5!1s0x485b5ff2ce7e2941:0x1aaa1b0855f032d6!8m2!3d52.6737311!4d-8.5777884!16s%2Fg%2F11rxmb0h4z?entry=ttu">
+                View in Maps
+            </a>
+        </div>
+
+    </div>
+    
+{% endblock %}

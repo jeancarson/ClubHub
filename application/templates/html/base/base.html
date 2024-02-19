@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+<!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    {% block bootstrap_links %}
+    {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="../../../static/css/base.css" />
+    <link rel="icon" type="image/x-icon" href="../../../static/ico/favicon.ico" />
+
+    {% block links %}
+    {% endblock %}
+
+    <title>ClubHub</title>
+
+    <script src="../../../static/js/base.js" async defer></script>
+    <script src="../../../static/js/alert-message.js" async defer></script>
+
+    {% if request.endpoint == "registration.register_get" %}
+        {% set new_link = "register" %}
+        {% set add_link_to_nav = true %}
+    {% elif request.endpoint == "login_logout.forgot_password" %}
+        {% set new_link = "forgot-password" %}
+        {% set new_link_name = "Reset Password" %}
+        {% set add_link_to_nav = true %}
+    {% elif request.endpoint == "misc.privacy_policy" %}
+        {% set new_link = "privacy-policy" %}
+        {% set new_link_name = "Privacy Policy" %}
+        {% set add_link_to_nav = true %}
+    {% elif request.endpoint == "misc.terms_and_conditions" %}
+        {% set new_link = "terms-and-conditions" %}
+        {% set new_link_name = "Terms and Conditions" %}
+        {% set add_link_to_nav = true %}
+    {% endif %}
+
+    {% set flash_message = get_flashed_messages()[0] %}
+
+</head>
+
+<body>
+
+    <style>
+        .alert-dialog {
+            {% with error = get_flashed_messages(category_filter=["error"]) %}
+                {% with info = get_flashed_messages(category_filter=["info"]) %}
+                    background-color: {{ "var(--light-red)" if error else "var(--light-green)" }};
+                    display: {{ "block" if error or info else "none"}};
+                {% endwith %}
+            {% endwith %}
+        }
+    </style>
+
+    <nav id="navbar">
+
+        <div class="navbar-left">
+            <a href="/home">
+                <img src="../../../static/png/logo.png" alt="[logo]">
+                <img src="../../../static/png/logo-dark.png" alt="[logo]">
+            </a>
+        </div>
+
+        <div class="navbar-center">
+            <a href="/home" class="home-link index-link none-link">Home</a>
+        </div>
+
+        {% if "user" in session %}
+
+            <div class="navbar-center">
+                <a href="/profile" class="profile-link">Profile</a>
+            </div>
+
+            {% if session["user-type"] == "ADMINISTRATOR" %}
+
+                <div class="navbar-center">
+                    <a href="/admin/users/info" class="admin/users/pending-link">Pending Requests</a>
+                </div>
+                <div class="navbar-center">
+                    <a href="/admin/users/info" class="admin/users/info-link">Users</a>
+                </div>
+
+            {% elif session["user-type"] == "COORDINATOR" %}
+
+                <div class="navbar-center">
+                    <a href="#" class="#-link">...</a>
+                </div>
+
+            {% elif session["user-type"] == "STUDENT" %}
+
+                <div class="navbar-center">
+                    <a href="/events" class="events-link">Events</a>
+                </div>
+
+                <div class="navbar-center">
+                    <a href="#" class="#-link">...</a>
+                </div>
+
+            {% endif %}
+
+        {% else %}
+
+            <div class="navbar-center">
+                <a href="/login" class="login-link">Login</a>
+            </div>
+            <div class="navbar-center">
+                <a href="/about-us" class="about-link about-us-link">About Us</a>
+            </div>
+            <div class="navbar-center">
+                <a href="/contact-us" class="contact-link contact-us-link">Contact</a>
+            </div>
+
+        {% endif %}
+
+        {% if add_link_to_nav %}
+
+            <div class="navbar-center">
+                <a href="/{{ new_link }}" class="{{ new_link }}-link">{{ new_link_name if new_link_name else new_link.capitalize() }}</a>
+            </div>
+
+        {% endif %}
+
+        <div class="navbar-right">
+            <a href="javascript:void(0);">&#9776;</a>
+        </div>
+
+    </nav>
+
+    <div class="alert-dialog-container">
+        <div class="alert-dialog">
+            <p>{{ flash_message }}</p>
+            <button class="alert-dialog-button">&#10005;</button>
+        </div>
+    </div>
+
+    {% block header %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    <footer id="footer">
+        <div>
+            <a class="underlined-link underlined-link-footer" id="terms-and-conditions" href="/terms-and-conditions">Terms and Conditions</a>
+        </div>
+        <div>
+            <a class="underlined-link underlined-link-footer" id="privacy-policy" href="/privacy-policy">Privacy Policy</a>
+        </div>
+        <div class="footer-center">
+            <span>© 2024 ClubHub™, All rights reserved.</span>
+        </div>
+        <div>
+            <a class="underlined-link underlined-link-yt" id="footer-yt" href="https://www.youtube.com/@immersiveSE">
+                <img alt="[YouTube logo]" src="../../../static/png/youtube.png" />
+            </a>
+        </div>
+        <div>
+            <a class="underlined-link underlined-link-x" id="footer-x" href="https://twitter.com/ImmersiveSE">
+                <img alt="[X logo]" src="../../../static/png/x.png" />
+            </a>
+        </div>
+        <div>
+            <a class="underlined-link underlined-link-insta" id="footer-insta" href="https://www.instagram.com/immersivesoftwareengineering/">
+                <img alt="[Instagram logo]" src="../../../static/png/instagram.png" />
+            </a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

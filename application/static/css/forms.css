@@ -1,4 +1,11 @@
 
+body {
+    background-image: url("../png/blue-background-flipped-x.png");
+    background-size: cover;
+    background-position: center center;
+}
+
+textarea,
 input:not(input[type=checkbox], input[type=radio]) {
     display: block;
     outline: none;
@@ -8,6 +15,14 @@ input:not(input[type=checkbox], input[type=radio]) {
     width: 50%;
     min-width: 7em;
     border-radius: 5px;
+}
+
+textarea {
+    font-family: Arial, serif;
+    max-width: 80%;
+    min-width: 80%;
+    min-height: 8em;
+    max-height: 16em;
 }
 
 input[type=checkbox] {
@@ -40,11 +55,15 @@ input:not(input[type=checkbox], input[type=radio]):nth-of-type(3) {
     margin-bottom: 0;
 }
 
-input:not(input[type=checkbox], input[type=radio]):hover, select:hover {
+input:not(input[type=checkbox], input[type=radio]):hover,
+select:hover,
+textarea:hover {
     outline: 2px solid var(--light-grey);
 }
 
-input:not(input[type=checkbox], input[type=radio]):focus, select:focus {
+input:not(input[type=checkbox], input[type=radio]):focus,
+select:focus,
+textarea:focus {
     outline: 2px solid var(--light-grey);
 }
 
@@ -54,7 +73,6 @@ label {
 
 .submit-button {
     border: none;
-    margin-bottom: 2em;
     margin-top: 3em;
     padding: 3%;
     font-size: 0.9rem;
@@ -79,10 +97,10 @@ label {
     margin: auto auto 5%;
     align-items: center;
     justify-content: center;
-    padding-top: 6%;
-    padding-bottom: 6%;
+    padding: 6% 0;
     background-color: var(--dark-blue);
-    border-radius: 1em;
+    border: 0.15em solid var(--darker-blue);
+    box-shadow: -10px 10px 12px 0 rgba(2, 62, 138, 0.75);
 }
 
 #login-form {
@@ -173,6 +191,13 @@ label {
 
 #radio-inputs-container div label {
     margin-bottom: 0;
+}
+
+#register-club-name-input-label,
+#register-club-name-input,
+#register-club-description-input-label,
+#register-club-description-input {
+    display: none;
 }
 
 .required-star {

@@ -1,0 +1,123 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" href="../../../static/css/profile.css">
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>User Profile: {{ session["user"] }}</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <form id="profile-form" action="/profile" method="post">
+        <div id="profile-edit">
+            {% if edit %}
+                <button type="submit">Save Changes</button>
+            {% else %}
+                <a href="/profile/edit">Edit Profile</a>
+            {% endif %}
+        </div>
+        <div id="profile-main">
+            <div class="profile-row">
+                <div><label for="id-input">ID</label></div>
+                <div>
+                    <input id="id-input" type="number" value="{{ session["user-id"] }}" disabled>
+                </div>
+            </div>
+            <div class="profile-row">
+                <div><label for="first-name-input">First Name</label></div>
+                <div>
+                    <input id="first-name-input"
+                           name="first-name-input"
+                           type="text"
+                           autocomplete="on"
+                           value="{{ user_info["first_name"] if user_info["first_name"] }}"
+                           {% if edit %}  placeholder="John" autofocus> {% else %} disabled> {% endif %}
+                </div>
+            </div>
+            <div class="profile-row">
+                <div><label for="last-name-input">Last Name</label></div>
+                <div>
+                    <input id="last-name-input"
+                           name="last-name-input"
+                           type="text"
+                           autocomplete="on"
+                           value="{{ user_info["last_name"] if user_info["last_name"] }}"
+                           {% if edit %} placeholder="Doe"> {% else %} disabled> {% endif %}
+                </div>
+            </div>
+            <div class="profile-row">
+                <div><label for="age-input">Age</label></div>
+                <div>
+                    <input id="age-input"
+                           name="age-input"
+                           type="number"
+                           min="0"
+                           max="99"
+                           autocomplete="on"
+                           value="{{ user_info["age"] if user_info["age"] }}"
+                           {% if edit %} placeholder="18"> {% else %} disabled> {% endif %}
+                </div>
+            </div>
+            <div class="profile-row">
+                <div><label for="gender-input">Gender</label></div>
+                <div>
+                    <select id="gender-input" name="gender-input"
+                        {% if edit %} > {% else %} disabled> {% endif %}
+                        <option value="" disabled aria-disabled="true"
+                                selected>{{ "Choose Gender" if edit else "" }}</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="non-binary">Non-binary</option>
+                        <option value="other">Other</option>
+                        <option value="none">Prefer not to say</option>
+                    </select>
+                </div>
+            </div>
+            <div class="profile-row">
+                <div><label for="email-input">Email</label></div>
+                <div>
+                    <input id="email-input"
+                           name="email-input"
+                           type="email"
+                           autocomplete="on"
+                           value="{{ user_info["email"] if user_info["email"] }}"
+                           {% if edit %} placeholder="john.doe@example.com"> {% else %} disabled> {% endif %}
+                </div>
+            </div>
+            <div class="profile-row">
+                <div><label for="phone-input">Phone Number</label></div>
+                <div>
+                    <input id="phone-input"
+                           name="phone-input"
+                           type="tel"
+                           autocomplete="on"
+                           value="{{ user_info["phone"] if user_info["phone"] }}"
+                           {% if edit %} placeholder="087 819 8293"> {% else %} disabled> {% endif %}
+                </div>
+            </div>
+            {% if not edit %}
+                <div class="profile-row">
+                    <div id="logout-link">
+                        <a class="underlined-link underlined-link-logout" href="/logout">Click here to log out of your account</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </form>
+
+    <script async defer>
+        {% if user_info["gender"] %}
+            document.querySelector("#gender-input").value = "{{ user_info['gender'] }}";
+        {% endif %}
+    </script>
+
+
+{% endblock %}

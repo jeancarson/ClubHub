@@ -1,4 +1,10 @@
 
+body {
+    background-image: url("../png/blue-background-flipped-xy.png");
+    background-size: cover;
+    background-position: center center;
+}
+
 .about-container {
     margin-top: 2em;
     display: grid;
@@ -11,12 +17,16 @@
 
 .about-item {
     text-align: justify;
-    padding: 1em 2em;
+    padding: 1em 4em;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     position: relative;
+}
+
+.about-item p {
+    width: 93%;
 }
 
 .about-item img {
@@ -37,8 +47,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    outline: 2px solid white;
-    border-radius: 1em;
+    color: var(--darker-blue);
+    box-shadow: -10px 10px 12px 0 rgba(3, 4, 94, 0.75);
 }
 
 .layered-images img:first-of-type {
@@ -54,4 +64,14 @@
     top: 65px;
     left: 125px;
     transform: rotate(2deg);
+}
+
+@media screen and (max-height: 560px) {
+    .about-container {
+        grid-template-columns: 1fr;
+    }
+
+    .layered-images img {
+        display: none;
+    }
 }

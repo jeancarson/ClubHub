@@ -1,86 +1,89 @@
 CREATE TABLE users (
-    user_id     INTEGER     NOT NULL PRIMARY KEY,
-    username    TEXT        NOT NULL,
-    password    TEXT        NOT NULL,
-    approved    TEXT        DEFAULT 'Pending' CHECK (approved IN ('Pending', 'Approved', 'Rejected')),
-    first_name  TEXT,
-    last_name   TEXT,
-    age         INTEGER,
-    email       TEXT,
-    phone       TEXT,
-    gender      TEXT,
-    FOREIGN KEY (username) REFERENCES login(username)
+    user_id             INTEGER         NOT NULL,
+    first_name          TEXT,
+    last_name           TEXT,
+    age                 INTEGER,
+    email               TEXT,
+    phone               TEXT,
+    gender              TEXT,
+    password            TEXT            NOT NULL,
+    user_type           TEXT            NOT NULL CHECK (user_type IN ('STUDENT', 'COORDINATOR', 'ADMINISTRATOR')),
+    approved            TEXT            CHECK (approved IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    -------------------------------------------------
+    PRIMARY KEY (user_id)
 );
-
-
 
 CREATE TABLE login (
-    username    TEXT        NOT NULL,
-    password    TEXT        NOT NULL,
-    FOREIGN KEY (username) REFERENCES users(username)
+    user_id             INTEGER         NOT NULL,
+    username            TEXT            NOT NULL,
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    -------------------------------------------------
+    PRIMARY KEY (username),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE clubs (
+    club_id             INTEGER,
+    club_name           TEXT,
+    club_description    TEXT,
+    creator             INTEGER,
+    validity            TEXT            CHECK (validity IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    --------------------------------------------------------------------
+    PRIMARY KEY (club_id),
+    FOREIGN KEY (creator) REFERENCES users(user_id)
+);
+
+CREATE TABLE club_memberships (
+    club_id             INTEGER,
+    user_id             INTEGER,
+    validity            TEXT            CHECK (validity IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    -----------------------------------------------
+    PRIMARY KEY (club_id, user_id),
+    FOREIGN KEY (club_id) REFERENCES clubs(club_id)
 );
 
 
-CREATE TABLE coordinators (
-    coordinator_id  INTEGER PRIMARY KEY,
-    FOREIGN KEY (user_id)   REFERENCES users (user_id)
+CREATE TABLE events (
+    event_id            INTEGER,
+    club_id             INTEGER,
+    event_name          TEXT,
+    event_description   TEXT,
+    venue               TEXT,
+    date_and_time       DATETIME,
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    -----------------------------------------------
+    PRIMARY KEY (event_id),
+    FOREIGN KEY (club_id) REFERENCES clubs(club_id)
 );
 
-CREATE TABLE admin (
-    user_id     INTEGER     PRIMARY KEY,
-    FOREIGN KEY (user_id)   REFERENCES users (user_id)
+CREATE TABLE event_participants (
+    event_id            INTEGER,
+    user_id             INTEGER,
+    validity            TEXT            CHECK (validity IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
+    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    --------------------------------------------------
+    PRIMARY KEY (event_id, user_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (event_id) REFERENCES events(event_id)
 );
 
-Create table clubs(
-  club_id Integer primary key AUTOINCREMENT,
-  club_name varchar(400),
-  club_description varchar(1000),
-  coordinator_id integer,
-  validity varchar(20) check (validity in ('Pending', 'Approved', 'Rejected')) default 'Pending',
-  created datetime default CURRENT_TIMESTAMP,
-  updated datetime DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN key (coordinator_id) REFERENCES coordinators(coordinator_id));
 
-  Create table club_memberships(
-  club_id Integer,
-  user_id Integer,
-  validity varchar(20) check (validity in ('Pending', 'Approved', 'Rejected')),
-  created datetime default CURRENT_TIMESTAMP,
-  updated datetime DEFAULT CURRENT_TIMESTAMP,
-  Primary key (club_id, user_id),
-  FOREIGN key (club_id) REFERENCES clubs(club_id));
-
-
- Create table events(
-  event_id Integer primary key AUTOINCREMENT,
-  club_id integer,
-  event_name varchar(300),
-  event_description varchar(1000),
-  date_and_time datetime,
-  venue varchar(400),
-  created datetime default CURRENT_TIMESTAMP,
-  updated datetime DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN key (club_id) REFERENCES clubs(club_id));
-
-  Create table if event_participants(
-  event_id Integer,
-  user_id integer,
-  validity varchar(20) check (validity in ('Pending', 'Approved', 'Rejected')),
-  created datetime default CURRENT_TIMESTAMP,
-  updated datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY key (event_id, user_id),
-  FOREIGN key (user_id) REFERENCES users(user_id)
-  FOREIGN key (event_id) REFERENCES events(event_id));
-
-
-
-  CREATE TRIGGER check_max_clubs
-  BEFORE INSERT ON club_memberships
-  BEGIN
-      SELECT CASE
-          WHEN (SELECT COUNT(*) FROM club_memberships WHERE user_id = NEW.user_id) >= 3
-          THEN
-              RAISE(ABORT, 'Cannot add more than 3 clubs for a user');
-      END;
-  END;
-
+--
+--CREATE TRIGGER check_max_clubs
+--BEFORE INSERT ON club_memberships
+--BEGIN
+--    SELECT CASE
+--        WHEN (SELECT COUNT(*) FROM club_memberships WHERE user_id = NEW.user_id) >= 3
+--        THEN
+--            RAISE(ABORT, 'Cannot add more than 3 clubs for a user');
+--    END;
+--END;
+--

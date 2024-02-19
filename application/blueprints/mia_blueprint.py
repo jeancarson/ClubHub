@@ -1,36 +1,9 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, jsonify, render_template, request
 
-from ..util.db_functions import get_users
+from application.util.db_functions.main import query_db
+from application.util.db_functions.users import count_club_memberships, insert_club_membership
 
 mia_blueprint = Blueprint("mia_blueprint", __name__)
-
-
-@mia_blueprint.route("/members_info")
-def members_info():
-
-    # When the user selects one of the links on the page, a HTTP GET request is sent
-    # to this function with a keyword argument called selected, like:
-    # "127.0.0.1:5000/members_info?selected=students"
-    # And request.args contains that argument.
-
-    selected = request.args.get("selected", None)
-
-    if selected in ("students", "coordinators", "users"):
-        user_rows = get_users(table=selected)
-    else:
-        user_rows = None
-
-    return render_template('html/adminFolder/inform.html', user_rows=user_rows)
-
-
-@mia_blueprint.route("/pending_users")
-def pending_users():
-    return render_template("html/adminFolder/pending.html")
-
-
-@mia_blueprint.route("/admin")
-def admin():
-    return render_template("html/adminFolder/admin_main.html")
 
 
 @mia_blueprint.route("/user")
@@ -38,21 +11,50 @@ def user():
     """
     Loads the user MAIN page.
     """
-    return render_template("html/usersFolder/user_main.html", header="User Page")
+    return render_template("html/student/student-main.html", header="User Page")
 
 
-# @mia_blueprint.route("/profile")
-# def go_profile():
-#     return render_template("html/usersFolder/profile.html")  -> I had to comment this out because
-#                                                                 there is another profile.html file in templates folder
-#                                                                 hope u dont mind :3
+@mia_blueprint.route("/profile1")
+def go_profile():
+    return render_template("html/student/profile.html")  
 
 
-@mia_blueprint.route("/clubss")  # Why is there two s's this has ruined my day Mia
+@mia_blueprint.route("/clubs")
 def go_clubs():
-    return render_template("html/usersFolder/clubss.html")
+    return render_template("html/student/clubs.html")
 
 
-@mia_blueprint.route("/eventss")
+# @mia_blueprint.route("/events")
 def go_events():
-    return render_template("html/usersFolder/eventss.html")
+    return render_template("html/student/events.html")
+
+
+@mia_blueprint.route("/clubs", methods=["GET"])
+def get_clubs():
+    
+    clubs_info = query_db("SELECT club_id, club_name, club_description FROM clubs")
+    clubs = [(row['club_name'], row['club_description'], row['club_id']) for row in clubs_info]
+
+    popular_clubs = clubs[:3]
+    all_clubs = clubs
+    return render_template("clubs.html", popular_clubs=popular_clubs, all_clubs=all_clubs)
+
+
+
+@mia_blueprint.route("/signup", methods=["POST"])
+def signup():
+    user_id = request.form.get("userId")
+    club_id = request.form.get("clubId")
+    
+    try:
+        # I THINK THIS SHOULD FUCKING WORK
+        count = count_club_memberships(user_id)
+        if count >= 3:
+            return jsonify({"success": False, "message": "You are already a member of three clubs."}), 400
+        
+        
+        insert_club_membership(club_id, user_id)
+        
+        return jsonify({"success": True, "message": "Signed up successfully"}), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500

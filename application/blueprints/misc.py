@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template
 
-
 misc: Blueprint = Blueprint("misc", __name__)
 
 
@@ -11,7 +10,7 @@ def about_us() -> str:
     Loads the about page.
     """
 
-    return render_template("html/about.html")
+    return render_template("html/misc/about.html")
 
 
 @misc.route("/contact")
@@ -21,7 +20,7 @@ def contact() -> str:
     Loads the contact page.
     """
 
-    return render_template("html/contact.html")
+    return render_template("html/misc/contact.html")
 
 
 @misc.route("/privacy-policy")
@@ -30,7 +29,7 @@ def privacy_policy() -> str:
     Loads the privacy policy page.
     """
 
-    return render_template("html/privacy-policy.html")
+    return render_template("html/misc/privacy-policy.html")
 
 
 @misc.route("/terms-and-conditions")
@@ -39,4 +38,13 @@ def terms_and_conditions() -> str:
     Loads the terms and conditions page.
     """
 
-    return render_template("html/terms-and-conditions.html")
+    return render_template("html/misc/terms-and-conditions.html")
+
+
+@misc.route("/forgot-password")
+def forgot_password() -> str:
+    """
+    Loads the forgot password page.
+    """
+
+    return render_template("html/auth/forgot-password.html")

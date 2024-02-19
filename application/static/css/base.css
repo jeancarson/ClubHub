@@ -4,6 +4,9 @@
 /* Color constants */
 :root {
     --light-grey: #8a8988;
+    --lighter-grey: #c4c4c4;
+    --even-lighter-grey: #f2f2f2;
+    --cyan: #3bbbd2;
     --light-blue: #0077b6;
     --lighter-blue: #0096c7;
     --even-lighter-blue: #90e0ef;
@@ -28,6 +31,7 @@
 }
 
 body {
+    scroll-behavior: smooth;
     margin: 0;
     padding: 0;
     background-color: var(--darker-blue);
@@ -39,16 +43,19 @@ body {
     overflow-x: hidden;
 }
 
+::placeholder {
+    opacity: 0.6;
+}
+
 header h1 {
     text-align: center;
-    margin-top: 1.65em;
+    margin: 1.65em 0;
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--even-lighter-blue);
 }
-
 
 .underlined-link {
     display: inline-block;
@@ -86,6 +93,10 @@ a {
 
 .underlined-link-insta::after {
     background-color: var(--pink);
+}
+
+.underlined-link-logout::after {
+    background-color: var(--light-red);
 }
 
 /* ======================= Message alert box start ======================= */
@@ -134,7 +145,8 @@ a {
 
 nav {
     display: grid;
-    grid-template-columns: 1fr auto auto auto auto 1fr;
+    grid-template-columns: 1fr repeat(10, auto) 1fr;
+    grid-auto-columns: auto;
     background-color: var(--light-blue);
     overflow: hidden;
 }
@@ -146,30 +158,23 @@ nav div {
 }
 
 .navbar-left {
-    grid-row: 1;
     grid-column: 1;
     justify-content: left;
 }
 
 .navbar-center {
-    grid-row: 1;
     grid-column: auto;
     justify-content: center;
     transition: height 0.25s;
 }
 
 .navbar-right {
-    grid-row: 1;
     grid-column: -2;
     justify-content: right;
 }
 
-.nav-active-link {
-    background-color: var(--light-blue);
-}
-
 .nav-active-link a {
-    text-decoration: underline;
+    text-decoration: underline !important;  /* TODO: Figure out what overrides this */
     text-underline-position: under;
     text-decoration-thickness: 0.075rem;
     text-underline-offset: 0.1rem;
@@ -219,7 +224,7 @@ nav div a:hover {
     visibility: hidden;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 560px) {
 
     .navbar-right a {
         visibility: visible;
@@ -334,7 +339,7 @@ footer div:last-of-type {
     color: var(--even-lighter-blue);
 }
 
-/* Coordinator end */
+/* coordinator end */
 
 .event-name-column {
     width: 300px;;
