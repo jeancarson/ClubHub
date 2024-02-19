@@ -6,7 +6,6 @@ from .main import (
     last_id
 )
 from .clubs import create_club, approve_club
-from .. import get_current_timestamp
 
 
 def user_exists(username: str) -> bool:
@@ -82,7 +81,7 @@ def create_user(
     return False
 
 
-def get_users_info(
+def users_info(
         *,
         user_type: Optional[str] = None,
         pending: Optional[bool] = None,
@@ -129,7 +128,7 @@ def get_users_info(
     )
 
 
-def get_username_match(username: str) -> Row | None:
+def username_match(username: str) -> Row | None:
     """
     Returns all attributes of a user.
 
@@ -147,7 +146,7 @@ def get_username_match(username: str) -> Row | None:
     )
 
 
-def get_user_profile_info(user_id: int) -> Row | None:
+def user_profile_info(user_id: int) -> Row | None:
     """
     Returns all profile-related (editable) attributes of a user.
 

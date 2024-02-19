@@ -3,7 +3,7 @@ from sqlite3 import Row
 from flask import Blueprint, request, render_template, session
 
 from ..util.authentication.alerts import error, Error
-from ..util.db_functions.users import get_users_info
+from ..util.db_functions.users import users_info
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -46,9 +46,9 @@ def users_info():
     if selected is not None:
         selected = selected.upper()
         if selected == "ALL":
-            user_rows = get_users_info(admin_permission=True)
+            user_rows = users_info(admin_permission=True)
         elif selected in ("COORDINATOR", "STUDENT"):
-            user_rows = get_users_info(user_type=selected, admin_permission=True)
+            user_rows = users_info(user_type=selected, admin_permission=True)
         else:
             user_rows = None
     else:

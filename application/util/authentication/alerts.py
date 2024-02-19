@@ -32,6 +32,11 @@ class Error(Enum):
         message="Only Coordinators can access that page!"
     )
 
+    RESTRICTED_PAGE_STUDENT = Alert(
+        log="{user_type} tried to access Student-only page",
+        message="Only Students can access that page!"
+    )
+
     NO_CAPTCHA = Alert(
         log="CAPTCHA not completed",
         message="Please complete the CAPTCHA before form submission"
@@ -97,6 +102,11 @@ class Success(Enum):
     REGISTER_ADMIN = Alert(
         log="Administrator registration successful: {username!r}",
         message="You are now logged in, {username}!"
+    )
+
+    EVENT_REGISTER = Alert(
+        log="Student event registration successful: username={username!r}, event={event_id}",
+        message="You have signed up for the event: {event_name}!"
     )
 
 

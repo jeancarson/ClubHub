@@ -2,7 +2,7 @@ from sqlite3 import Row
 
 from flask import session
 
-from ..db_functions.users import get_user_profile_info
+from ..db_functions.users import user_profile_info
 
 
 def current_user() -> str | None:
@@ -10,7 +10,7 @@ def current_user() -> str | None:
 
 
 def current_user_profile_info() -> Row:
-    return get_user_profile_info(session["user-id"])
+    return user_profile_info(session["user-id"])
 
 
 def login(user_id: int, username: str, user_type: str) -> None:

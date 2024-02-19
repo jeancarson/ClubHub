@@ -4,6 +4,7 @@ from sqlite3 import Connection
 from flask import Flask, g
 
 from .blueprints.admin import admin
+from .blueprints.events import events
 from .blueprints.jean_blueprint import jean_blueprint
 from .blueprints.login_logout import login_logout
 from .blueprints.main import main
@@ -18,6 +19,7 @@ app.config.from_prefixed_env()
 app.logger.setLevel(DEBUG)
 
 app.register_blueprint(admin)
+app.register_blueprint(events)
 app.register_blueprint(jean_blueprint)
 app.register_blueprint(login_logout)
 app.register_blueprint(main)
