@@ -103,7 +103,7 @@
                    autocomplete="on">
 
             <label id="register-club-description-input-label"
-                   for="register-club-description-input">5. Club Description</label>
+                   for="register-club-description-input">5. Club Description <span class="required-star"> *</span></label>
             <textarea id="register-club-description-input"
                       name="register-club-description"
                       type="text"
@@ -205,6 +205,7 @@
 
             club_desc_input_label.style.display = "block";
             club_desc_input.style.display = "block";
+            club_name_input.required = true;
         {% endif %}
 
     </script>

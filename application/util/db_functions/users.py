@@ -1,4 +1,11 @@
-from main import Row, Optional, query_db, modify_db
+from .main import (
+    Optional,
+    Row,
+    query_db,
+    modify_db,
+    last_id
+)
+from .clubs import create_club, approve_club
 
 
 def user_exists(username: str) -> bool:
@@ -10,15 +17,6 @@ def user_exists(username: str) -> bool:
     """
 
     return query_db(f"SELECT username FROM login WHERE username={username!r}", single=True) is not None
-
-
-def last_user_id() -> Row | None:
-    """
-    Fetches and returns the id of the last user in the database if present,
-    and None otherwise.
-    """
-
-    return query_db("SELECT user_id FROM login ORDER BY user_id DESC LIMIT 1", single=True)
 
 
 def create_user(
@@ -45,7 +43,7 @@ def create_user(
 
     age: int | None = int(age) if age is not None else None
 
-    last_user: Row | None = last_user_id()
+    last_user: Row | None = last_id(table="login")
     user_id: int
     approved: str
 
@@ -60,105 +58,110 @@ def create_user(
 
     modify_db(
         """
-        INSERT INTO users 
-        (user_id, first_name, last_name, age, email, phone, gender, password, user_type, approved) VALUES
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        """,
-        user_id, first_name, last_name, age, email, phone, gender, password, user_type, approved
+            INSERT INTO users 
+            (user_id, first_name, last_name, age, email, phone, gender, password, user_type, approved) VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        """, user_id, first_name, last_name, age, email, phone, gender, password, user_type, approved
     )
 
     modify_db(
         """
-        INSERT INTO login
-        (user_id, username) VALUES
-        (?, ?)
-        """,
-        user_id, username
+            INSERT INTO login
+            (user_id, username) VALUES
+            (?, ?)
+        """, user_id, username
     )
 
-    if user_type == "ADMINISTRATOR":
+    if user_type == "COORDINATOR":
+        create_club(creator_user_id=user_id, club_name=club_name, club_description=club_description)
+
+    elif user_type == "ADMINISTRATOR":
         return True
 
     return False
 
 
-def get_users_info(
+def users_info(
         *,
         user_type: Optional[str] = None,
-        unapproved: Optional[bool] = None,
+        pending: Optional[bool] = None,
         admin_permission: Optional[bool] = None) -> list[Row] | None:
     """
     Returns a list containing the rows from the users table, if there are any.
 
     Optional Keyword arguments:
         :param user_type: Should be either "STUDENT", "COORDINATOR", "ADMIN", or None (for all users).
-        :param unapproved: Only includes unapproved users.
+        :param pending: If true, only includes pending (unapproved) users.
         :param admin_permission: If true, also includes username in results.
     """
 
-    user_results: list[Row] | None
-    login_results: list[Row] | None
+    selection: str
+
+    if admin_permission:
+        selection = "*"
+    else:
+        selection = "first_name, last_name, age, email, phone, gender"
+
+    results: list[Row] | None
     condition: str
 
     if user_type is None:
-        if unapproved:
+        if pending:
             condition = "WHERE users.approved='PENDING'"
         else:
-            condition = ";"
+            condition = ""
 
-        if admin_permission:
-            user_results = query_db(f"""
-                SELECT *
-                FROM users
-                FULL OUTER JOIN login
-                ON users.user_id = login.user_id
-                {condition}
-            """)
-        else:
-            user_results = query_db("SELECT * FROM users")
     else:
-        join_type: str
+        condition = f"WHERE users.user_type={user_type!r}"
 
-        if unapproved:
-            condition = " AND users.approved='PENDING';"
-        else:
-            condition = ";"
+        if pending:
+            condition += " AND users.approved='PENDING'"
 
-        if admin_permission:
-            join_type = "FULL OUTER"
-        else:
-            join_type = "INNER"
-
-        user_results = query_db(f"""
-            SELECT *
+    return query_db(
+        f"""
+            SELECT {selection}
             FROM users
-            {join_type} JOIN login 
+            FULL OUTER JOIN login 
             ON users.user_id = login.user_id
-            WHERE users.user_type={user_type!r}
-            {condition}
-        """)
-
-    if user_results is None:
-        return None
-
-    return user_results
+            {condition};
+        """
+    )
 
 
-def get_username_match(username: str) -> Row | None:
-    return query_db(f"""
+def username_match(username: str) -> Row | None:
+    """
+    Returns all attributes of a user.
+
+    :param username: User's username.
+    """
+
+    return query_db(
+        """
         SELECT * 
         FROM users 
         FULL OUTER JOIN login 
         ON users.user_id = login.user_id
-        WHERE login.username={username!r}
-    """, single=True)
+        WHERE login.username=?
+    """, username, single=True
+    )
 
 
-def get_user_info(user_id: int) -> Row | None:
-    return query_db(f"SELECT * FROM users WHERE user_id={user_id}", single=True)
+def user_profile_info(user_id: int) -> Row | None:
+    """
+    Returns all profile-related (editable) attributes of a user.
+
+    :param user_id: User's ID number.
+    """
+    return query_db(
+        f"""
+        SELECT first_name, last_name, age, email, phone, gender
+        FROM users 
+        WHERE user_id=?
+    """, user_id, single=True
+    )
 
 
-def update_user_info(
+def update_user_profile_info(
         user_id: int,
         *,
         first_name: Optional[str] = None,
@@ -170,16 +173,18 @@ def update_user_info(
 
     age: int | None = int(age) if age is not None else None
 
+    # TODO: 'updated' attribute
+
     modify_db(
         """
-        UPDATE users set
-        first_name=?,
-        last_name=?,
-        age=?,
-        email=?,
-        phone=?,
-        gender=?
-        WHERE user_id=?;
+            UPDATE users set
+            first_name=?,
+            last_name=?,
+            age=?,
+            email=?,
+            phone=?,
+            gender=?
+            WHERE user_id=?;
         """,
         first_name, last_name, age, email, phone, gender, user_id
     )
@@ -190,34 +195,59 @@ def get_pending_users():
 
 
 def approve_user(user_id: int) -> None:
+    """
+    Approve a pending user (set approved attribute to 'APPROVED' in users table).
+
+    :param user_id: User's ID number.
+    """
+
+    user: Row | None = query_db(
+        """
+            SELECT * 
+            FROM users 
+            WHERE user_id=?
+        """, user_id, single=True
+    )
+
+    if user["user_type"] == "COORDINATOR":
+        approve_club(creator_user_id=user_id)
+
     modify_db(
         """
-        UPDATE users set
-        approved='APPROVED'
-        WHERE user_id=?;
-        """,
-        user_id
+            UPDATE users set
+            approved='APPROVED'
+            WHERE user_id=?;
+        """, user_id
     )
 
 
-def delete_user(*, username: Optional[str] = None, user_id: Optional[int] = None) -> None:  # noqa
+def delete_user(user_id: Optional[int] = None) -> None:  # noqa
     """
-    Deletes a user, specified by either their username or user id, from the users table.
+    Deletes a user from the users & login table.
 
-    Keyword Arguments:
-        :param username: User's username. If this is given, their id cannot be.
-        :param user_id: User's id. Likewise, if this is given, their username cannot be.
-
-    Exactly of the above keyword arguments must be provided.
+    :param user_id: User's ID number.
     """
 
-    raise NotImplementedError()
+    modify_db(
+        """
+            DELETE FROM users
+            WHERE user_id=?
+        """, user_id
+    )
+
+    modify_db(
+        """
+            DELETE FROM login
+            WHERE user_id=?
+        """, user_id
+    )
 
 
 #I will cry soon it took me ages for this and its not even 3 LOLZAAAA
 def count_club_memberships(user_id):
     clubs_info = query_db("SELECT COUNT(*) FROM club_memberships WHERE user_id = ?", (user_id,))
     return clubs_info[0]['COUNT(*)'] if clubs_info else 0
+
 
 def insert_club_membership(club_id, user_id):
     query_db("INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?)", (club_id, user_id))

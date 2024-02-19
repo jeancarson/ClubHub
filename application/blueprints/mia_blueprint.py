@@ -24,7 +24,7 @@ def go_clubs():
     return render_template("html/student/clubs.html")
 
 
-@mia_blueprint.route("/events")
+# @mia_blueprint.route("/events")
 def go_events():
     return render_template("html/student/events.html")
 

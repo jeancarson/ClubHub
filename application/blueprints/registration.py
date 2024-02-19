@@ -114,9 +114,9 @@ def register_post() -> Response:
     captcha_response: str | None = str_to_none(request.form["g-recaptcha-response"])
     user_type: str | None = request.form.get("register-user-type", None)
     club_name: str | None = str_to_none(request.form["register-club-name"])
+    club_description: str | None = str_to_none(request.form["register-club-description"])
 
     # Non-required inputs
-    club_description: str | None = str_to_none(request.form["register-club-description"])
     first_name, last_name, age, email, phone, gender = get_form_user_details(form_data=request.form)
 
     page: Response = redirect(

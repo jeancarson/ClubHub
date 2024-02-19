@@ -16,6 +16,7 @@ const showClubNameInput = () => {
 
     club_desc_label.style.display = "block";
     club_desc.style.display = "block";
+    club_desc.required = true;
 
     for (let label of label_elements) {
         label.innerHTML = (parseInt(label.innerHTML.substring(0, 1)) + 2) + label.innerHTML.substring(1);
@@ -30,6 +31,7 @@ const hideClubNameInput = () => {
 
     club_desc_label.style.display = "none";
     club_desc.style.display = "none";
+    club_desc.required = false;
     club_desc.innerHTML = "";
 
     for (let label of label_elements) {
