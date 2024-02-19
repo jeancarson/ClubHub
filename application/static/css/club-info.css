@@ -1,0 +1,37 @@
+
+body {
+    background-image: url("../png/blue-background-flipped-xy.png");
+    background-size: cover;
+    background-position: center center;
+}
+
+#club-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 7.5em;
+}
+
+#club-info-main {
+    background-color: var(--white);
+    color: var(--black);
+    width: 80%;
+    padding: 1em;
+    box-shadow: -9px 8px 5px 0 rgba(2, 62, 138, 0.75);
+    outline: 0.3em solid var(--lighter-blue);
+    border-radius: 0.15em;
+}
+
+.club-info-row {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 35% 65%;
+    padding: 1em;
+}
+
+.club-info-row h2,
+.club-info-row p {
+    margin: 0;
+    padding: 0;
+}

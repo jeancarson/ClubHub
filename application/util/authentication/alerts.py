@@ -104,9 +104,14 @@ class Success(Enum):
         message="You are now logged in, {username}!"
     )
 
-    EVENT_REGISTER = Alert(
+    EVENT_REGISTER_APPROVED = Alert(
         log="Student event registration successful: username={username!r}, event={event_id}",
         message="You have signed up for the event: {event_name}!"
+    )
+
+    EVENT_REGISTER_PENDING = Alert(
+        log="Event registration ticket opened: uesrname={username!r}, event={event_id}",
+        message="Event registration ticket opened. Awaiting Club Coordinator approval for event: {event_name}"
     )
 
 

@@ -44,21 +44,26 @@ def registered_events(user_id: int) -> list[Row] | None:
     )
 
 
-def register_for_event(user_id: int, event_id: int, club_id: int) -> None:
+def register_for_event(user_id: int, event_id: int, club_id: int) -> bool:
     """
     Registers a user for an event.
 
     :param user_id: User's ID.
     :param event_id: Event's ID.
     :param club_id: ID of the club hosting the event.
+
+    :return: True if user is a club member, False otherwise.
     """
 
     validity: str
+    retval: bool
 
     if is_club_member(user_id=user_id, club_id=club_id):
         validity = "APPROVED"
+        retval = True
     else:
         validity = "PENDING"
+        retval = False
 
     modify_db(
         """
@@ -67,3 +72,5 @@ def register_for_event(user_id: int, event_id: int, club_id: int) -> None:
             (?, ?, ?)
         """, event_id, user_id, validity
     )
+
+    return retval
