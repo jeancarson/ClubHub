@@ -43,6 +43,10 @@ body {
     overflow-x: hidden;
 }
 
+::placeholder {
+    opacity: 0.6;
+}
+
 header h1 {
     text-align: center;
     margin: 1.65em 0;
@@ -169,12 +173,8 @@ nav div {
     justify-content: right;
 }
 
-.nav-active-link {
-    background-color: var(--light-blue);
-}
-
 .nav-active-link a {
-    text-decoration: underline;
+    text-decoration: underline !important;  /* TODO: Figure out what overrides this */
     text-underline-position: under;
     text-decoration-thickness: 0.075rem;
     text-underline-offset: 0.1rem;

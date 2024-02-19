@@ -28,7 +28,11 @@ body {
     color: var(--white);
 }
 
-#profile-edit a {
+#profile-edit a,
+#profile-edit button {
+    border: none;
+    display: block;
+    font-size: 1rem;
     color: var(--white);
     background-color: var(--darker-blue);
     padding: 1em 3em;
@@ -38,8 +42,18 @@ body {
     outline: 0.15em solid transparent;
 }
 
-#profile-edit a:hover {
+#profile-edit button {
+    background-color: var(--dark-green);
+}
+
+#profile-edit a:hover,
+#profile-edit button:hover {
+    cursor: pointer;
     outline-color: var(--lighter-blue);
+}
+
+#profile-edit button:hover {
+    outline-color: var(--white);
 }
 
 .profile-row {

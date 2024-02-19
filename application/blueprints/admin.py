@@ -2,8 +2,8 @@ from sqlite3 import Row
 
 from flask import Blueprint, request, render_template, session
 
-from ..util.db_functions import get_users_info
 from ..util.authentication.alerts import error, Error
+from ..util.db_functions.users import users_info
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -18,12 +18,12 @@ def validate_access_perms(*, endpoint: str) -> str | None:
 
     if "user" not in session:
         error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint=endpoint)
-        return render_template("html/misc/default-home.html")
+        return render_template("html/misc/home.html")
 
     user_type = session["user-type"]
     if user_type != "ADMINISTRATOR":
         error(errtype=Error.RESTRICTED_PAGE_ADMIN, endpoint=endpoint, user_type=user_type)
-        return render_template("html/misc/default-home.html")
+        return render_template("html/misc/home.html")
 
     return None
 
@@ -46,9 +46,9 @@ def users_info():
     if selected is not None:
         selected = selected.upper()
         if selected == "ALL":
-            user_rows = get_users_info(admin_permission=True)
+            user_rows = users_info(admin_permission=True)
         elif selected in ("COORDINATOR", "STUDENT"):
-            user_rows = get_users_info(user_type=selected, admin_permission=True)
+            user_rows = users_info(user_type=selected, admin_permission=True)
         else:
             user_rows = None
     else:

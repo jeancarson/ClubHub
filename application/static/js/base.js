@@ -7,12 +7,10 @@ let page_name = window.location.pathname.substring(1);
 if (page_name === "")
     page_name = "none"
 
-let active_anchor = document.querySelector("." + page_name + "-link");
+let active_anchor = document.querySelector("." + page_name.replace("/", "") + "-link");
 
 if (!active_anchor.parentElement.classList.contains("nav-active-link"))
     active_anchor.parentElement.classList.add("nav-active-link");
-
-console.log(active_anchor)
 
 // Toggle dropdown menu for smaller screens.
 hamburger.addEventListener("click", () => {

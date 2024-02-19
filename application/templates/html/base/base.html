@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 
+<!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport"
@@ -55,8 +57,6 @@
         }
     </style>
 
-    <!-- This file is not intended to be rendered directly but should be extended by other HTML template files -->
-
     <nav id="navbar">
 
         <div class="navbar-left">
@@ -90,9 +90,12 @@
                 <div class="navbar-center">
                     <a href="#" class="#-link">...</a>
                 </div>
-                {% print("hi") %}
 
             {% elif session["user-type"] == "STUDENT" %}
+
+                <div class="navbar-center">
+                    <a href="/events" class="events-link">Events</a>
+                </div>
 
                 <div class="navbar-center">
                     <a href="#" class="#-link">...</a>

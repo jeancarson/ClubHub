@@ -1,41 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "html/base/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #03045e;
-        }
-        .navbar-nav .nav-link {
-            color: white; /*should be white*/
-        }
-        
-        .nav.navbar-nav.navbar-item {
-            color: white;
-        }
-    </style>
-</head> 
-<body> 
-    <div class="card-group">
-        <div class="card">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
+{% block links %}
+
+    <link rel="stylesheet" href="../../../static/css/events.css">
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>Upcoming Club Events</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="events-container">
+        <div id="events-main">
+            {% if registered %}
+                {% if registered | length == 1 %}
+                    {% set plural = "" %}
+                {% else %}
+                    {% set plural = "s" %}
+                {% endif %}
+                <div>
+                    <h2>Events You Have Signed Up For</h2>
+                    <p>Showing {{ registered | length }} Event{{ plural }}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Event ID</th>
+                            <th scope="col">Event Name</th>
+                            <th scope="col">Hosted By</th>
+                            <th scope="col">Event Description</th>
+                            <th scope="col">Venue</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in registered %}
+                            <tr>
+                                <td>{{ event["event_id"] }}</td>
+                                <td>{{ event["event_name"] }}</td>
+                                <td>{{ event["club_name"] }}</td>
+                                <td>{{ event["event_description"] }}</td>
+                                <td>{{ event["venue"] }}</td>
+                                <td>{{ event["date_and_time"] }}</td>
+                                <td><a class="registered" disabled>Signed Up</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% if unregistered %}
+                {% if unregistered | length == 1 %}
+                    {% set plural = "" %}
+                {% else %}
+                    {% set plural = "s" %}
+                {% endif %}
+                <div>
+                    <h2>Upcoming Events</h2>
+                    <p>Showing {{ unregistered | length }} Event{{ plural }}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Event ID</th>
+                            <th scope="col">Event Name</th>
+                            <th scope="col">Hosted By</th>
+                            <th scope="col">Event Description</th>
+                            <th scope="col">Venue</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in unregistered %}
+                            <tr>
+                                <td>{{ event["event_id"] }}</td>
+                                <td>{{ event["event_name"] }}</td>
+                                <td>{{ event["club_name"] }}</td>
+                                <td>{{ event["event_description"] }}</td>
+                                <td>{{ event["venue"] }}</td>
+                                <td>{{ event["date_and_time"] }}</td>
+                                <td>
+                                    <a class="unregistered" href="/events/register?event_id={{ event["event_id"] }}&event_name={{ event["event_name"] }}">Sign Up</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
-        <div class="card">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        
-</body>
+    </div>
+
+{% endblock %}

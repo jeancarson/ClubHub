@@ -6,6 +6,9 @@ CREATE TABLE users (
     email               TEXT,
     phone               TEXT,
     gender              TEXT,
+    password            TEXT            NOT NULL,
+    user_type           TEXT            NOT NULL CHECK (user_type IN ('STUDENT', 'COORDINATOR', 'ADMINISTRATOR')),
+    approved            TEXT            CHECK (approved IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
     -------------------------------------------------
     PRIMARY KEY (user_id)
 );
@@ -13,9 +16,6 @@ CREATE TABLE users (
 CREATE TABLE login (
     user_id             INTEGER         NOT NULL,
     username            TEXT            NOT NULL,
-    password            TEXT            NOT NULL,
-    user_type           TEXT            NOT NULL CHECK (user_type IN ('STUDENT', 'COORDINATOR', 'ADMINISTRATOR')),
-    approved            TEXT            CHECK (approved IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
     -------------------------------------------------
     PRIMARY KEY (username),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
