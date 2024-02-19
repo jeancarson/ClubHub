@@ -50,18 +50,22 @@ CREATE TABLE club_memberships (
 
 
 CREATE TABLE events (
-    event_id            INTEGER,
+    event_id            INTEGER PRIMARY KEY AUTOINCREMENT,
     club_id             INTEGER,
     event_name          TEXT,
     event_description   TEXT,
     venue               TEXT,
-    date_and_time       DATETIME,
-    created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
-    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
-    -----------------------------------------------
-    PRIMARY KEY (event_id),
+    date                TEXT CHECK (date GLOB '____-__-__' AND date NOT LIKE '%[^0-9]%'),
+    time                TEXT CHECK (time GLOB '__:__' AND time NOT LIKE '%[^0-9]%'),
+    created             DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (club_id) REFERENCES clubs(club_id)
 );
+
+
+
+
+
 
 CREATE TABLE event_participants (
     event_id            INTEGER,
@@ -75,6 +79,47 @@ CREATE TABLE event_participants (
     FOREIGN KEY (event_id) REFERENCES events(event_id)
 );
 
+CREATE TRIGGER update_timestamp_users
+AFTER UPDATE ON users
+FOR EACH ROW
+BEGIN
+    UPDATE users SET updated = CURRENT_TIMESTAMP WHERE user_id = OLD.user_id;
+END;
+
+CREATE TRIGGER update_timestamp_login
+AFTER UPDATE ON login
+FOR EACH ROW
+BEGIN
+    UPDATE login SET updated = CURRENT_TIMESTAMP WHERE username = OLD.username;
+END;
+
+CREATE TRIGGER update_timestamp_clubs
+AFTER UPDATE ON clubs
+FOR EACH ROW
+BEGIN
+    UPDATE clubs SET updated = CURRENT_TIMESTAMP WHERE club_id = OLD.club_id;
+END;
+
+CREATE TRIGGER update_timestamp_club_memberships
+AFTER UPDATE ON club_memberships
+FOR EACH ROW
+BEGIN
+    UPDATE club_memberships SET updated = CURRENT_TIMESTAMP WHERE club_id = OLD.club_id AND user_id = OLD.user_id;
+END;
+
+CREATE TRIGGER update_timestamp_events
+AFTER UPDATE ON events
+FOR EACH ROW
+BEGIN
+    UPDATE events SET updated = CURRENT_TIMESTAMP WHERE event_id = OLD.event_id;
+END;
+
+CREATE TRIGGER update_timestamp_event_participants
+AFTER UPDATE ON event_participants
+FOR EACH ROW
+BEGIN
+    UPDATE event_participants SET updated = CURRENT_TIMESTAMP WHERE event_id = OLD.event_id AND user_id = OLD.user_id;
+END;
 
 --
 --CREATE TRIGGER check_max_clubs
