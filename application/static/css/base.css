@@ -99,6 +99,10 @@ a {
     background-color: var(--light-red);
 }
 
+.underlined-link-db::after {
+    background-color: var(--light-blue);
+}
+
 /* ======================= Message alert box start ======================= */
 
 .alert-dialog-container {

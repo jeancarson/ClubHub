@@ -86,6 +86,16 @@ def is_club_member(user_id: int, club_id: int) -> None:
     ) is not None
 
 
+def club_info(club_id: int) -> Row | None:
+
+    return query_db(
+        """
+        SELECT * from clubs
+        WHERE club_id=?
+        """, club_id, single=True
+    )
+
+
 def count_club_memberships(user_id):
     clubs_info = query_db("SELECT COUNT(*) FROM club_memberships WHERE user_id = ?", (user_id,))
     return clubs_info[0]['COUNT(*)'] if clubs_info else 0

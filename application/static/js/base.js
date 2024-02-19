@@ -7,7 +7,12 @@ let page_name = window.location.pathname.substring(1);
 if (page_name === "")
     page_name = "none"
 
-let active_anchor = document.querySelector("." + page_name.replace("/", "") + "-link");
+if (!page_name.endsWith("/"))
+    page_name += "/"
+
+console.log(page_name);
+
+let active_anchor = document.querySelector("." + page_name.replaceAll("/", "-") + "link");
 
 if (!active_anchor.parentElement.classList.contains("nav-active-link"))
     active_anchor.parentElement.classList.add("nav-active-link");

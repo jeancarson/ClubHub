@@ -1,0 +1,44 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" href="../../../static/css/club-info.css">
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>Club Information: {{ club_information["club_name"] }}</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="club-info-container">
+        <div id="club-info-main">
+            <div class="club-info-row">
+                <h2>Club ID</h2>
+                <p>{{ club_information["club_id"] }}</p>
+            </div>
+            <div class="club-info-row">
+                <h2>Club Name</h2>
+                <p>{{ club_information["club_name"] }}</p>
+            </div>
+            <div class="club-info-row">
+                <h2>Club Description</h2>
+                <p>{{ club_information["club_description"] }}</p>
+            </div>
+            <div class="club-info-row">
+                <h2>Creator ID</h2>
+                <p>{{ club_information["creator"] }}</p>
+            </div>
+            <div class="club-info-row">
+                <h2>Date of Creation</h2>
+                <p>{{ club_information["created"] }}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

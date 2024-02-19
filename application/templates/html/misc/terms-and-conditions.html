@@ -1,9 +1,35 @@
 {% extends "html/base/base.html" %}
 
+{% block links %}
+
+    <style>
+        body {
+            background-image: url("../../../static/png/blue-background-flipped-x.png");
+            background-size: cover;
+            background-position: center center;
+        }
+
+        #main {
+            text-align: center;
+            font-size: 1.25rem;
+        }
+    </style>
+
+{% endblock %}
+
+
 {% block header %}
 
     <header>
-        <h1>Terms and meowditions</h1>
+        <h1>Terms and Conditions</h1>
     </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="main">
+        <p>By using our service, you agree to us having full control over your computer.</p>
+    </div>
 
 {% endblock %}
