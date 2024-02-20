@@ -13,6 +13,8 @@ body {
     margin-bottom: 7.5em;
 }
 
+
+
 #events-main {
     display: grid;
     color: var(--black);
@@ -62,7 +64,7 @@ body {
     color: var(--white);
 }
 
-.registered,
+
 .pending {
     cursor: default;
 }
@@ -83,4 +85,28 @@ body {
 .unregistered:hover {
     translate: 0 -15%;
     outline: 2px solid var(--lighter-green);
+}
+
+.qa-section {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    background-color: var(--white); 
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 80%; /* Set width to match container */
+    margin-left: auto; /* Center the section horizontally */
+    margin-right: auto; /* Center the section horizontally */
+}
+
+
+.qa-section summary {
+    font-weight: bold; 
+    cursor: pointer; 
+    color: black;
+}
+
+.qa-section p {
+    margin-top: 10px; 
+    color: black;
 }

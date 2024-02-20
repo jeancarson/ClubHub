@@ -13,6 +13,7 @@ from .blueprints.misc import misc
 from .blueprints.profile import profile
 from .blueprints.registration import registration
 from .util.db_functions import get_db
+from .blueprints.clubs_blu import clubs_blu
 
 app: Flask = Flask(__name__, template_folder="templates", static_folder="static")
 app.config.from_prefixed_env()
@@ -27,6 +28,7 @@ app.register_blueprint(mia_blueprint)
 app.register_blueprint(misc)
 app.register_blueprint(profile)
 app.register_blueprint(registration)
+app.register_blueprint(clubs_blu)
 
 
 def initialise_db() -> None:
