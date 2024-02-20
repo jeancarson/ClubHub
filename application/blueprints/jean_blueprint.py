@@ -1,7 +1,7 @@
 from flask import render_template, session, Blueprint, request, flash, redirect, url_for
 
 from ..util import db_functions as dbf
-# from ..util.coordinator import coordinator_functions as cf
+from ..util.coordinator import coordinator_functions as cf
 
 import logging
 
@@ -147,9 +147,23 @@ def see_events(timeline):
     if "user" in session:
         user: str = session["user"]
         return render_template("html/misc/default-home.html", header=f"Hello {user}!")
-    timelined_events = cf.view_all_events(club_id, timeline)
 
-    return render_template("html/coordinator/multi-event-view.html", timeline=timeline, timelined_events=timelined_events)
+    timelined_events = cf.view_all_events(club_id, timeline)
+    event_details = []
+    if timelined_events is None:
+        timelined_events = []
+    else:
+        for event in timelined_events:
+            number_of_pending_participants = cf.count_pending_participants(event["event_id"])
+            number_of_approved_participants = cf.count_approved_participants(event["event_id"])
+            event_details.append({
+                'event_id': event["event_id"],
+                'event_name': event["event_name"],
+                'event_date': event["date"],
+                'approved_participants': number_of_approved_participants,
+                'pending_participants': number_of_pending_participants,
+            })
+    return render_template("html/coordinator/multi-event-view.html", timeline=timeline, timelined_events=event_details)
 
 # ----------------------------Start of single event--------------------------------------------
 @jean_blueprint.route("/new-event")
@@ -169,7 +183,7 @@ def add_event():
     event_location = request.form["venue"]
     event_description = request.form["description"]
 
-    cf.add_event(event_name=event_name, event_date=event_date, event_time=event_time, event_location=event_location, event_description=event_description)
+    cf.add_event(event_name=event_name, event_date=event_date, event_time=event_time, event_location=event_location, event_description=event_description, club_id=club_id)
 
     return redirect(url_for('jean_blueprint.cohome', club_id=club_id))
 

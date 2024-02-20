@@ -20,7 +20,7 @@ body {
     color: var(--black);
     background-color: var(--white);
     width: 80%;
-    padding: 1em;
+    padding: 1.75em 1.4em 1em;
     box-shadow: -9px 8px 5px 0 rgba(2, 62, 138, 0.75);
     outline: 0.3em solid var(--lighter-blue);
     border-radius: 0.15em;
@@ -52,10 +52,20 @@ body {
 }
 
 #events-main table tr td {
+    position: relative;
     padding-top: 1.2em;
 }
 
-#events-main table tr td a {
+.about-club {
+    color: var(--light-blue);
+}
+
+.pending,
+.registered,
+.unregistered {
+    font-weight: normal;
+    font-size: 1rem;
+    border: none;
     display: block;
     margin-left: auto;
     width: fit-content;
@@ -83,6 +93,7 @@ body {
 }
 
 .unregistered:hover {
+    cursor: pointer;
     translate: 0 -15%;
     outline: 2px solid var(--lighter-green);
 }

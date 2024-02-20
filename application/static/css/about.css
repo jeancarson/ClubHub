@@ -6,6 +6,7 @@ body {
 }
 
 .about-container {
+    text-align: justify;
     margin-top: 2em;
     display: grid;
     grid-template-rows: repeat(2, 1fr);
@@ -16,13 +17,17 @@ body {
 }
 
 .about-item {
-    text-align: justify;
+    text-shadow: -1px 0 2px rgba(0, 0, 0, 1);
     padding: 1em 4em;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     position: relative;
+}
+
+li:not(:last-of-type) {
+    margin-bottom: 1em;
 }
 
 .about-item p {
