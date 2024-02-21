@@ -36,8 +36,12 @@ def join_club_route():
             return "User ID or Club ID is not a valid integer."
 
         if count_club_memberships(user_id) >= 3:
-            return render_template('html/student/membership_limit.html')
+            membership_limit = True
+        else:
+            membership_limit = False
+            join_club(user_id, club_id)
 
-        join_club(user_id, club_id)
+
+        
     
-    return redirect('/clubs_final') 
+    return redirect('/clubs_final', membership_limit=membership_limit) 
