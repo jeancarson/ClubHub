@@ -19,6 +19,7 @@ from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
 from .blueprints.profile import profile
 from .blueprints.registration import registration
+from .blueprints.clubs_blu import clubs_blu
 
 app.register_blueprint(admin)
 app.register_blueprint(events)

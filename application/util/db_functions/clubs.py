@@ -146,10 +146,18 @@ def join_club(user_id: int, club_id: int) -> None:
     """
     Adds a user to a club in the database.
     """
+    # Check if the user is already a member of three clubs
+    if count_club_memberships(user_id) >= 3:
+        print("You are already a member of three clubs. You cannot join another club.")
+        return  
+    
+   
     statement = """
         INSERT INTO club_memberships (club_id, user_id)
         VALUES (?, ?);
     """
     modify_db(statement, club_id, user_id)
+    
+
 
 
