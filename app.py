@@ -16,7 +16,7 @@ from application import *
 
 # Only invoke this function after deleting database/database.db
 # There seems to be an issue when u call this in debug mode, so um.. don't.
-initialise_db()
+# initialise_db()
 
 if __name__ == '__main__':
     app.run()
