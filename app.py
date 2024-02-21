@@ -1,24 +1,22 @@
 """
 The Flask application is run from here.
 
-There are 19 registered users:
-- 1 Administrator   (admin)
-- 9 Coordinators    (coordinator-1, coordinator-2, ..., coordinator-9)
-- 9 Students        (student-1, student-2, ..., student-9)
+There are 49 registered users:
+- 1 Administrator    (admin)
+- 24 Coordinators    (coordinator1, coordinator2, ..., coordinator24)
+- 24 Students        (student1, student2, ..., student24)
 
 Password for admin: Admin0
 Password for all Coordinators: Coordinator0
 Password for all Students: Student0
 """
 
-from sqlite3 import OperationalError
-from application import app, initialise_db
+from application import *
 
 
-try:
-    initialise_db()
-except OperationalError:
-    pass
+# Only invoke this function after deleting database/database.db
+# There seems to be an issue when u call this in debug mode, so um.. don't.
+initialise_db()
 
 if __name__ == '__main__':
     app.run()

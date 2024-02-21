@@ -5,7 +5,6 @@ from .main import (
     modify_db,
     last_id
 )
-from .. import get_current_timestamp
 from .clubs import create_club, approve_club
 
 
@@ -127,7 +126,7 @@ def users_info(
     )
 
 
-def username_match(username: str) -> Row | None:
+def all_user_attributes(username: str) -> Row | None:
     """
     Returns all attributes of a user.
 
@@ -135,28 +134,22 @@ def username_match(username: str) -> Row | None:
     """
 
     return query_db(
-        """
-        SELECT * 
-        FROM users 
-        FULL OUTER JOIN login 
-        ON users.user_id = login.user_id
-        WHERE login.username=?
-    """, username, single=True
+        "SELECT * FROM all_user_attributes WHERE username=?",
+        username,
+        single=True
     )
 
 
-def user_profile_info(user_id: int) -> Row | None:
+def profile_user_attributes(user_id: int) -> Row | None:
     """
     Returns all profile-related (editable) attributes of a user.
 
     :param user_id: User's ID.
     """
     return query_db(
-        f"""
-        SELECT first_name, last_name, age, email, phone, gender
-        FROM users 
-        WHERE user_id=?
-    """, user_id, single=True
+        "SELECT * FROM profile_user_attributes WHERE user_id=?",
+        user_id,
+        single=True
     )
 
 
@@ -174,9 +167,6 @@ def update_user_profile_info(
     """
 
     age: int | None = int(age) if age is not None else None
-
-    # TODO: 'created' & 'updated' attribute in schema
-    updated: str = get_current_timestamp()  # noqa
 
     modify_db(
         """
@@ -198,7 +188,7 @@ def get_pending_users() -> list[Row] | None:
     Returns a list containing each user with an approved status of 'PENDING'.
     """
 
-    return query_db("SELECT * FROM users WHERE approved='PENDING'")  # might use this one or the other one
+    return query_db("SELECT * FROM users WHERE approved='PENDING'")
 
 
 def approve_user(user_id: int) -> None:
@@ -209,22 +199,17 @@ def approve_user(user_id: int) -> None:
     """
 
     user: Row | None = query_db(
-        """
-            SELECT * 
-            FROM users 
-            WHERE user_id=?
-        """, user_id, single=True
+        "SELECT * FROM users WHERE user_id=?",
+        user_id,
+        single=True
     )
 
     if user["user_type"] == "COORDINATOR":
         approve_club(creator_user_id=user_id)
 
     modify_db(
-        """
-            UPDATE users set
-            approved='APPROVED'
-            WHERE user_id=?;
-        """, user_id
+        "UPDATE users set approved='APPROVED' WHERE user_id=?",
+        user_id
     )
 
 
@@ -236,15 +221,11 @@ def delete_user(user_id: int) -> None:
     """
 
     modify_db(
-        """
-            DELETE FROM users
-            WHERE user_id=?
-        """, user_id
+        "DELETE FROM users WHERE user_id=?",
+        user_id
     )
 
     modify_db(
-        """
-            DELETE FROM login
-            WHERE user_id=?
-        """, user_id
+        "DELETE FROM login WHERE user_id=?",
+        user_id
     )

@@ -13,13 +13,11 @@ body {
     margin-bottom: 7.5em;
 }
 
-
-
 #events-main {
     display: grid;
     color: var(--black);
     background-color: var(--white);
-    width: 80%;
+    width: 90%;
     padding: 1.75em 1.4em 1em;
     box-shadow: -9px 8px 5px 0 rgba(2, 62, 138, 0.75);
     outline: 0.3em solid var(--lighter-blue);
@@ -74,7 +72,6 @@ body {
     color: var(--white);
 }
 
-
 .pending {
     cursor: default;
 }
@@ -98,18 +95,23 @@ body {
     outline: 2px solid var(--lighter-green);
 }
 
+.container {
+    margin-bottom: 3em;
+    margin-top: -3em;
+}
+
+.container h2 {
+    padding-left: 5%;
+}
+
 .qa-section {
-    margin-top: 20px; 
-    margin-bottom: 20px; 
-    background-color: var(--white); 
+    background-color: var(--white);
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    width: 80%; /* Set width to match container */
-    margin-left: auto; /* Center the section horizontally */
-    margin-right: auto; /* Center the section horizontally */
+    width: 90%;
+    margin: 20px auto;
 }
-
 
 .qa-section summary {
     font-weight: bold; 
