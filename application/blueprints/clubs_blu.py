@@ -39,8 +39,9 @@ def join_club_route():
             membership_limit = True
         else:
             membership_limit = False
+            join_club(user_id, club_id)
 
 
-        join_club(user_id, club_id)
+        
     
     return redirect('/clubs_final', membership_limit=membership_limit) 
