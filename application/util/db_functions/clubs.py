@@ -2,7 +2,6 @@ from typing import Optional
 
 from . import query_db
 from .main import Row, last_id, modify_db
-from .. import get_current_timestamp
 
 
 def create_club(*, creator_user_id: int, club_name: str, club_description: Optional[str]) -> None:
@@ -42,15 +41,13 @@ def approve_club(creator_user_id: int) -> None:
     :param creator_user_id: User ID of the creator.
     """
 
-    timestamp: str = get_current_timestamp()
-
     modify_db(
         """ 
             UPDATE clubs set 
                 validity='APPROVED',
                 updated=?
             WHERE creator=?
-        """, timestamp, creator_user_id
+        """, creator_user_id
     )
 
 
