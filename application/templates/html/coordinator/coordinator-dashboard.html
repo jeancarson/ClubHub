@@ -18,8 +18,10 @@
 
     <br><br>
 
+    
     <style>
         body {
+            /* background image */
             background-image: url("{{ url_for('static', filename='png/blue-background-flipped-xy.png') }}");
             background-size: cover;
             background-position: center center;
@@ -40,7 +42,6 @@
                 <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text1', 'club name', this, 'club_name_value');">Edit club name</button>
                 <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text2', 'club description', this, 'club_description_value');">Edit description</button>
                 <button type="submit" class="btn btn-warning custom-button">Save changes</button>
-                <!-- TODO maybe set club title to a default value of enter title?? or figure out how to do an actual placeholder. -->
             </div>
         </div>
     </form>
@@ -49,6 +50,7 @@
     
 
     <script>
+        // Function to toggle the edit mode of an element
     function toggleEditMode(elementId, field, button, valueID) {
         let editableElement = document.getElementById(elementId);
         let hiddenInput = document.getElementById(valueID);
@@ -156,8 +158,10 @@
 
             <br><a href="{{ url_for('jean_blueprint.see_events', timeline = 'Upcoming') }}" class="card-link dark_link" >View
             More</a><br>
+            <!-- past events -->
             <a class="btn btn-warning custom-button"
                href="{{ url_for('jean_blueprint.see_events', timeline = 'Past') }}" role="button">Past Events</a>
+               <!-- new events -->
 
             <a class="btn btn-warning custom-button" href="{{ url_for('jean_blueprint.new_event') }}"
                role="button">Add Event</a>

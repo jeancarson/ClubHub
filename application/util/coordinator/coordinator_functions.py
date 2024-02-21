@@ -1,10 +1,12 @@
 
+#These functions are used to handle the coordinator's requests and to interact with the database.
+
+
 from flask import redirect, url_for, flash, session
 import application.util.db_functions as dbf
 
 
-from flask import redirect
-
+#-------checking user type and session----------------------
 def check_coordinator_session(return_coordinator_info=False):
     user_type = session.get("user-type")
     
@@ -19,9 +21,10 @@ def check_coordinator_session(return_coordinator_info=False):
     
     club_id = get_club_id(coordinator_ID)
     coordinator_name =get_coordinator_name(coordinator_ID)
-
+#if we want both the club_id and the coordinator_name
     if return_coordinator_info:
         return club_id, coordinator_name
+    #if we only want the club_id (allows us to call and assign to a variable without specifying an index)
     else:
         return club_id
 
@@ -41,7 +44,12 @@ def get_coordinator_name(club_id):
     else:
         return "Coordinator not found"
 
-
+def get_club_id(coordinator_id):
+    return dbf.query_db("""
+    select club_id
+    from clubs
+    where creator = {coordinator_id};
+    """.format(coordinator_id=coordinator_id))[0][0]
 
 #-------viewing and editing club details----------------------
 
@@ -87,6 +95,7 @@ def count_pending_users(club_id):
     """.format(club_id=club_id))[0][0]
     return number_of_pending_users
 
+#to get a list of all members of a certain status (approved/pending)
 def get_all_members(club_id, status):
     status_users = dbf.query_db( """
     select users.*
@@ -95,13 +104,14 @@ def get_all_members(club_id, status):
     """.format(status=status.upper(), club_id = club_id))
     return status_users
 
+#save members after changing their status
 def save_member_status(club_id, user_id, new_validity):
     dbf.modify_db("""
     update club_memberships
     set validity = '{NEW_VALIDITY}'
     where user_id = {user_id} and club_id = {club_id}
     """.format(user_id=user_id, club_id=club_id, NEW_VALIDITY=new_validity.upper()))
-
+#This will be run immediately after the save_member_status function, to get rid of the rejected members
 def delete_rejected_members(club_id):
     dbf.modify_db("""
     delete 
@@ -109,8 +119,8 @@ def delete_rejected_members(club_id):
     where validity = 'Rejected' and club_id = {club_id};
     """.format(club_id=club_id))
 
-    #to be continued
 #-------viewing events----------------------
+    #view a small number of events straight on the dashboard
 def limited_view_all_upcoming_events(club_id):
     from datetime import datetime
 
@@ -137,14 +147,15 @@ def count_approved_participants(event_id):
     from event_participants
     where event_id ={event_id} and validity = 'APPROVED'
     """ .format(event_id=event_id))[0][0])
-
+#retreive all participants for a particular event, who are of a certain status
 def get_all_participants(event_id, status):
     return (dbf.query_db("""
     select users.*
     from users join event_participants on users.user_id = event_participants.user_id 
     where event_participants.validity = '{status}' and event_participants.event_id = {event_id};
     """.format(status=status.upper(), event_id = event_id)))
-
+#similarly to the save members functon, this function will save the status of the participants after it has been changed
+#deleting the rejected participants will be done immediately after this function
 def save_participant_status(event_id, user_id, new_validity):
     dbf.modify_db("""
     update event_participants
@@ -158,7 +169,7 @@ def delete_rejected_participants(event_id):
     from event_participants
     where validity = 'Rejected' and event_id = {event_id};
     """.format(event_id=event_id))
-
+#View all past/upcoming events
 def view_all_events(club_id, timeline):
     if timeline == 'Past':
         return dbf.query_db("""
@@ -176,6 +187,7 @@ def view_all_events(club_id, timeline):
                         
                                     
 #-----------editing events---------------------
+#retrieving event details to be displayed in the form
 def get_event_details(event_id):
     event_details = dbf.query_db("""
     select *
@@ -197,6 +209,10 @@ def update_event(event_id, event_name, event_description, event_date, event_time
     where event_id = {event_id};
     """.format(event_id=event_id, event_name=event_name, event_description=event_description, date=event_date, time=event_time, event_location = event_location))
 
+
+
+
+################################################
 def get_club_id(coordinator_id):
     return dbf.query_db("""
     select club_id
