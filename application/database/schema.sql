@@ -1,11 +1,11 @@
 CREATE TABLE users (
-    user_id             INTEGER         NOT NULL,
-    first_name          TEXT,
-    last_name           TEXT,
-    age                 INTEGER,
-    email               TEXT,
-    phone               TEXT,
-    gender              TEXT,
+    user_id             INTEGER AUTOINCREMENT NOT NULL,
+    first_name          TEXT       NOT NULL,
+    last_name           TEXT      NOT NULL,
+    age                 INTEGER    NOT NULL,
+    email               TEXT       NOT NULL,
+    phone               TEXT      NOT NULL,
+    gender              TEXT      NOT NULL,
     password            TEXT            NOT NULL,
     user_type           TEXT            NOT NULL CHECK (user_type IN ('STUDENT', 'COORDINATOR', 'ADMINISTRATOR')),
     approved            TEXT            CHECK (approved IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
@@ -19,16 +19,17 @@ CREATE TABLE login (
     user_id             INTEGER         NOT NULL,
     username            TEXT            NOT NULL,
     created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
     -------------------------------------------------
     PRIMARY KEY (username),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE clubs (
-    club_id             INTEGER,
-    club_name           TEXT,
-    club_description    TEXT,
-    creator             INTEGER,
+    club_id             INTEGER AUTOINCREMENT,
+    club_name           TEXT            NOT NULL,
+    club_description    TEXT            NOT NULL,
+    creator             INTEGER         NOT NULL,
     validity            TEXT            CHECK (validity IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
     created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
     updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
@@ -38,8 +39,8 @@ CREATE TABLE clubs (
 );
 
 CREATE TABLE club_memberships (
-    club_id             INTEGER,
-    user_id             INTEGER,
+    club_id             INTEGER        NOT NULL,
+    user_id             INTEGER       NOT NULL,
     validity            TEXT            CHECK (validity IN ('PENDING', 'APPROVED', 'REJECTED')) DEFAULT 'PENDING',
     created             DATETIME        DEFAULT CURRENT_TIMESTAMP,
     updated             DATETIME        DEFAULT CURRENT_TIMESTAMP,
@@ -51,12 +52,12 @@ CREATE TABLE club_memberships (
 
 CREATE TABLE events (
     event_id            INTEGER PRIMARY KEY AUTOINCREMENT,
-    club_id             INTEGER,
-    event_name          TEXT,
-    event_description   TEXT,
-    venue               TEXT,
-    date                TEXT,
-    time                TEXT,
+    club_id             INTEGER         NOT NULL,
+    event_name          TEXT            NOT NULL,
+    event_description   TEXT            NOT NULL,
+    venue               TEXT            NOT NULL,
+    date                TEXT            NOT NULL,
+    time                TEXT            NOT NULL,
     created             DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated             DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (club_id) REFERENCES clubs(club_id)
