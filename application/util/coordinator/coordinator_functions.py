@@ -1,7 +1,33 @@
 
-from flask import redirect, url_for, flash
+from flask import redirect, url_for, flash, session
 import application.util.db_functions as dbf
 
+
+from flask import redirect
+
+def check_coordinator_session(return_coordinator_info=False):
+    user_type = session.get("user-type")
+    
+    if user_type != "COORDINATOR":
+        return redirect("/home")
+    
+    coordinator_ID = session.get("user-id")
+
+    if coordinator_ID is None:
+        # Handle the case where the user is not logged in
+        return redirect("/login")
+    
+    club_id = get_club_id(coordinator_ID)
+    coordinator_name =get_coordinator_name(coordinator_ID)
+
+    if return_coordinator_info:
+        return club_id, coordinator_name
+    else:
+        return club_id
+
+
+
+#######################################################################################
 
 #Header setup
 def get_coordinator_name(club_id):
@@ -170,3 +196,10 @@ def update_event(event_id, event_name, event_description, event_date, event_time
     set event_name = '{event_name}', event_description = '{event_description}', venue = '{event_location}', date = '{date}', time = '{time}', updated = CURRENT_TIMESTAMP
     where event_id = {event_id};
     """.format(event_id=event_id, event_name=event_name, event_description=event_description, date=event_date, time=event_time, event_location = event_location))
+
+def get_club_id(coordinator_id):
+    return dbf.query_db("""
+    select club_id
+    from clubs
+    where creator = {coordinator_id};
+    """.format(coordinator_id=coordinator_id))[0][0]

@@ -47,7 +47,7 @@ def signup():
     club_id = request.form.get("clubId")
     
     try:
-        # I THINK THIS SHOULD FUCKING WORK
+        # I THINK THIS SHOULD WORK
         count = count_club_memberships(user_id)
         if count >= 3:
             return jsonify({"success": False, "message": "You are already a member of three clubs."}), 400

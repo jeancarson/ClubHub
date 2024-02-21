@@ -1,7 +1,14 @@
 ﻿from logging import DEBUG
 from sqlite3 import Connection
+from .util.db_functions import get_db
 
 from flask import Flask, g
+
+
+
+app: Flask = Flask(__name__, template_folder="templates", static_folder="static")
+app.config.from_prefixed_env()
+app.logger.setLevel(DEBUG)
 
 from .blueprints.admin import admin
 from .blueprints.events import events
@@ -12,11 +19,6 @@ from .blueprints.mia_blueprint import mia_blueprint
 from .blueprints.misc import misc
 from .blueprints.profile import profile
 from .blueprints.registration import registration
-from .util.db_functions import get_db
-
-app: Flask = Flask(__name__, template_folder="templates", static_folder="static")
-app.config.from_prefixed_env()
-app.logger.setLevel(DEBUG)
 
 app.register_blueprint(admin)
 app.register_blueprint(events)

@@ -55,8 +55,8 @@ CREATE TABLE events (
     event_name          TEXT,
     event_description   TEXT,
     venue               TEXT,
-    date                TEXT CHECK (date GLOB '____-__-__' AND date NOT LIKE '%[^0-9]%'),
-    time                TEXT CHECK (time GLOB '__:__' AND time NOT LIKE '%[^0-9]%'),
+    date                TEXT,
+    time                TEXT,
     created             DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated             DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (club_id) REFERENCES clubs(club_id)

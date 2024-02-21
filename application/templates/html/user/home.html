@@ -12,7 +12,12 @@
             <a href="/member-info">User Information</a>
         {% endif %}
 
-        <a href="{{ '#' if coordinator else '#' }}">Go to Dashboard</a>
+        {% if coordinator %}
+        <a href="/home" class="#-link">Home</a>
+        <a href="/cohome" class="#-link">Dashboard</a>
+        <a href="/about-us" class="#-link">About Us</a>
+        <a href="/contact-us" class="#-link">Contact</a>
+        {% endif %}
 
     </div>
 

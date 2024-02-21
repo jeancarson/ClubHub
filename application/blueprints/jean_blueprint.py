@@ -7,8 +7,6 @@ import logging
 
 jean_blueprint = Blueprint("jean_blueprint", __name__)
 
-
-club_id = 0
 # coordinator_name = "Jean"
 
 
@@ -19,14 +17,9 @@ from flask import request, render_template
 #***********************************************************
 @jean_blueprint.route("/cohome", methods=["GET"])
 def cohome():
+    club_id, coordinator_name = cf.check_coordinator_session(return_coordinator_info = True)
 
-    club_id = request.args.get('club_id', 0)
-
-    if "user" in session:
-        user = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
-    
-    coordinator_name = cf.get_coordinator_name(club_id)
+    #***********************************************************
     club_name = cf.get_club_details(club_id)[0]
     club_description = cf.get_club_details(club_id)[1]
     #***********************************************************
@@ -70,7 +63,7 @@ def cohome():
 
 @jean_blueprint.route("/cohome", methods=["POST"])
 def save_club_details():
-    club_id = request.args.get('club_id', 0)
+    club_id = cf.check_coordinator_session()
     club_name = request.form["club_name"]
     club_description = request.form["club_description"]
     cf.save_club_details(club_id, club_name, club_description)
@@ -86,9 +79,7 @@ def save_club_details():
 
 @jean_blueprint.route("/memview/<status>", methods=["GET"])
 def view_members(status):
-    if "user" in session:
-        user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+    club_id = cf.check_coordinator_session()
     status_users = cf.get_all_members(club_id, status)
     return render_template("html/coordinator/member-view.html", status = status, status_users = status_users)
 
@@ -96,7 +87,7 @@ def view_members(status):
 @jean_blueprint.route("/memview", methods=["POST"])
 #Note, decided to take status arameter out here, may end up putting it back
 def save_member_details():
-    global club_id
+    club_id = cf.check_coordinator_session()
     for user_id in request.form.getlist("user_id"):
         new_validity = str(request.form.get(f"status_{user_id}")).upper()
         print(f"New Validity: {new_validity}")
@@ -114,9 +105,8 @@ def save_member_details():
 #---------------------------------------start of participant stuff-----------------------------------
 @jean_blueprint.route("/participantview/<status>/<event_id>", methods=["GET"])
 def parview(status, event_id):
-    if "user" in session:
-        user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+#no club_id here?
+    cf.check_coordinator_session()
     status_pars = cf.get_all_participants(event_id, status)
     event_name = cf.get_event_details(event_id)["event_name"]
     return render_template("html/coordinator/view-participants.html", status=status, event_id=event_id, status_pars = status_pars, event_name = event_name)
@@ -125,6 +115,7 @@ def parview(status, event_id):
 @jean_blueprint.route("/participantview", methods=["POST"])
 #Note, decided to take status arameter out here, may end up putting it back
 def save_participant_details():
+    club_id = cf.check_coordinator_session()
     event_id = request.form.get("event_id")
     for user_id in request.form.getlist("user_id"):
         new_validity = str(request.form.get(f"status_{user_id}")).upper()
@@ -144,9 +135,7 @@ def save_participant_details():
 
 @jean_blueprint.route("/eventview/<timeline>")
 def see_events(timeline):
-    if "user" in session:
-        user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+    club_id = cf.check_coordinator_session()
 
     timelined_events = cf.view_all_events(club_id, timeline)
     event_details = []
@@ -168,15 +157,13 @@ def see_events(timeline):
 # ----------------------------Start of single event--------------------------------------------
 @jean_blueprint.route("/new-event")
 def new_event():
-    if "user" in session:
-        user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+    club_id = cf.check_coordinator_session()
 
     return render_template("html/coordinator/single-event-view.html")
 
-#TODO have this write to database, probably will encounter same problem as before
 @jean_blueprint.route("/new-event", methods=["POST"])
 def add_event():
+    club_id = cf.check_coordinator_session()
     event_name = request.form["name"]
     event_date = request.form["date"]
     event_time = request.form["time"]
@@ -191,9 +178,7 @@ def add_event():
 
 @jean_blueprint.route("/edit-event/<int:event_id>")
 def edit_event(event_id):
-    if "user" in session:
-        user: str = session["user"]
-        return render_template("html/misc/default-home.html", header=f"Hello {user}!")
+    club_id = cf.check_coordinator_session()
     event_details = cf.get_event_details(event_id)
     return render_template("html/coordinator/single-event-view.html",event_id = event_id,  event_name = event_details["event_name"], event_date=event_details["date"],event_time=event_details["time"],
                             event_location=event_details["venue"], event_description=event_details["event_description"],)
@@ -201,6 +186,7 @@ def edit_event(event_id):
 
 @jean_blueprint.route("/edit-event/<int:event_id>", methods=["POST"])
 def update_event(event_id):
+    club_id = cf.check_coordinator_session()
     event_name = request.form["name"]
     event_date = request.form["date"]
     event_time = request.form["time"]
@@ -213,5 +199,4 @@ def update_event(event_id):
 
 
 #---------------------------------------end of single event--------------------------------------------------
-#TODO fix build error
 # --------------End of Pages functions-----------------

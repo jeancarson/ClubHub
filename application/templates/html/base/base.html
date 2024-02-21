@@ -45,7 +45,7 @@
 </head>
 
 <body>
-
+<!-- 
     <style>
         .alert-dialog {
             {% with error = get_flashed_messages(category_filter=["error"]) %}
@@ -55,7 +55,7 @@
                 {% endwith %}
             {% endwith %}
         }
-    </style>
+    </style> -->
 
     <nav id="navbar">
 
@@ -88,7 +88,9 @@
             {% elif session["user-type"] == "COORDINATOR" %}
 
                 <div class="navbar-center">
-                    <a href="#" class="#-link">...</a>
+                    <a href="/cohome" class="#-link">Dashboard</a>
+                    <a href="/about-us" class="#-link">About Us</a>
+                    <a href="/contact-us" class="#-link">Contact</a>
                 </div>
 
             {% elif session["user-type"] == "STUDENT" %}
