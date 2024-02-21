@@ -1,5 +1,6 @@
 ﻿from logging import DEBUG
 from sqlite3 import Connection
+from os.path import exists
 
 from flask import Flask, g
 
@@ -49,6 +50,15 @@ def initialise_db() -> None:
             db.cursor().executescript(file.read())
 
         db.commit()
+
+
+def initialise_db_if_not_present() -> None:
+    """
+    Calls initialise_db() if application/database/database.db does not exist.
+    """
+
+    if not exists("application/database/database.db"):
+        initialise_db()
 
 
 @app.teardown_appcontext

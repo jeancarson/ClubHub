@@ -11,12 +11,9 @@ Password for all Coordinators: Coordinator0
 Password for all Students: Student0
 """
 
-from application import *
+from application import app, initialise_db_if_not_present
 
-
-# Only invoke this function after deleting database/database.db
-# There seems to be an issue when u call this in debug mode, so um.. don't.
-# initialise_db()
+initialise_db_if_not_present()
 
 if __name__ == '__main__':
     app.run()
