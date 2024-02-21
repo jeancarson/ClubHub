@@ -31,7 +31,7 @@ def validate_access_perms(*, endpoint: str) -> str | None:
 
 
 @admin.route("/users/info")
-def users_info():
+def users_information():
     # When the user selects one of the links on the page, a HTTP GET request is sent
     # to this function with a keyword argument called selected, like:
     # "127.0.0.1:5000/members_info?selected=students"

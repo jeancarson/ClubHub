@@ -97,9 +97,59 @@ def club_info(club_id: int) -> Row | None:
 
 
 def count_club_memberships(user_id):
+    """
+    Counts the number of club memberships for a given user.
+
+    :param user_id: The ID of the user whose club memberships are being counted.
+    :return: The number of club memberships for the user.
+    """
     clubs_info = query_db("SELECT COUNT(*) FROM club_memberships WHERE user_id = ?", (user_id,))
     return clubs_info[0]['COUNT(*)'] if clubs_info else 0
 
 
 def insert_club_membership(club_id, user_id):
+    """
+    Inserts a new club membership into the database.
+
+    :param club_id: The ID of the club.
+    :param user_id: The ID of the user to add as a member of the club.
+    """
     query_db("INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?)", (club_id, user_id))
+
+
+
+
+def get_popular_clubs() -> list[dict]:
+    """
+    Fetches and returns data about popular clubs from the database.
+    """
+    pop = """
+        SELECT club_id, club_name, club_description
+        FROM clubs
+        WHERE validity = 'APPROVED'
+        LIMIT 3;
+    """
+    return query_db(pop)
+
+def get_all_clubs() -> list[dict]:
+    """
+    Fetches and returns data about all clubs from the database.
+    """
+    all = """
+        SELECT club_id, club_name, club_description
+        FROM clubs;
+    """
+    return query_db(all)
+
+
+def join_club(user_id: int, club_id: int) -> None:
+    """
+    Adds a user to a club in the database.
+    """
+    statement = """
+        INSERT INTO club_memberships (club_id, user_id)
+        VALUES (?, ?);
+    """
+    modify_db(statement, club_id, user_id)
+
+

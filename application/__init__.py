@@ -29,6 +29,7 @@ app.register_blueprint(mia_blueprint)
 app.register_blueprint(misc)
 app.register_blueprint(profile)
 app.register_blueprint(registration)
+app.register_blueprint(clubs_blu)
 
 
 def initialise_db() -> None:
