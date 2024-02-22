@@ -41,7 +41,6 @@ def login_post() -> Response | str:
     password: str = request.form["login-password"]
 
     match = all_user_attributes(username=username)
-    print(match)
 
     if match is None:
         error(errtype=Error.INVALID_USERNAME, endpoint="/register", form=True, username=username)

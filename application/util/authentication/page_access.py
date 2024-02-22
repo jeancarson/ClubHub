@@ -28,12 +28,12 @@ Otherwise, if the return value is None, then the evaluation will result in False
 and the function will continue until returning the requested page.
 """
 
+from functools import partial
 from typing import Callable
 
 from flask import session, render_template
-from .alerts import error, Error
 
-from functools import partial
+from .alerts import error, Error
 
 
 def validate_access_perms(user_type: str, endpoint: str) -> str | None:
