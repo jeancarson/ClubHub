@@ -68,9 +68,6 @@ def users_pending():
             
         return redirect(url_for("admin.users_pending"))
 
-        
-        
-
     return render_template("html/admin/pending-users.html", approved_users=approved_users, pending_users=pending_users)
 
 

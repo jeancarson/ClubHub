@@ -27,12 +27,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for user in approved_users %}
-                                    <tr>
-                                        <th scope="row">{{ user.user_id }}</th>
-                                        <td>{{ user.user_type }}</td>
-                                    </tr>
-                                {% endfor %}
+                                {% if approved_users %}
+                                    {% for user in approved_users %}
+                                        <tr>
+                                            <th scope="row">{{ user["user_id"] }}</th>
+                                            <td>{{ user["user_type"] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -53,19 +55,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for user in pending_users %}
-                                    <tr>
-                                        <th scope="row">{{ user.user_id }}</th>
-                                        <td>{{ user.user_type }}</td>
-                                        <td>
-                                            <form action="{{ url_for('admin.users_pending') }}" method="post">
-                                                <input type="hidden" name="user_id" value="{{ user.user_id }}">
-                                                <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
-                                                <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+                                {% if pending_users %}
+                                    {% for user in pending_users %}
+                                        <tr>
+                                            <th scope="row">{{ user.user_id }}</th>
+                                            <td>{{ user.user_type }}</td>
+                                            <td>
+                                                <form action="{{ url_for('admin.users_pending') }}" method="post">
+                                                    <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                                    <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
+                                                    <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
