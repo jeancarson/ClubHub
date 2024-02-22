@@ -5,12 +5,12 @@ interact with the database.
 
 from flask import flash
 
-import application.util.db_functions as dbf
+from application.util.db_functions import query_db, modify_db
 
 
 def get_club_id(coordinator_id: int) -> int:
 
-    result = dbf.query_db(
+    result = query_db(
         """
             SELECT club_id
             FROM clubs
@@ -25,7 +25,7 @@ def get_club_id(coordinator_id: int) -> int:
 
 def get_coordinator_name(club_id: int) -> str:
 
-    result = dbf.query_db(
+    result = query_db(
         """
             SELECT users.first_name, users.last_name
             FROM users JOIN clubs ON users.user_id = clubs.creator
@@ -40,7 +40,7 @@ def get_coordinator_name(club_id: int) -> str:
 
 def get_club_details(club_id: int) -> tuple[str, str]:
 
-    club_details = dbf.query_db(
+    club_details = query_db(
         """
             SELECT club_name, club_description
             FROM clubs
@@ -58,7 +58,7 @@ def get_club_details(club_id: int) -> tuple[str, str]:
 
 def save_club_details(club_id: int, new_name: str, new_description: str) -> None:
 
-    dbf.modify_db(
+    modify_db(
         """
             UPDATE clubs
             SET
@@ -79,7 +79,7 @@ def save_club_details(club_id: int, new_name: str, new_description: str) -> None
 
 def count_active_users(club_id: int) -> int:
 
-    number_of_active_users = dbf.query_db(
+    number_of_active_users = query_db(
         """
             SELECT count(user_id)
             FROM club_memberships
@@ -94,7 +94,7 @@ def count_active_users(club_id: int) -> int:
 
 def count_pending_users(club_id: int) -> int:
 
-    number_of_pending_users = dbf.query_db(
+    number_of_pending_users = query_db(
         """
             SELECT count(user_id)
             FROM club_memberships
@@ -110,7 +110,7 @@ def count_pending_users(club_id: int) -> int:
 # To get a list of all members of a certain status (approved/pending)
 def get_all_members(club_id, status):
 
-    status_users = dbf.query_db(
+    status_users = query_db(
         """
             SELECT users.*
             FROM users JOIN club_memberships USING (user_id)
@@ -126,7 +126,7 @@ def get_all_members(club_id, status):
 # Save members after changing their status
 def save_member_status(club_id, user_id, new_validity):
 
-    dbf.modify_db(
+    modify_db(
         """
             UPDATE club_memberships
             SET validity=?
@@ -141,7 +141,7 @@ def save_member_status(club_id, user_id, new_validity):
 # This will be run immediately after the save_member_status function, to get rid of the rejected members
 def delete_rejected_members(club_id):
 
-    dbf.modify_db(
+    modify_db(
         """
             DELETE FROM club_memberships
             WHERE validity='REJECTED' AND club_id=?
@@ -156,7 +156,7 @@ def delete_rejected_members(club_id):
 # View a small number of events straight on the dashboard
 def limited_view_all_upcoming_events(club_id):
 
-    return dbf.query_db(
+    return query_db(
         """
             SELECT *
             FROM events
@@ -170,7 +170,7 @@ def limited_view_all_upcoming_events(club_id):
 
 def count_pending_participants(event_id: int) -> int:
 
-    result = dbf.query_db(
+    result = query_db(
         """
             SELECT count(user_id)
             FROM event_participants
@@ -185,7 +185,7 @@ def count_pending_participants(event_id: int) -> int:
 
 def count_approved_participants(event_id: int) -> int:
 
-    result = dbf.query_db(
+    result = query_db(
         """
             SELECT COUNT(user_id)
             FROM event_participants
@@ -200,7 +200,7 @@ def count_approved_participants(event_id: int) -> int:
 
 # Retreive all participants for a particular event, who are of a certain status
 def get_all_participants(event_id, status):
-    return dbf.query_db(
+    return query_db(
         """
             SELECT users.*
             FROM users JOIN event_participants USING (user_id)
@@ -216,7 +216,7 @@ def get_all_participants(event_id, status):
 # Deleting the rejected participants will be done immediately after this function
 def save_participant_status(event_id, user_id, new_validity):
 
-    dbf.modify_db(
+    modify_db(
         """
             UPDATE event_participants
             SET
@@ -232,7 +232,7 @@ def save_participant_status(event_id, user_id, new_validity):
 
 def delete_rejected_participants(event_id):
 
-    dbf.modify_db(
+    modify_db(
         """
             DELETE FROM event_participants
             WHERE validity='REJECTED' AND event_id=?
@@ -245,7 +245,7 @@ def delete_rejected_participants(event_id):
 def view_all_events(club_id, timeline):
 
     if timeline == 'Past':
-        return dbf.query_db(
+        return query_db(
             """
                 SELECT * 
                 FROM events
@@ -255,7 +255,7 @@ def view_all_events(club_id, timeline):
             club_id
         )
 
-    return dbf.query_db(
+    return query_db(
         """
             SELECT *
             FROM events
@@ -272,7 +272,7 @@ def view_all_events(club_id, timeline):
 # Retrieving event details to be displayed in the form
 def get_event_details(event_id):
 
-    return dbf.query_db(
+    return query_db(
         """
             SELECT *
             FROM events
@@ -285,7 +285,7 @@ def get_event_details(event_id):
 
 def add_event(club_id, event_name, event_description, event_date, event_time, event_location):
 
-    dbf.modify_db(
+    modify_db(
         """
             INSERT INTO events (club_id, event_name, event_description, date, time, venue)
             VALUES (?, ?, ?, ?, ?, ?);
@@ -301,7 +301,7 @@ def add_event(club_id, event_name, event_description, event_date, event_time, ev
 
 def update_event(event_id, event_name, event_description, event_date, event_time, event_location):
 
-    dbf.modify_db(
+    modify_db(
         """
             UPDATE events
             SET 

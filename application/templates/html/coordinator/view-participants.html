@@ -6,10 +6,15 @@
 {% endblock %}
 
 {% block header %}
+
     <header>
         <h1 style="color: white;">{{ header if header else "View your " ~ status ~ " participants" }}</h1>
         <h2 class="text-center" style="color: white;">{{ event_name }}</h2>
-    </header><br><br>
+    </header>
+
+    <br />
+    <br />
+
     <style>
         body {
             background-image: url("{{ url_for('static', filename='png/blue-background-flipped-xy.png') }}");
@@ -17,6 +22,7 @@
             background-position: center center;        
         }
     </style>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -26,36 +32,53 @@
             });
         });
     </script>
+
 {% endblock %}
 
 {% block content %}
+
     <div class="card card-custom">
         <div class="card-body">
-            <h6 class="card-subtitle mb-2 dark_link">Click to edit participants status. Note: rejecting a participant
-                will delete them from the database. Click save to update.</h6>
-<br>
 
-            <form id="participantForm" action="{{ url_for('coordinator.save_participant_details') }}" method="POST">
+            <h6 class="card-subtitle mb-2 dark_link">
+                Click to edit participants status. Note: rejecting a participant
+                will delete them from the database. Click save to update.
+            </h6>
+
+            <br />
+
+            <form id="participantForm" action="/participantview" method="post">
+
                 <input type="hidden" name="event_id" value="{{ event_id }}">
 
-                {% if status_pars is not none %}
+                {% if status_pars %}
                     {% for user in status_pars %}
                         <li class="list-group-item" style="background-color: var(--light-blue); color: white">
-                            {{ user['first_name'] ~ ' ' ~ user['last_name'] }}<br><br>
+                            {{ user["first_name"] ~ " " ~ user["last_name"] }}
+
+                            <br />
+                            <br />
+
                             <select class="form-select" aria-label="Default select example" name="status_{{ user['user_id'] }}">
                                 <option selected>{{ status }}</option>
                                 <option value="APPROVED">Approved</option>
                                 <option value="PENDING">Pending</option>
                                 <option value="REJECTED">Rejected</option>
                             </select>
+
                             <!-- Add hidden input for user_id -->
                             <input type="hidden" name="user_id" value="{{ user['user_id'] }}">
                         </li>
                     {% endfor %}
-                    {% endif %}
+                {% endif %}
 
-                    <button type="submit" class="btn btn-warning custom-button" style="--bs-btn-font-size: .75rem;">Delete rejected participants and save</button>
+                <button type="submit" class="btn btn-warning custom-button" style="--bs-btn-font-size: .75rem;">
+                    Delete rejected participants and save
+                </button>
+
             </form>
+
         </div>
     </div>
+
 {% endblock %}
