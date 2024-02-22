@@ -7,7 +7,6 @@ import logging
 
 jean_blueprint = Blueprint("jean_blueprint", __name__)
 
-# coordinator_name = "Jean"
 
 
 from flask import request, render_template

@@ -51,7 +51,6 @@ def initialise_db() -> None:
 
         db.commit()
 
-
 def initialise_db_if_not_present() -> None:
     """
     Calls initialise_db() if application/database/database.db does not exist.
@@ -63,6 +62,9 @@ def initialise_db_if_not_present() -> None:
 
 @app.teardown_appcontext
 def close_connection(_exception) -> None:
+  
+
+
     """
     Closes the database connection.
     This function is invoked automatically.
