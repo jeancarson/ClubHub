@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request, render_template
+from flask import Blueprint, redirect, url_for, request, render_template, session
 
 from ..util.coordinator import coordinator_functions
 from ..util.authentication.page_access import validate_coordinator_perms
@@ -15,11 +15,12 @@ def cohome():
     if invalid:
         return invalid
 
-    club_id, coordinator_name = coordinator_functions.check_coordinator_session(return_coordinator_info=True)
+    user_id: int = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
+    coordinator_name = coordinator_functions.get_coordinator_name(club_id)
 
     # Club details section
-    club_name = coordinator_functions.get_club_details(club_id)[0]
-    club_description = coordinator_functions.get_club_details(club_id)[1]
+    club_name, club_description = coordinator_functions.get_club_details(club_id)
 
     # Member details section
     number_of_active_users = coordinator_functions.count_active_users(club_id)
@@ -62,21 +63,15 @@ def cohome():
 @coordinator.route("/cohome", methods=["POST"])
 def save_club_details():
 
-    # Get club id from session
-    club_id = coordinator_functions.check_coordinator_session()
+    user_id: int = session["user-id"]
+
+    club_id = coordinator_functions.get_club_id(user_id)
     club_name = request.form["club_name"]
     club_description = request.form["club_description"]
 
-    print(request.form)  # Form is not getting the updated values
-
     coordinator_functions.save_club_details(club_id, club_name, club_description)
 
-    return redirect(
-        url_for(
-            'coordinator.cohome',
-            club_id=club_id
-        )
-    )
+    return redirect("/cohome")
 
 
 # View members of a certain status
@@ -88,7 +83,8 @@ def view_members(status):
     if invalid:
         return invalid
 
-    club_id = coordinator_functions.check_coordinator_session()
+    user_id: int = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
     status_users = coordinator_functions.get_all_members(club_id, status)
 
     return render_template(
@@ -102,7 +98,9 @@ def view_members(status):
 # Note, decided to take status arameter out here, may end up putting it back
 @coordinator.route("/memview", methods=["POST"])
 def save_member_details():
-    club_id = coordinator_functions.check_coordinator_session()
+
+    user_id: int = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
 
     for user_id in request.form.getlist("user_id"):
         new_validity = str(request.form.get(f"status_{user_id}")).upper()
@@ -127,7 +125,7 @@ def parview(status, event_id):
         return invalid
 
     # No club_id here? I think it's not needed
-    coordinator_functions.check_coordinator_session()
+    # coordinator_functions.check_coordinator_session()
     status_pars = coordinator_functions.get_all_participants(event_id, status)
     event_name = coordinator_functions.get_event_details(event_id)["event_name"]
 
@@ -144,7 +142,9 @@ def parview(status, event_id):
 # Note, decided to take status arameter out here, may end up putting it back
 @coordinator.route("/participantview", methods=["POST"])
 def save_participant_details():
-    club_id = coordinator_functions.check_coordinator_session()
+
+    user_id: int = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
     event_id = request.form.get("event_id")
 
     # Loops through every participant in the form
@@ -168,7 +168,8 @@ def see_events(timeline):
     if invalid:
         return invalid
 
-    club_id = coordinator_functions.check_coordinator_session()
+    user_id: int = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
 
     timelined_events = coordinator_functions.view_all_events(club_id, timeline)
     event_details = []
@@ -205,7 +206,8 @@ def new_event():
     if invalid:
         return invalid
 
-    club_id = coordinator_functions.check_coordinator_session()
+    user_id: int = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
 
     return render_template("html/coordinator/single-event-view.html")
 
@@ -214,7 +216,8 @@ def new_event():
 @coordinator.route("/new-event", methods=["POST"])
 def add_event():
 
-    club_id = coordinator_functions.check_coordinator_session()
+    user_id = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
     event_name = request.form["name"]
     event_date = request.form["date"]
     event_time = request.form["time"]
@@ -261,7 +264,8 @@ def edit_event(event_id):
 @coordinator.route("/edit-event/<int:event_id>", methods=["POST"])
 def update_event(event_id):
 
-    club_id = coordinator_functions.check_coordinator_session()
+    user_id: int = session["user-id"]
+    club_id = coordinator_functions.get_club_id(user_id)
     event_name = request.form["name"]
     event_date = request.form["date"]
     event_time = request.form["time"]

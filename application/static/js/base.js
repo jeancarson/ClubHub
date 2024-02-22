@@ -10,7 +10,7 @@ if (page_name === "")
 if (!page_name.endsWith("/"))
     page_name += "/"
 
-console.log(page_name);
+console.log("On page: " + page_name);
 
 let active_anchor = document.querySelector("." + page_name.replaceAll("/", "-") + "link");
 
