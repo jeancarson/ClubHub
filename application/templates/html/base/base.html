@@ -25,8 +25,9 @@
 
     {% if request.endpoint == "registration.register_get" %}
         {% set new_link = "register" %}
+        {% set new_link_name = "Register" %}
         {% set add_link_to_nav = true %}
-    {% elif request.endpoint == "login_logout.forgot_password" %}
+    {% elif request.endpoint == "misc.forgot_password" %}
         {% set new_link = "forgot-password" %}
         {% set new_link_name = "Reset Password" %}
         {% set add_link_to_nav = true %}
@@ -124,7 +125,7 @@
         {% if add_link_to_nav %}
 
             <div class="navbar-center">
-                <a href="/{{ new_link }}" class="{{ new_link }}-link">{{ new_link_name if new_link_name else new_link.capitalize() }}</a>
+                <a href="/{{ new_link }}" class="{{ new_link }}-link">{{ new_link_name }}</a>
             </div>
 
         {% endif %}

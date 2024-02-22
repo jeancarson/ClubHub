@@ -8,73 +8,13 @@
 
 {% block header %}
 
-
-    <header>
-        <h1 style="color: white;">{{ header if header else "Welcome to your dashboard,  " ~ coordinator_name ~ "!" }}</h1>
-    </header>
-
-
-
-    <br><br>
-
-    
     <style>
         body {
-            /* background image */
             background-image: url("{{ url_for('static', filename='png/blue-background-flipped-xy.png') }}");
             background-size: cover;
             background-position: center center;
         }
-    </style>
-    
-    <!-- Club Description -->
-    <form id="clubForm" action="{{ url_for('coordinator.save_club_details', club_id=club_id) }}" method="POST">
-        <!-- Club Description -->
-        <div class="card card-custom">
-            <div class="card-body">
-                <h5 class="card-title white-txt" id="editable_text1"  contenteditable="false">{{ club_title }} </h5>
-                <h6 class="card-subtitle mb-2 t vlight_blue_txt">Club description</h6>
-                <p class="card-text white-txt" id="editable_text2" contenteditable="false">{{ club_description }}</p>
-                <input type="hidden" name="club_id" value="{{ club_id }}">
-                <input type="text" id = "club_name_value" name="club_name" value="{{ club_title }}" style="display:none;"> <!-- Hidden input -->
-                <input type="text" id = "club_description_value" name="club_description" value="{{ club_description }}" style="display:none;"> <!-- Hidden input -->
-                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text1', 'club name', this, 'club_name_value');">Edit club name</button>
-                <button type="button" class="btn btn-warning custom-button" onclick="toggleEditMode('editable_text2', 'club description', this, 'club_description_value');">Edit description</button>
-                <button type="submit" class="btn btn-warning custom-button">Save changes</button>
-            </div>
-        </div>
-    </form>
 
-    
-    
-
-    <script>
-        // Function to toggle the edit mode of an element
-    function toggleEditMode(elementId, field, button, valueID) {
-        let editableElement = document.getElementById(elementId);
-        let hiddenInput = document.getElementById(valueID);
-
-
-        if (editableElement.contentEditable === 'false') {
-            // Add a border around the text here
-            editableElement.style.border = '1px solid #ccc';
-
-            // Enable editing
-            editableElement.contentEditable = 'true';
-            button.innerText = 'Exit editing mode';
-        } else {
-            // Disable editing
-            editableElement.style.border = '0px solid #ccc';
-
-            editableElement.contentEditable = 'false';
-            button.innerText = 'Edit ' + field;
-            hiddenInput.value = editableElement.innerText;
-        }
-    }
-
-    </script>
-
-    <style>
         .list-group-item {
             display: grid;
             grid-template-columns: 120px 400px auto auto; /* Auto size for the date, 1fr (1 fraction) for the remaining space for the event name */
@@ -97,19 +37,60 @@
         }
     </style>
 
-<!-- TODO having issues writing to file here. reading seems to be ok. -->
+    <header>
+        <h1 style="color: white;">Welcome to your dashboard, {{ coordinator_name }}!</h1>
+    </header>
 
+    <br/>
+    
+    <!-- Club Description -->
+    <form id="clubForm" action="/cohome" method="post">
+        <!-- Club Description -->
+        <div class="card card-custom">
+            <div class="card-body">
+                <h5 class="card-title white-txt" id="editable_text1"  contenteditable="false">{{ club_title }} </h5>
+                <h6 class="card-subtitle mb-2 t vlight_blue_txt">Description</h6>
+                <p class="card-text white-txt" id="editable_text2" contenteditable="false">{{ club_description }}</p>
 
+                <input type="text"
+                       id="club_name_value"
+                       name="club_name"
+                       value="{{ club_title }}"
+                       style="display:none;"> <!-- Hidden input -->
 
+                <input type="text"
+                       id="club_description_value"
+                       name="club_description"
+                       value="{{ club_description }}"
+                       style="display:none;"> <!-- Hidden input -->
 
+                <button class="btn btn-warning custom-button"
+                        type="button"
+                        onclick="toggleEditMode('editable_text1', 'name', this, 'club_name_value');">
+                    Edit club name
+                </button>
+
+                <button class="btn btn-warning custom-button"
+                        type="button"
+                        onclick="toggleEditMode('editable_text2', 'description', this, 'club_description_value');">
+                    Edit description
+                </button>
+
+                <button class="btn btn-warning custom-button" onclick="submitForm()">Save changes</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- TODO having issues writing to file here. reading seems to be ok. -->
 
     <!-- Members -->
-    <br>
+
+    <br />
     <div class="card card-custom">
         <div class="card-body">
             <h5 class="card-title white-txt">Members</h5>
             <h6 class="card-subtitle mb-2 vlight_blue_txt">Click to view a list of members</h6>
-            <br>
+            <br />
             <div class="d-flex justify-content-between">
                 <a href="{{ url_for('coordinator.view_members', status = 'Approved') }}" class="card-link custom-link"
                    style="margin-left: 100px;">{{ active_users }} Active members</a>
@@ -117,13 +98,9 @@
                    style="margin-right: 100px;">{{ pending_users }} Pending Members</a>
             </div>
         </div>
-
-
-
-
-
     </div>
-            <!-- EVENTS -->
+
+    <!-- EVENTS -->
 
     <br><br>
     <div class="card card-custom">
@@ -153,10 +130,8 @@
         </ul>
         {% endfor %}
 
-            
-
-            <br><a href="{{ url_for('coordinator.see_events', timeline = 'Upcoming') }}" class="card-link dark_link" >View
-            More</a><br>
+            <br /><a href="{{ url_for('coordinator.see_events', timeline = 'Upcoming') }}" class="card-link dark_link" >View
+            More</a><br />
             <!-- past events -->
             <a class="btn btn-warning custom-button"
                href="{{ url_for('coordinator.see_events', timeline = 'Past') }}" role="button">Past Events</a>
@@ -167,5 +142,31 @@
 
         </div>
     </div>
+
+    <script async defer>
+        // Function to toggle the edit mode of an element
+        function toggleEditMode(elementId, field, button, valueID) {
+            let editableElement = document.getElementById(elementId);
+            let hiddenInput = document.getElementById(valueID);
+
+            if (editableElement.contentEditable === 'false') {
+                editableElement.style.border = '1px solid #ccc';
+                editableElement.contentEditable = 'true';
+                button.innerText = 'Exit editing mode';
+            } else {
+                editableElement.style.border = '0px solid #ccc';
+                editableElement.contentEditable = 'false';
+                button.innerText = 'Edit ' + field;
+                hiddenInput.value = editableElement.innerText;
+            }
+        }
+
+        // To fix issue when user hits submit button on values that are currently in 'edit' mode or whatever
+        function submitForm() {
+            document.getElementById("club_name_value").value = document.getElementById("editable_text1").innerText;
+            document.getElementById("club_description_value").value = document.getElementById("editable_text2").innerText;
+            document.getElementById('clubForm').submit();
+        }
+    </script>
 
 {% endblock %}

@@ -13,7 +13,6 @@ body {
     grid-template-columns: repeat(2, 1fr);
     max-width: 100%;
     grid-row-gap: 3em;
-    margin-bottom: 5em;
 }
 
 .about-item {
@@ -58,7 +57,7 @@ li:not(:last-of-type) {
 
 .layered-images img:first-of-type {
     position: absolute;
-    top: 10px;
+    top: 60px;
     left: 75px;
     z-index: -1;
     transform: rotate(-3deg);
@@ -66,7 +65,7 @@ li:not(:last-of-type) {
 
 .layered-images img:last-of-type {
     position: absolute;
-    top: 65px;
+    top: 125px;
     left: 125px;
     transform: rotate(2deg);
 }

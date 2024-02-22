@@ -114,7 +114,7 @@ a {
 
 .alert-dialog {
     position: absolute;
-    top: 2.75rem;
+    top: 2.75rem !important;
     display: none;
     background-color: var(--light-red);
     width: auto;
@@ -316,7 +316,6 @@ footer div:last-of-type {
     margin: 20px;
     background-color: var(--even-lighter-blue);
     color: var(--black);
-
 }
 
 .custom-hover:hover {

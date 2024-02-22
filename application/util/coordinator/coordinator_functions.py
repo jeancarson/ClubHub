@@ -2,7 +2,7 @@
 #These functions are used to handle the coordinator's requests and to interact with the database.
 
 
-from flask import redirect, url_for, flash, session
+from flask import redirect, url_for, flash, session, Response
 import application.util.db_functions as dbf
 
 
@@ -63,18 +63,24 @@ def get_club_details(club_id):
     club_description = club_details["club_description"]
     return club_name, club_description
 
-def save_club_details(club_id, new_name, new_description):
-    try:
-        dbf.modify_db("""
-        update  clubs
-        set club_name = '{new_name}', club_description = '{new_description}', updated = CURRENT_TIMESTAMP
-        Where club_id = {club_id};
-        """.format(club_id=club_id, new_name=str(new_name), new_description=str(new_description)))
+def save_club_details(club_id: int, new_name: str, new_description: str) -> Response:
 
-        flash("Club details successfully updated", "success")
-    except:
-        flash("An error occurred while updating the club details", "error")
-    return redirect(url_for('jean_blueprint.cohome', club_id=club_id))
+    dbf.modify_db(
+        """
+            UPDATE clubs
+            SET
+                club_name=?,
+                club_description=?
+            WHERE club_id=?;
+        """,
+        new_name,
+        new_description,
+        club_id
+    )
+
+    flash("Club details successfully updated", "info")
+
+    return redirect(url_for('coordinator.cohome', club_id=club_id))
 
 
 

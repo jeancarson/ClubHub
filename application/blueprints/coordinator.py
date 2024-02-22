@@ -67,6 +67,8 @@ def save_club_details():
     club_name = request.form["club_name"]
     club_description = request.form["club_description"]
 
+    print(request.form)  # Form is not getting the updated values
+
     coordinator_functions.save_club_details(club_id, club_name, club_description)
 
     return redirect(
