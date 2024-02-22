@@ -35,7 +35,7 @@
                 will delete them from the database. Click save to update.</h6>
 <br>
 
-            <form id="participantForm" action="{{ url_for('jean_blueprint.save_participant_details') }}" method="POST">
+            <form id="participantForm" action="{{ url_for('coordinator.save_participant_details') }}" method="POST">
                 <input type="hidden" name="event_id" value="{{ event_id }}">
 
                 {% if status_pars is not none %}
