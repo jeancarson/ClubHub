@@ -10,7 +10,7 @@ from werkzeug import Response
 from ..util.authentication import current_user, login, logout
 from ..util.authentication.alerts import error, success, Error, Success
 from ..util.authentication.passwords import password_match
-from ..util.db_functions.users import username_match
+from ..util.db_functions.users import all_user_attributes
 
 login_logout: Blueprint = Blueprint("login_logout", __name__)
 
@@ -40,7 +40,8 @@ def login_post() -> Response | str:
     username: str = request.form["login-username"]
     password: str = request.form["login-password"]
 
-    match = username_match(username=username)
+    match = all_user_attributes(username=username)
+    print(match)
 
     if match is None:
         error(errtype=Error.INVALID_USERNAME, endpoint="/register", form=True, username=username)

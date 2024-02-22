@@ -1,7 +1,16 @@
 .git/
-.idea/
 .venv/
 */__pycache__/
 __pycache__/
+
+# IDE-Specific
+.idea/
+.vscode/
+
+# Platform-Specific
 */.DS_Store
 .DS_Store
+
+# Application
+deprecated/
+application/database/database.db

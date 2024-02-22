@@ -36,7 +36,8 @@
                             <th>Hosted By</th>
                             <th>Event Description</th>
                             <th>Venue</th>
-                            <th>Date & Time</th>
+                            <th>Date</th>
+                            <th>Time</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,7 +50,8 @@
                                 </td>
                                 <td>{{ event["event_description"] }}</td>
                                 <td>{{ event["venue"] }}</td>
-                                <td>{{ event["date_and_time"] }}</td>
+                                <td>{{ event["date"] }}</td>
+                                <td>{{ event["time"] }}</td>
                                 {% if event["validity"] == "PENDING" %}
                                     <td><a class="pending" disabled>Registration Pending</a></td>
                                 {% elif event["validity"] == "APPROVED" %}
@@ -78,7 +80,8 @@
                             <th>Hosted By</th>
                             <th>Event Description</th>
                             <th>Venue</th>
-                            <th>Date & Time</th>
+                            <th>Date</th>
+                            <th>Time</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,7 +94,8 @@
                                 </td>
                                 <td>{{ event["event_description"] }}</td>
                                 <td>{{ event["venue"] }}</td>
-                                <td>{{ event["date_and_time"] }}</td>
+                                <td>{{ event["date"] }}</td>
+                                <td>{{ event["time"] }}</td>
                                 <td>
                                     <form action="/events/register?event_id={{ event["event_id"] }}&event_name={{ event["event_name"] }}&club_id={{ event["club_id"] }}" method="post">
                                         <button type="submit" class="unregistered" href="/events/register?event_id={{ event["event_id"] }}&event_name={{ event["event_name"] }}&club_id={{ event["club_id"] }}">Sign Up</button>
@@ -112,10 +116,10 @@
               <summary>
                   What types of events does Club Hub organize?
                   <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                   </svg>
                   <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                   </svg>
               </summary>
               <p>Club Hub organizes a wide range of events including social gatherings, workshops and sports tournaments.</p>
@@ -125,10 +129,10 @@
               <summary>
                   How can I stay updated about upcoming events at Club Hub?
                   <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                   </svg>
                   <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                   </svg>
               </summary>
               <p>You can stay updated by regularly checking our website's event calendar or following our social media accounts.</p>
@@ -138,51 +142,51 @@
               <summary>
                   Do I need to pay to attend Club Hub events?
                   <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                   </svg>
                   <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                   </svg>
               </summary>
-              <p>No, all free</p>
+              <p>Nope, all free.</p>
           </details>
 
           <details>
               <summary>
                   Can I host my own event at Club Hub?
                   <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                   </svg>
                   <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                   </svg>
               </summary>
-              <p>If you have enough cash yes</p>
+              <p>If you have enough cash, yes.</p>
           </details>
 
           <details>
               <summary>
                   Can I attend a Club Hub event if I'm allergic to fun?
                   <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                   </svg>
                   <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                   </svg>
               </summary>
-              <p>No </p>
+              <p>No.</p>
           </details>
           <details>
               <summary>
                   Do you have a lost and found for things like lost dignity or lame dance moves?
                   <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                   </svg>
                   <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                   </svg>
               </summary>
-              <p>No go back to the hell hole you came from</p>
+              <p>No go back to the hell hole you came from.</p>
           </details>
       </div>
   </div>

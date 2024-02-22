@@ -22,7 +22,7 @@ class Error(Enum):
         message="You are already logged in as {user}"
     )
 
-    RESTRICTED_PAGE_ADMIN = Alert(
+    RESTRICTED_PAGE_ADMINISTRATOR = Alert(
         log="{user_type} tried to access Administrator-only page",
         message="Only Administrators can access that page!"
     )

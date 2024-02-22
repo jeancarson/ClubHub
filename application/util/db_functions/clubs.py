@@ -2,7 +2,6 @@ from typing import Optional
 
 from . import query_db
 from .main import Row, last_id, modify_db
-from .. import get_current_timestamp
 
 
 def create_club(*, creator_user_id: int, club_name: str, club_description: Optional[str]) -> None:
@@ -42,15 +41,13 @@ def approve_club(creator_user_id: int) -> None:
     :param creator_user_id: User ID of the creator.
     """
 
-    timestamp: str = get_current_timestamp()
-
     modify_db(
         """ 
             UPDATE clubs set 
                 validity='APPROVED',
                 updated=?
             WHERE creator=?
-        """, timestamp, creator_user_id
+        """, creator_user_id
     )
 
 
@@ -146,10 +143,18 @@ def join_club(user_id: int, club_id: int) -> None:
     """
     Adds a user to a club in the database.
     """
+    # Check if the user is already a member of three clubs
+    if count_club_memberships(user_id) >= 3:
+        print("You are already a member of three clubs. You cannot join another club.")
+        return  
+    
+   
     statement = """
         INSERT INTO club_memberships (club_id, user_id)
         VALUES (?, ?);
     """
     modify_db(statement, club_id, user_id)
+    
+
 
 

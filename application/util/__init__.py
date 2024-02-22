@@ -1,5 +1,4 @@
 from werkzeug.datastructures.structures import ImmutableMultiDict
-from datetime import datetime
 
 
 def str_to_none(string: str) -> str | None:
@@ -21,7 +20,3 @@ def get_form_user_details(form_data: ImmutableMultiDict[str, str]) -> tuple[str 
         str_to_none(form_data["phone-input"]),
         form_data.get("gender-input", None)
     )
-
-
-def get_current_timestamp() -> str:
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
