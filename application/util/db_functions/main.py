@@ -73,25 +73,3 @@ def modify_db(statement: str, *args) -> None:
     connection.commit()
 
     cursor.close()
-
-
-def last_id(table: str) -> Row | None:
-    """
-    Fetches and returns the ID of the last entry in the given table.
-    Returns None if table is empty.
-
-    :param table: Table name.
-    """
-
-    attr: str
-
-    if table in ("users", "login"):
-        attr = "user_id"
-    elif table in ("events", "event_participants"):
-        attr = "event_id"
-    elif table in ("clubs", "club_memberships"):
-        attr = "club_id"
-    else:
-        raise ValueError(f"Table {table!r} does not exist")
-
-    return query_db(f"SELECT {attr} FROM {table} ORDER BY {attr} DESC LIMIT 1", single=True)

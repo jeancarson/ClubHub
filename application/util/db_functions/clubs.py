@@ -1,7 +1,7 @@
 from typing import Optional
 
 from . import query_db
-from .main import Row, last_id, modify_db
+from .main import Row, modify_db
 
 
 def create_club(*, creator_user_id: int, club_name: str, club_description: Optional[str]) -> None:
@@ -17,20 +17,12 @@ def create_club(*, creator_user_id: int, club_name: str, club_description: Optio
         :param club_description: Description for the club.
     """
 
-    last_club: Row | None = last_id(table="clubs")
-    club_id: int
-
-    if last_club is None:
-        club_id = 1
-    else:
-        club_id = last_club["club_id"] + 1
-
     modify_db(
         """
             INSERT INTO clubs
-            (club_id, club_name, club_description, creator, validity) VALUES
-            (?, ?, ?, ?, ?)
-        """, club_id, club_name, club_description, creator_user_id, 'PENDING'
+            (club_name, club_description, creator, validity) VALUES
+            (?, ?, ?, ?)
+        """, club_name, club_description, creator_user_id, 'PENDING'
     )
 
 

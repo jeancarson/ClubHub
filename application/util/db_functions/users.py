@@ -2,10 +2,25 @@ from .main import (
     Optional,
     Row,
     query_db,
-    modify_db,
-    last_id
+    modify_db
 )
 from .clubs import create_club, approve_club
+
+
+def next_user_id() -> int:
+    """
+    Returns the next user ID.
+    """
+
+    last_user: Row | None = query_db(
+        f"SELECT user_id FROM login ORDER BY user_id DESC LIMIT 1",
+        single=True
+    )
+
+    if last_user is None:
+        return 1
+
+    return last_user["user_id"] + 1
 
 
 def user_exists(username: str) -> bool:
@@ -41,25 +56,22 @@ def create_user(
 
     age: int | None = int(age) if age is not None else None
 
-    last_user: Row | None = last_id(table="login")
-    user_id: int
+    user_id: int = next_user_id()
     approved: str
 
-    if last_user is None:
-        user_id = 1
+    if user_id == 1:
         user_type = "ADMINISTRATOR"
         approved = "APPROVED"  # Override approval if registration is the first on the system
     else:
-        user_id = last_user["user_id"] + 1
         user_type = user_type
         approved = "PENDING"
 
     modify_db(
         """
             INSERT INTO users 
-            (user_id, first_name, last_name, age, email, phone, gender, password, user_type, approved) VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        """, user_id, first_name, last_name, age, email, phone, gender, password, user_type, approved
+            (first_name, last_name, age, email, phone, gender, password, user_type, approved) VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?);
+        """, first_name, last_name, age, email, phone, gender, password, user_type, approved
     )
 
     modify_db(
