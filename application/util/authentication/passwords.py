@@ -25,9 +25,9 @@ def password_match(password: str, hashed: str) -> bool:
     :return: True if password matches the hash; False otherwise.
     """
 
-    # pw_bytes: bytes = password.encode(encoding="utf-8")
-    # hashed_bytes: bytes = bytes.fromhex(hashed)
+    pw_bytes: bytes = password.encode(encoding="utf-8")
+    hashed_bytes: bytes = bytes.fromhex(hashed)
 
-    # return checkpw(password=pw_bytes, hashed_password=hashed_bytes)
+    return checkpw(password=pw_bytes, hashed_password=hashed_bytes)
 ##NOTE for demo purposes can be commented out and the below run
-    return password == hashed
+    # return password == hashed
