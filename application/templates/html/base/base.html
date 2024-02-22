@@ -79,18 +79,16 @@
             {% if session["user-type"] == "ADMINISTRATOR" %}
 
                 <div class="navbar-center">
-                    <a href="/admin/users/pending" class="admin/users/pending-link">Pending Requests</a>
+                    <a href="/admin/users/pending" class="admin-users-pending-link">Pending Requests</a>
                 </div>
                 <div class="navbar-center">
-                    <a href="/admin/users/info" class="admin/users/info-link">Users</a>
+                    <a href="/admin/users/info" class="admin-users-info-link">Users</a>
                 </div>
 
             {% elif session["user-type"] == "COORDINATOR" %}
 
                 <div class="navbar-center">
-                    <a href="/cohome" class="#-link">Dashboard</a>
-                    <a href="/about-us" class="#-link">About Us</a>
-                    <a href="/contact-us" class="#-link">Contact</a>
+                    <a href="/cohome" class="cohome-link">Dashboard</a>
                 </div>
 
             {% elif session["user-type"] == "STUDENT" %}
@@ -100,11 +98,11 @@
                 </div>
 
                 <div class="navbar-center">
-                    <a href="/clubs_final" class="clubs-link">Clubs</a>
+                    <a href="/clubs_final" class="clubs_final-link">Clubs</a>
                 </div>
 
                 <div class="navbar-center">
-                    <a href="/studento" class="shome-link">Student Main</a>
+                    <a href="/studento" class="studento-link">Student Main</a>
                 </div>
 
             {% endif %}
@@ -153,8 +151,6 @@
     <footer id="footer">
         <div>
             <a class="underlined-link underlined-link-footer" id="terms-and-conditions" href="/terms-and-conditions">Terms and Conditions</a>
-        </div>
-        <div>
             <a class="underlined-link underlined-link-footer" id="privacy-policy" href="/privacy-policy">Privacy Policy</a>
         </div>
         <div class="footer-center">
@@ -164,13 +160,9 @@
             <a class="underlined-link underlined-link-yt" id="footer-yt" href="https://www.youtube.com/@immersiveSE">
                 <img alt="[YouTube logo]" src="../../../static/png/youtube.png" />
             </a>
-        </div>
-        <div>
             <a class="underlined-link underlined-link-x" id="footer-x" href="https://twitter.com/ImmersiveSE">
                 <img alt="[X logo]" src="../../../static/png/x.png" />
             </a>
-        </div>
-        <div>
             <a class="underlined-link underlined-link-insta" id="footer-insta" href="https://www.instagram.com/immersivesoftwareengineering/">
                 <img alt="[Instagram logo]" src="../../../static/png/instagram.png" />
             </a>
