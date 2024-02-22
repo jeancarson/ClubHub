@@ -11,9 +11,10 @@ Password for all Coordinators: Coordinator0
 Password for all Students: Student0
 """
 
-from application import app, initialise_db_if_not_present
+from application import app, db_prompt
 
-initialise_db_if_not_present()
+db_prompt()
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

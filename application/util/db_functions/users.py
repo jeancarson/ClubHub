@@ -17,10 +17,7 @@ def next_user_id() -> int:
         single=True
     )
 
-    if last_user is None:
-        return 1
-
-    return last_user["user_id"] + 1
+    return 1 if last_user is None else last_user["user_id"] + 1
 
 
 def user_exists(username: str) -> bool:
@@ -82,11 +79,11 @@ def create_user(
         """, user_id, username
     )
 
+    if user_type == "ADMINISTRATOR":
+        return True
+
     if user_type == "COORDINATOR":
         create_club(creator_user_id=user_id, club_name=club_name, club_description=club_description)
-
-    elif user_type == "ADMINISTRATOR":
-        return True
 
     return False
 
