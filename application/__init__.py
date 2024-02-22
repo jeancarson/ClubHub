@@ -5,12 +5,12 @@ from os.path import exists
 from flask import Flask, g
 
 from .blueprints.admin import admin
-from .blueprints.clubs_blu import clubs_blu
+from .blueprints.clubs import clubs
 from .blueprints.events import events
-from .blueprints.jean_blueprint import jean_blueprint
+from .blueprints.coordinator import coordinator
 from .blueprints.login_logout import login_logout
 from .blueprints.main import main
-from .blueprints.mia_blueprint import mia_blueprint
+from .blueprints.student import student
 from .blueprints.misc import misc
 from .blueprints.profile import profile
 from .blueprints.registration import registration
@@ -22,14 +22,14 @@ app.logger.setLevel(DEBUG)
 
 app.register_blueprint(admin)
 app.register_blueprint(events)
-app.register_blueprint(jean_blueprint)
+app.register_blueprint(coordinator)
 app.register_blueprint(login_logout)
 app.register_blueprint(main)
-app.register_blueprint(mia_blueprint)
+app.register_blueprint(student)
 app.register_blueprint(misc)
 app.register_blueprint(profile)
 app.register_blueprint(registration)
-app.register_blueprint(clubs_blu)
+app.register_blueprint(clubs)
 
 
 def initialise_db() -> None:
@@ -51,6 +51,7 @@ def initialise_db() -> None:
 
         db.commit()
 
+
 def initialise_db_if_not_present() -> None:
     """
     Calls initialise_db() if application/database/database.db does not exist.
@@ -62,9 +63,6 @@ def initialise_db_if_not_present() -> None:
 
 @app.teardown_appcontext
 def close_connection(_exception) -> None:
-  
-
-
     """
     Closes the database connection.
     This function is invoked automatically.
