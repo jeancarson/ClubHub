@@ -39,27 +39,6 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="window">
-                    <h4 class="text-center">Rejected Members</h4>
-                    <div class="scrollable-table">
-                        <table class="table table-bordered mt-3">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">UserID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for user in rejected_users %}
-                                    <tr>
-                                        <th scope="row">{{ user.user_id }}</th>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
             <div class="col-md-4">
                 <div class="window">

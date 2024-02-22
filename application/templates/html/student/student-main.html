@@ -18,7 +18,7 @@
 
     
       
-    <div class="jumbotron text-center">
+    <div class="jumbotron first text-center">
         <h1 class="display-4">Welcome to ClubHub!</h1>
         <p class="lead">Where Passion Meets Performance</p>
         <p>Get Ready to Play, Connect, and Excel!</p>
@@ -36,39 +36,52 @@
 
     
     <div class="row">
-        {% for event in events_data %}
-        <div class="col-sm-4">
-            <div class="jumbotron">
-                <h1 class="display-4">Events</h1>
-                <p class="lead">Discover Exciting Events Happening on Campus</p>
-                <hr class="my-4">
-                <h2>{{ event['event_name'] }}</h2>
-                <p>Date: {{ event['date'] }}</p>
-                <p>Time: {{ event['time'] }}</p>
-                <p>Location: {{ event['venue'] }}</p>
-                <p>Description: {{ event['event_description'] }}</p>
+        <div class="col-sm-12">
+            <h1 class="display-4 text-center">Events</h1>
+            <div class="row">
+                {% for event in events_data %}
+                    {% if loop.index <= 3 %}
+                        <div class="col-sm-4">
+                            <div class="jumbotron ce">
+                                <h2>{{ event['event_name'] }}</h2>
+                                <p>Date: {{ event['date'] }}</p>
+                                <p>Time: {{ event['time'] }}</p>
+                                <p>Location: {{ event['venue'] }}</p>
+                                <p>Description: {{ event['event_description'] }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-        </div>
-        {% endfor %}
-
-        {% for club in clubs_data %}
-        <div class="col-sm-4">
-            <div class="jumbotron">
-                <h1 class="display-4">Clubs</h1>
-                <p class="lead">Explore Various Clubs and Organizations</p>
-                <hr class="my-4">
-                <h2>{{ club['club_name'] }}</h2>
-                <p>Description: {{ club['club_description'] }}</p>
-            </div>
-        </div>
-        {% endfor %}
-        
-        <div class="col-sm-4">
-            <div class="jumbotron">
-                <h1 class="display-4">General Description</h1>
-                <p class="lead">Welcome to ClubHub, the ultimate playground for your passions and quirks! Dive into a world where unicorns play football, mermaids run chess clubs, and aliens organize poetry slams. Whether you're a ninja warrior in training or a wizard seeking adventure, ClubHub has the magic potion to fuel your wildest dreams. So put on your cape, grab your wand, and join the cosmic dance of clubs and events that defy gravity and ordinary norms!</p>
+            <div class="text-center">
+                <a href="/events" class="btn btn-primary">View All Events</a>
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="display-4 text-center">Clubs</h1>
+            <div class="row">
+                {% for club in club_data %}
+                    {% if loop.index <= 3 %}
+                        <div class="col-sm-4">
+                            <div class="jumbotron ce">
+                                <h2>{{ club['club_name'] }}</h2>
+                                <p>Description: {{ club['club_description'] }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <a href="/clubs_final" class="btn btn-primary">View All Clubs</a>
+            </div>
+        </div>
+    </div>
+    
+        
+   
+    
 
 {% endblock %}

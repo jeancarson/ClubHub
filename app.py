@@ -16,4 +16,4 @@ from application import app, initialise_db_if_not_present
 initialise_db_if_not_present()
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

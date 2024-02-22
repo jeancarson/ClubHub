@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, render_template, request
 
 from application.util.db_functions.main import query_db
+
 
 mia_blueprint = Blueprint("mia_blueprint", __name__)
 

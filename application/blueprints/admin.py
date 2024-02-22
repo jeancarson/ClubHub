@@ -52,7 +52,7 @@ def users_pending():
         return invalid
     
     approved_users = query_db("SELECT * FROM users WHERE approved = 'APPROVED'")
-    rejected_users = query_db("SELECT * FROM users WHERE approved = 'RJEECTED'")
+ 
     pending_users = query_db("SELECT * FROM users WHERE approved = 'PENDING'")
     
 
@@ -63,14 +63,14 @@ def users_pending():
         if action == "approve":
             modify_db("UPDATE users SET approved='APPROVED' WHERE user_id=?", user_id)
         elif action == "reject":
-            modify_db("UPDATE users SET approved='REJECTED' WHERE user_id=?", user_id)
-
-        #modify_db("DELETE FROM pending_users WHERE user_id=?", user_id) we could make a pending users table if needed/ move convinient (idk how to spell that)
-
-        
+            modify_db("DELETE FROM pending_users WHERE user_id=?", user_id) 
+            
         return redirect(url_for("admin.users_pending"))
 
-    return render_template("html/admin/pending-users.html")
+        
+        
+
+    return render_template("html/admin/pending-users.html", approved_users=approved_users, pending_users=pending_users)
 
 
 @admin.route("/approve_user", methods=["POST"])
