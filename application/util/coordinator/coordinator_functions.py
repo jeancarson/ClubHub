@@ -20,7 +20,7 @@ def check_coordinator_session(return_coordinator_info=False):
         return redirect("/login")
     
     club_id = get_club_id(coordinator_ID)
-    coordinator_name =get_coordinator_name(coordinator_ID)
+    coordinator_name =get_coordinator_name(club_id)
 #if we want both the club_id and the coordinator_name
     if return_coordinator_info:
         return club_id, coordinator_name
@@ -173,9 +173,9 @@ def delete_rejected_participants(event_id):
 def view_all_events(club_id, timeline):
     if timeline == 'Past':
         return dbf.query_db("""
-        select *
+        select * 
         from events
-        where club_id = {club_id} and datetime(date || ' ' || time) < CURRENT_TIMESTAMP
+        # where club_id = {club_id} and datetime(date || ' ' || time) < CURRENT_TIMESTAMP
         order by date, time DESC;""".format(club_id=club_id))
     else:
         return dbf.query_db("""
