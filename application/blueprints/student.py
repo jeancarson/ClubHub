@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from application.util.db_functions.main import query_db
+from application.util.db_functions import query_db
 
 student = Blueprint("student", __name__)
 

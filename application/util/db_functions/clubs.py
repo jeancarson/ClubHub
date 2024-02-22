@@ -1,7 +1,6 @@
 from typing import Optional
 
-from . import query_db
-from .main import Row, modify_db
+from . import query_db, Row, modify_db
 
 
 def create_club(*, creator_user_id: int, club_name: str, club_description: Optional[str]) -> None:

@@ -1,9 +1,4 @@
-from .main import (
-    Optional,
-    Row,
-    query_db,
-    modify_db
-)
+from . import Optional, Row, query_db, modify_db
 from .clubs import create_club, approve_club
 
 
