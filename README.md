@@ -5,12 +5,14 @@ sports clubs.
 This project aims to create a seamless experience for both students and
 coordinators in organizing and participating in various sports clubs and events.
 
+
 ## How to run the application
 Before following the steps below, ensure you have the latest version of Python installed
 (Python 3.12.2 or higher).
  
 Follow the installation guide at https://www.python.org/downloads to download
 the latest version for your platform.
+
 
 >1. Navigate to an appropriate directory and clone the GitHub repository.
 >   ```
@@ -43,6 +45,7 @@ the latest version for your platform.
 >   Press CTRL+C to quit
 >   </pre>
 >7. To see the website, click the link in the output.
+
 
 Assuming you are on windows, the commands above should work in a standard ``cmd.exe`` command shell.
 If they do not work, or if you are on a different platform, refer to Python's [Virtual Environment Documentation](https://docs.python.org/3/library/venv.html).<br><br>
