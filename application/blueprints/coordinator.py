@@ -1,13 +1,20 @@
 from flask import Blueprint, redirect, url_for, request, render_template
 
 from ..util.coordinator import coordinator_functions
+from ..util.authentication.page_access import validate_coordinator_perms
 
 coordinator = Blueprint("coordinator", __name__)
 
 
 # Coordinator dashboard
-@coordinator.route("/cohome", methods=["GET"])
+@coordinator.route("/cohome")
 def cohome():
+
+    invalid = validate_coordinator_perms(endpoint="/cohome")
+
+    if invalid:
+        return invalid
+
     club_id, coordinator_name = coordinator_functions.check_coordinator_session(return_coordinator_info=True)
 
     # Club details section
@@ -71,8 +78,14 @@ def save_club_details():
 
 
 # View members of a certain status
-@coordinator.route("/memview/<status>", methods=["GET"])
+@coordinator.route("/memview/<status>")
 def view_members(status):
+
+    invalid = validate_coordinator_perms(endpoint=f"/memview/{status}")
+
+    if invalid:
+        return invalid
+
     club_id = coordinator_functions.check_coordinator_session()
     status_users = coordinator_functions.get_all_members(club_id, status)
 
@@ -103,8 +116,14 @@ def save_member_details():
 
 
 # View participants of a certian status for a specific event
-@coordinator.route("/participantview/<status>/<event_id>", methods=["GET"])
+@coordinator.route("/participantview/<status>/<event_id>")
 def parview(status, event_id):
+
+    invalid = validate_coordinator_perms(endpoint=f"/participantview/{status}/{event_id}")
+
+    if invalid:
+        return invalid
+
     # No club_id here? I think it's not needed
     coordinator_functions.check_coordinator_session()
     status_pars = coordinator_functions.get_all_participants(event_id, status)
@@ -142,6 +161,11 @@ def save_participant_details():
 @coordinator.route("/eventview/<timeline>")
 def see_events(timeline):
 
+    invalid = validate_coordinator_perms(endpoint=f"/eventview/{timeline}")
+
+    if invalid:
+        return invalid
+
     club_id = coordinator_functions.check_coordinator_session()
 
     timelined_events = coordinator_functions.view_all_events(club_id, timeline)
@@ -173,6 +197,11 @@ def see_events(timeline):
 # Submitting a new single event, blank form
 @coordinator.route("/new-event")
 def new_event():
+
+    invalid = validate_coordinator_perms(endpoint="/new-event")
+
+    if invalid:
+        return invalid
 
     club_id = coordinator_functions.check_coordinator_session()
 
@@ -207,6 +236,11 @@ def add_event():
 # Editing an existing event - populate form with existing details
 @coordinator.route("/edit-event/<int:event_id>")
 def edit_event(event_id):
+
+    invalid = validate_coordinator_perms(endpoint=f"/edit-event/{event_id}")
+
+    if invalid:
+        return invalid
 
     event_details = coordinator_functions.get_event_details(event_id)
 
