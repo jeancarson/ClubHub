@@ -50,7 +50,7 @@ body {
 }
 
 #events-main table tr td {
-position: relative;
+    position: relative;
     padding-top: 1.2em;
 }
 
