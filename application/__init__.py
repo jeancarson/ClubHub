@@ -1,43 +1,30 @@
-﻿from logging import DEBUG
+﻿from typing import Optional
+from logging import DEBUG
 from sqlite3 import Connection
 from os.path import exists
+from colorama import Fore
 
 from flask import Flask, g
 
-from .blueprints.admin import admin
-from .blueprints.clubs_blu import clubs_blu
-from .blueprints.events import events
-from .blueprints.jean_blueprint import jean_blueprint
-from .blueprints.login_logout import login_logout
-from .blueprints.main import main
-from .blueprints.mia_blueprint import mia_blueprint
-from .blueprints.misc import misc
-from .blueprints.profile import profile
-from .blueprints.registration import registration
-from .util.db_functions import get_db
+from .blueprints import register_all_blueprints
+from .util.db_functions import get_db, DB_PATH
+from .util import get_boolean_input
 
 app: Flask = Flask(__name__, template_folder="templates", static_folder="static")
 app.config.from_prefixed_env()
 app.logger.setLevel(DEBUG)
 
-app.register_blueprint(admin)
-app.register_blueprint(events)
-app.register_blueprint(jean_blueprint)
-app.register_blueprint(login_logout)
-app.register_blueprint(main)
-app.register_blueprint(mia_blueprint)
-app.register_blueprint(misc)
-app.register_blueprint(profile)
-app.register_blueprint(registration)
-app.register_blueprint(clubs_blu)
+register_all_blueprints(app)
 
 
-def initialise_db() -> None:
+def initialise_db(*, populate: Optional[bool] = None) -> None:
     """
-    Initialises the database with the 'schema.sql' script,
-    and then populates the database with the 'populate.sql' script.
+    Initialises the database with the 'schema.sql' script.
 
     This function is only intended to be called once, to create the actual database file.
+
+    Optional Keyword Arguments:
+        :param populate: If true, populates the database with the 'populate.sql' script.
     """
 
     with app.app_context():
@@ -46,25 +33,42 @@ def initialise_db() -> None:
         with app.open_resource("database/schema.sql", "r") as file:
             db.cursor().executescript(file.read())
 
-        with app.open_resource("database/populate.sql", "r") as file:
-            db.cursor().executescript(file.read())
+        if populate:
+            with app.open_resource("database/populate.sql", "r") as file:
+                db.cursor().executescript(file.read())
 
         db.commit()
 
-def initialise_db_if_not_present() -> None:
+
+def db_prompt() -> None:
     """
-    Calls initialise_db() if application/database/database.db does not exist.
+    If the database does not exist, asks the user whether or not to populate it,
+    then creates it.
     """
 
-    if not exists("application/database/database.db"):
-        initialise_db()
+    if exists(DB_PATH):
+        return None
+
+    print(
+        f"{Fore.LIGHTYELLOW_EX}~=~=~=~=~=~=~ {Fore.RESET}"
+        f"{Fore.LIGHTBLUE_EX}Welcome to our ClubHub application! {Fore.RESET}"
+        f"{Fore.LIGHTYELLOW_EX}~=~=~=~=~=~=~{Fore.RESET}\n"
+    )
+
+    print("Would you like to populate the database with sample data?")
+
+    populate: bool = get_boolean_input(prompt="(yes/no) > ")
+    print()
+
+    print(f"{Fore.LIGHTGREEN_EX}✔{Fore.RESET} Successfully created database "
+          f"{'with sample data' if populate else ''}\n"
+    )
+
+    initialise_db(populate=populate)
 
 
 @app.teardown_appcontext
 def close_connection(_exception) -> None:
-  
-
-
     """
     Closes the database connection.
     This function is invoked automatically.

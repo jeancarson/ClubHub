@@ -1,0 +1,73 @@
+
+body {
+    background-image: url("../png/blue-background-flipped-xy.png");
+    background-size: cover;
+    background-position: center center;
+}
+
+.pending-users-main {
+    display: flex;
+    justify-content: center;
+    padding: 0 2em 2em;
+    gap: 7em;
+}
+
+.pending-users-main div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.pending-users-main div:first-of-type {
+    align-items: flex-end;
+}
+
+.pending-users-main div h2 {
+    text-align: center;
+    width: 80%;
+}
+
+table {
+    padding: 1em;
+    border-radius: 1em;
+    border: 0.25em solid var(--dark-blue);
+    background: var(--white);
+    color: var(--black);
+    width: 80%;
+    text-align: left;
+    margin-bottom: 4em;
+}
+
+.second-table {
+    border-color: var(--lighter-blue);
+}
+
+table tr td,
+table tr th {
+    position: relative;
+    padding-top: 1.2em;
+}
+
+.btn {
+    color: var(--white);
+    border: none;
+    outline: none;
+    padding: 1em;
+    transition: translate 300ms;
+    border-radius: 1em;
+}
+
+.btn:hover {
+    cursor: pointer;
+    translate: 0 -10%;
+}
+
+.approve-btn {
+    background: var(--light-green);
+    margin-right: 1em;
+}
+
+.reject-btn {
+    background: var(--light-red);
+}

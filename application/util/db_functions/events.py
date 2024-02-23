@@ -1,4 +1,4 @@
-from .main import Row, query_db, modify_db
+from . import Row, query_db, modify_db
 from .clubs import is_club_member
 
 

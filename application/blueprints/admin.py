@@ -10,7 +10,7 @@ admin = Blueprint("admin", __name__, url_prefix="/admin")
 
 
 @admin.route("/")
-def admin_main():
+def admin_main() -> str:
     invalid = validate_admin_perms(endpoint="/admin")
 
     if invalid:
@@ -20,15 +20,15 @@ def admin_main():
 
 
 @admin.route("/users/info")
-def users_information():
-
-    selected: str | None = request.args.get("selected", None)
-    user_rows: list[Row] | None
+def users_information() -> str:
 
     invalid = validate_admin_perms(endpoint="/admin/users/info")
 
     if invalid:
         return invalid
+
+    selected: str | None = request.args.get("selected", None)
+    user_rows: list[Row] | None
 
     if selected is not None:
         selected = selected.upper()
@@ -46,13 +46,14 @@ def users_information():
 
 @admin.route("/users/pending", methods=["GET", "POST"])
 def users_pending():
+
     invalid = validate_admin_perms(endpoint="/admin/users/pending")
 
     if invalid:
         return invalid
     
     approved_users = query_db("SELECT * FROM users WHERE approved = 'APPROVED'")
-    rejected_users = query_db("SELECT * FROM users WHERE approved = 'RJEECTED'")
+ 
     pending_users = query_db("SELECT * FROM users WHERE approved = 'PENDING'")
     
 
@@ -63,18 +64,21 @@ def users_pending():
         if action == "approve":
             modify_db("UPDATE users SET approved='APPROVED' WHERE user_id=?", user_id)
         elif action == "reject":
-            modify_db("UPDATE users SET approved='REJECTED' WHERE user_id=?", user_id)
-
-        #modify_db("DELETE FROM pending_users WHERE user_id=?", user_id) we could make a pending users table if needed/ move convinient (idk how to spell that)
-
-        
+            modify_db("DELETE FROM pending_users WHERE user_id=?", user_id) 
+            
         return redirect(url_for("admin.users_pending"))
 
-    return render_template("html/admin/pending-users.html")
+    return render_template("html/admin/pending-users.html", approved_users=approved_users, pending_users=pending_users)
 
 
 @admin.route("/approve_user", methods=["POST"])
 def approve_user1():
+
+    invalid = validate_admin_perms(endpoint="/admin/approve_user")
+
+    if invalid:
+        return invalid
+
     user_id = request.form.get("user_id")
     approve_type = request.form.get("approve_type")
 
@@ -84,5 +88,3 @@ def approve_user1():
         modify_db("UPDATE users SET approved='APPROVED' WHERE user_id=?", user_id)
 
     return redirect(url_for("admin.admin_main"))
-
-

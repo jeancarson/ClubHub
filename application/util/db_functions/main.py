@@ -72,7 +72,6 @@ def modify_db(statement: str, *args) -> None:
     cursor.execute(statement, args)
     connection.commit()
 
-    # cursor.close()
 
 
 def last_id(table: str) -> Row | None:
@@ -95,3 +94,6 @@ def last_id(table: str) -> Row | None:
         raise ValueError(f"Table {table!r} does not exist")
 
     return query_db(f"SELECT {attr} FROM {table} ORDER BY {attr} DESC LIMIT 1", single=True)
+
+
+

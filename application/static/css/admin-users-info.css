@@ -1,0 +1,55 @@
+
+body {
+    background-image: url("../png/blue-background-flipped-y.png");
+    background-size: cover;
+    background-position: center center;
+}
+
+.user-info-main {
+    padding: 0 2em 2em;
+}
+
+.user-info-main h2 {
+    margin-top: -1em;
+}
+
+.top {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 3em;
+}
+
+.top a {
+    font-size: 1.25rem;
+    color: var(--white);
+    display: block;
+    padding: 1em 1em 0 0;
+    width: fit-content;
+}
+
+.top a:hover::before {
+    content: '>  ';
+}
+
+.table-container {
+    margin-top: 1em;
+    width: 100%;
+    color: var(--black);
+    background: var(--white);
+    padding: 2em;
+    border: 0.25em solid var(--lighter-blue);
+    border-radius: 1em;
+}
+
+.table-container table {
+    font-size: 0.8rem;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 4em;
+}
+
+.table-container table tr td,
+.table-container table tr th {
+    position: relative;
+    padding-top: 1.2em;
+}

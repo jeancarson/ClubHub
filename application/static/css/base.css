@@ -35,7 +35,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--darker-blue);
-    font-family: "Raleway", Arial, serif;
+    font-family: "Raleway", system-ui, Arial, sans-serif !important;
     color: var(--white);
     min-height: 100vh;
     display: flex;
@@ -114,7 +114,7 @@ a {
 
 .alert-dialog {
     position: absolute;
-    top: 2.75rem;
+    top: 2.75rem !important;
     display: none;
     background-color: var(--light-red);
     width: auto;
@@ -149,43 +149,43 @@ a {
 
 nav {
     display: grid !important;
-    grid-template-columns: 1fr repeat(10, auto) 1fr;
-    grid-auto-columns: auto;
-    background-color: var(--light-blue);
-    overflow: hidden;
+    grid-template-columns: 1fr repeat(10, auto) 1fr !important;
+    grid-auto-columns: auto !important;
+    background-color: var(--light-blue) !important;
+    overflow: hidden !important;
 }
 
 nav div {
-    grid-row: 1;
-    grid-column: auto;
-    display: flex;
+    grid-row: 1 !important;
+    grid-column: auto !important;
+    display: flex !important;
 }
 
 .navbar-left {
-    grid-column: 1;
-    justify-content: left;
+    grid-column: 1 !important;
+    justify-content: left !important;
 }
 
 .navbar-center {
-    grid-column: auto;
-    justify-content: center;
-    transition: height 0.25s;
+    grid-column: auto !important;
+    justify-content: center !important;
+    transition: height 0.25s !important;
 }
 
 .navbar-right {
-    grid-column: -2;
-    justify-content: right;
+    grid-column: -2 !important;
+    justify-content: right !important;
 }
 
 .nav-active-link a {
     text-decoration: underline !important;  /* TODO: Figure out what overrides this */
-    text-underline-position: under;
-    text-decoration-thickness: 0.075rem;
-    text-underline-offset: 0.1rem;
+    text-underline-position: under !important;
+    text-decoration-thickness: 0.075rem !important;
+    text-underline-offset: 0.1rem !important;
 }
 
 nav div a {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     color: var(--white);
@@ -201,7 +201,7 @@ nav div a {
 nav div a:hover {
     background-color: var(--white);
     color: var(--black);
-    font-weight: bold;
+    font-weight: 800;
 }
 
 .nav-active-link a:hover {
@@ -257,23 +257,22 @@ nav div a:hover {
 footer {
     display: grid !important;
     align-items: center;
-    grid-template-columns: auto auto 1fr auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
     background-color: var(--white);
     color: var(--black);
     font-size: 0.8rem;
-    padding: 1em;
+    padding: 1em 3em;
     margin-top: auto;
     gap: 1.5em;
 }
 
 .footer-center {
-    justify-content: center;
     text-align: center;
 }
 
 footer div a {
-    color: var(--darker-blue);
+    color: var(--darker-blue) !important;
 }
 
 footer div a img {
@@ -289,11 +288,14 @@ footer div a img {
 }
 
 footer div:first-of-type {
-    margin-left: 2em;
+    display: flex;
+    gap: 1.75em;
 }
 
 footer div:last-of-type {
-    margin-right: 2em;
+    display: flex;
+    gap: 1.25em;
+    margin-left: auto;
 }
 
 /* ========================== Footer start ========================== */
@@ -314,7 +316,6 @@ footer div:last-of-type {
     margin: 20px;
     background-color: var(--even-lighter-blue);
     color: var(--black);
-
 }
 
 .custom-hover:hover {

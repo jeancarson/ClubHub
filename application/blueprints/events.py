@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, session, request
 from sqlite3 import Row
 
-from ..util.authentication.alerts import error, Error, success, Success
+from ..util.authentication.alerts import success, Success
+from ..util.authentication.page_access import validate_student_perms
 from ..util.db_functions.events import registered_events, unregistered_events, register_for_event
 from ..util.db_functions.clubs import club_info
 
@@ -28,9 +29,11 @@ def validate_access_perms(*, endpoint: str) -> str | None:
     # return None
 
 
+
 @events.route("/")
-def events_main():
-    invalid = validate_access_perms(endpoint="/events")
+def events_main() -> str:
+
+    invalid = validate_student_perms(endpoint="/events")
 
     if invalid:
         return invalid
@@ -45,8 +48,9 @@ def events_main():
 
 
 @events.route("/club-info")
-def events_club_info():
-    invalid = validate_access_perms(endpoint="/events")
+def events_club_info() -> str:
+
+    invalid = validate_student_perms(endpoint="/events")
 
     if invalid:
         return invalid
@@ -69,9 +73,9 @@ def events_club_info():
 
 
 @events.route("/register", methods=["POST"])
-def events_register():
+def events_register() -> str:
 
-    invalid = validate_access_perms(endpoint="/events/register")
+    invalid = validate_student_perms(endpoint="/events/register")
 
     if invalid:
         return invalid

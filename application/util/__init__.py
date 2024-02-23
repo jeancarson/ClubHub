@@ -1,4 +1,18 @@
 from werkzeug.datastructures.structures import ImmutableMultiDict
+from colorama import Fore
+
+def get_boolean_input(prompt: str) -> bool:
+
+    while True:
+        _input: str = input(prompt).lower().replace(" ", "")
+
+        if _input in ("yes", "y"):
+            return True
+
+        if _input in ("no", "n"):
+            return False
+
+        print(f"{Fore.LIGHTRED_EX}Please enter 'yes' or 'no'{Fore.RESET}")
 
 
 def str_to_none(string: str) -> str | None:

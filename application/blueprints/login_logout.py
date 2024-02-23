@@ -21,12 +21,13 @@ def login_get() -> Response | str:
     Loads the login page.
     """
 
-    form_username_value: str = request.args.get("username", "")
     user: str | None = current_user()
 
     if user is not None:
         error(errtype=Error.RESTRICTED_PAGE_LOGGED_IN, endpoint="/login", user=user)
         return redirect("/profile")
+
+    form_username_value: str = request.args.get("username", "")
 
     return render_template("html/auth/login.html", form_username_value=form_username_value)
 
