@@ -56,8 +56,8 @@
                                 <td>
                                     <form action="{{ url_for('admin.users_pending') }}" method="post">
                                         <input type="hidden" name="user_id" value="{{ user.user_id }}">
-                                        <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
-                                        <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                                        <button type="submit" name="action" value="approve" class="btn approve-btn">Approve</button>
+                                        <button type="submit" name="action" value="reject" class="btn reject-btn">Reject</button>
                                     </form>
                                 </td>
                             </tr>

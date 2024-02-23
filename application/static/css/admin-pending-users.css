@@ -25,7 +25,7 @@ body {
 
 .pending-users-main div h2 {
     text-align: center;
-    width: 60%;
+    width: 80%;
 }
 
 table {
@@ -34,13 +34,40 @@ table {
     border: 0.25em solid var(--dark-blue);
     background: var(--white);
     color: var(--black);
-    width: 60%;
+    width: 80%;
     text-align: left;
     margin-bottom: 4em;
+}
+
+.second-table {
+    border-color: var(--lighter-blue);
 }
 
 table tr td,
 table tr th {
     position: relative;
     padding-top: 1.2em;
+}
+
+.btn {
+    color: var(--white);
+    border: none;
+    outline: none;
+    padding: 1em;
+    transition: translate 300ms;
+    border-radius: 1em;
+}
+
+.btn:hover {
+    cursor: pointer;
+    translate: 0 -10%;
+}
+
+.approve-btn {
+    background: var(--light-green);
+    margin-right: 1em;
+}
+
+.reject-btn {
+    background: var(--light-red);
 }
