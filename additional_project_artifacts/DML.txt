@@ -1,0 +1,279 @@
+--COORDINATOR FUNCTIONS
+--********************************************************************************************************************************
+-- check_coordinator_session
+SELECT u.first_name, u.last_name
+FROM users u 
+JOIN clubs c ON u.user_id = c.creator
+WHERE c.club_id = {club_id};
+
+-- get_club_id
+SELECT club_id
+FROM clubs
+WHERE creator = {coordinator_id};
+
+-- get_club_details
+SELECT *
+FROM clubs
+WHERE club_id = {club_id};
+
+-- save_club_details
+UPDATE clubs
+SET club_name = '{new_name}', club_description = '{new_description}', updated = CURRENT_TIMESTAMP
+WHERE club_id = {club_id};
+
+-- count_active_users
+SELECT COUNT(user_id)
+FROM club_memberships
+WHERE club_id ={club_id} AND validity = 'APPROVED';
+
+-- count_pending_users
+SELECT COUNT(user_id)
+FROM club_memberships
+WHERE club_id ={club_id} AND validity = 'PENDING';
+
+-- get_all_members
+SELECT users.*
+FROM users 
+JOIN club_memberships ON users.user_id = club_memberships.user_id
+WHERE club_memberships.validity = '{status}' AND club_memberships.club_id = {club_id};
+
+-- save_member_status
+UPDATE club_memberships
+SET validity = '{NEW_VALIDITY}'
+WHERE user_id = {user_id} AND club_id = {club_id};
+
+-- delete_rejected_members
+DELETE 
+FROM club_memberships
+WHERE validity = 'Rejected' AND club_id = {club_id};
+
+-- limited_view_all_upcoming_events
+SELECT *
+FROM events
+WHERE club_id = {club_id} AND datetime(date || ' ' || time) >= CURRENT_TIMESTAMP
+ORDER BY date
+LIMIT {limit};
+
+-- count_pending_participants
+SELECT COUNT(user_id)
+FROM event_participants
+WHERE event_id ={event_id} AND validity = 'PENDING';
+
+-- count_approved_participants
+SELECT COUNT(user_id)
+FROM event_participants
+WHERE event_id ={event_id} AND validity = 'APPROVED';
+
+-- get_all_participants
+SELECT users.*
+FROM users 
+JOIN event_participants ON users.user_id = event_participants.user_id 
+WHERE event_participants.validity = '{status}' AND event_participants.event_id = {event_id};
+
+-- save_participant_status
+UPDATE event_participants
+SET validity = '{NEW_VALIDITY}', updated = CURRENT_TIMESTAMP
+WHERE user_id = {user_id} AND event_id = {event_id};
+
+-- delete_rejected_participants
+DELETE 
+FROM event_participants
+WHERE validity = 'Rejected' AND event_id = {event_id};
+
+-- view_all_events
+SELECT * 
+FROM events
+WHERE club_id = {club_id} AND datetime(date || ' ' || time) < CURRENT_TIMESTAMP
+ORDER BY date, time DESC;
+
+-- get_event_details
+SELECT *
+FROM events
+WHERE event_id = {event_id};
+
+-- add_event
+INSERT INTO events(club_id, event_name, event_description, date, time, venue)
+VALUES({club_id}, '{event_name}', '{event_description}', '{date}', '{time}', '{event_location}');
+
+-- update_event
+UPDATE events
+SET event_name = '{event_name}', event_description = '{event_description}', venue = '{event_location}', date = '{date}', time = '{time}', updated = CURRENT_TIMESTAMP
+WHERE event_id = {event_id};
+
+-- get_club_id (duplicate)
+SELECT club_id
+FROM clubs
+WHERE creator = {coordinator_id};
+--********************************************************************************************************************************
+--END OF COORDINATOR FUNCTIONS
+
+--USER FUNCTIONS
+--********************************************************************************************************************************
+
+
+-- user_exists
+SELECT NULL
+FROM login
+WHERE username={username!r};
+
+-- create_user
+INSERT INTO users 
+    (user_id, first_name, last_name, age, email, phone, gender, password, user_type, approved) VALUES
+    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+INSERT INTO login
+    (user_id, username) VALUES
+    (?, ?);
+
+-- users_info
+SELECT {selection}
+FROM users
+FULL OUTER JOIN login 
+ON users.user_id = login.user_id
+{condition};
+
+-- all_user_attributes
+SELECT * FROM all_user_attributes WHERE username=?;
+
+-- profile_user_attributes
+SELECT * FROM profile_user_attributes WHERE user_id=?;
+
+-- update_user_profile_info
+UPDATE users set
+    first_name=?,
+    last_name=?,
+    age=?,
+    email=?,
+    phone=?,
+    gender=?
+WHERE user_id=?;
+
+-- get_pending_users
+SELECT * FROM users WHERE approved='PENDING';
+
+-- approve_user
+SELECT * FROM users WHERE user_id=?;
+
+UPDATE users set approved='APPROVED' WHERE user_id=?;
+
+-- delete_user
+DELETE FROM users WHERE user_id=?;
+
+DELETE FROM login WHERE user_id=?;
+
+
+--******************************************************************************************************************
+--END OF USER FUNCTIONS
+
+
+
+--CLUBS
+--******************************************************************************************************************
+-- create_club
+INSERT INTO clubs
+    (club_id, club_name, club_description, creator, validity) VALUES
+    (?, ?, ?, ?, ?);
+
+-- approve_club
+UPDATE clubs set 
+    validity='APPROVED',
+    updated=?
+WHERE creator=?;
+
+-- delete_club
+DELETE FROM clubs
+WHERE creator=?;
+
+-- is_club_member
+SELECT NULL FROM club_memberships
+WHERE club_id=? AND user_id=? AND validity='APPROVED';
+
+-- club_info
+SELECT * from clubs
+WHERE club_id=?;
+
+-- count_club_memberships
+SELECT COUNT(*) FROM club_memberships WHERE user_id = ?;
+
+-- insert_club_membership
+INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?);
+
+-- get_popular_clubs
+SELECT club_id, club_name, club_description
+FROM clubs
+WHERE validity = 'APPROVED'
+LIMIT 3;
+
+-- get_all_clubs
+SELECT club_id, club_name, club_description
+FROM clubs;
+
+-- join_club
+-- Check if the user is already a member of three clubs
+SELECT COUNT(*) FROM club_memberships WHERE user_id = ?;
+
+-- Insert a new club membership
+INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?);
+
+--******************************************************************************************************************
+--END OF CLUBS
+
+
+
+--EVENTS 
+--******************************************************************************************************************
+-- unregistered_events
+SELECT *, ep.validity FROM event_info
+LEFT JOIN event_participants ep ON event_info.event_id=ep.event_id AND ep.user_id=?
+WHERE ep.event_id IS NULL;
+
+-- registered_events
+SELECT *, ep.validity FROM event_info
+INNER JOIN event_participants ep USING (event_id)
+WHERE ep.user_id=?;
+
+-- register_for_event
+-- Check if the user is a club member
+SELECT NULL FROM club_memberships
+WHERE club_id=? AND user_id=? AND validity='APPROVED';
+
+-- Insert into event_participants
+INSERT INTO event_participants
+    (event_id, user_id, validity) VALUES
+    (?, ?, ?);
+
+--******************************************************************************************************************
+--END OF EVENTS
+
+--MAIN
+--******************************************************************************************************************
+-- get_db (no SQL query, just fetching the global database connection)
+
+-- query_db
+SELECT * FROM table;
+
+-- modify_db
+INSERT INTO table VALUES (1, 17, 98);
+
+-- last_id
+SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;
+
+SELECT user_id FROM login ORDER BY user_id DESC LIMIT 1;
+
+SELECT event_id FROM events ORDER BY event_id DESC LIMIT 1;
+
+SELECT event_id FROM event_participants ORDER BY event_id DESC LIMIT 1;
+
+SELECT club_id FROM clubs ORDER BY club_id DESC LIMIT 1;
+
+SELECT club_id FROM club_memberships ORDER BY club_id DESC LIMIT 1;
+
+
+--******************************************************************************************************************
+--END OF MAIN
+
+
+TODO check with mia/darragh no sql outside of db_functions file
+
+
+

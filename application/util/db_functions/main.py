@@ -72,7 +72,7 @@ def modify_db(statement: str, *args) -> None:
     cursor.execute(statement, args)
     connection.commit()
 
-    cursor.close()
+    # cursor.close()
 
 
 def last_id(table: str) -> Row | None:

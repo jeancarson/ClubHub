@@ -1,6 +1,5 @@
 from flask import render_template, session, Blueprint, request, flash, redirect, url_for
 
-from ..util import db_functions as dbf
 from ..util.coordinator import coordinator_functions as cf
 
 import logging
@@ -20,7 +19,7 @@ def cohome():
     club_id, coordinator_name = cf.check_coordinator_session(return_coordinator_info = True)
 
     #***********************************************************
-    #club detailse section
+    #club details section
     club_name = cf.get_club_details(club_id)[0]
     club_description = cf.get_club_details(club_id)[1]
     #***********************************************************

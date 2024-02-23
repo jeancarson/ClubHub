@@ -25,7 +25,7 @@ def validate_access_perms(*, endpoint: str) -> str | None:
         error(errtype=Error.RESTRICTED_PAGE_STUDENT, endpoint=endpoint, user_type=user_type)
         return render_template("html/misc/home.html")
 
-    return None
+    # return None
 
 
 @events.route("/")
