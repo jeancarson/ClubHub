@@ -15,7 +15,7 @@ def unregistered_events(user_id: int) -> list[Row] | None:
         f"""
             SELECT *, ep.validity FROM event_info
             LEFT JOIN event_participants ep ON event_info.event_id=ep.event_id AND ep.user_id=?
-            WHERE ep.event_id IS NULL
+            WHERE ep.event_id IS NULL;
         """, user_id
     )
 
@@ -32,7 +32,7 @@ def registered_events(user_id: int) -> list[Row] | None:
         f"""
             SELECT *, ep.validity FROM event_info
             INNER JOIN event_participants ep USING (event_id)
-            WHERE ep.user_id=?
+            WHERE ep.user_id=?;
         """, user_id
     )
 
@@ -62,7 +62,7 @@ def register_for_event(user_id: int, event_id: int, club_id: int) -> bool:
         """
             INSERT INTO event_participants
             (event_id, user_id, validity) VALUES
-            (?, ?, ?)
+            (?, ?, ?);
         """, event_id, user_id, validity
     )
 

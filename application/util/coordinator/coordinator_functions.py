@@ -12,8 +12,7 @@ def get_club_id(coordinator_id: int) -> int:
 
     result = query_db(
         """
-            SELECT club_id
-            FROM clubs
+            SELECT club_id FROM clubs
             WHERE creator=?;
         """,
         coordinator_id,
@@ -28,7 +27,8 @@ def get_coordinator_name(club_id: int) -> str:
     result = query_db(
         """
             SELECT users.first_name, users.last_name
-            FROM users JOIN clubs ON users.user_id = clubs.creator
+            FROM users 
+            JOIN clubs ON users.user_id = clubs.creator
             WHERE clubs.club_id=?;
         """,
         club_id,
@@ -81,8 +81,7 @@ def count_active_users(club_id: int) -> int:
 
     number_of_active_users = query_db(
         """
-            SELECT count(user_id)
-            FROM club_memberships
+            SELECT COUNT(user_id) FROM club_memberships
             WHERE club_id=? and validity='APPROVED';
         """,
         club_id,
@@ -96,8 +95,7 @@ def count_pending_users(club_id: int) -> int:
 
     number_of_pending_users = query_db(
         """
-            SELECT count(user_id)
-            FROM club_memberships
+            SELECT COUNT(user_id) FROM club_memberships
             WHERE club_id=? and validity='PENDING';
         """,
         club_id,
@@ -112,8 +110,8 @@ def get_all_members(club_id, status):
 
     status_users = query_db(
         """
-            SELECT users.*
-            FROM users JOIN club_memberships USING (user_id)
+            SELECT users.* FROM users
+            JOIN club_memberships USING (user_id)
             WHERE club_memberships.validity=? and club_memberships.club_id=?;
         """,
         status.upper(),
@@ -158,8 +156,7 @@ def limited_view_all_upcoming_events(club_id):
 
     return query_db(
         """
-            SELECT *
-            FROM events
+            SELECT * FROM events
             WHERE club_id=? AND datetime(date || ' ' || time) >= CURRENT_TIMESTAMP
             ORDER BY date
             LIMIT 5;
@@ -172,9 +169,8 @@ def count_pending_participants(event_id: int) -> int:
 
     result = query_db(
         """
-            SELECT count(user_id)
-            FROM event_participants
-            WHERE event_id=? and validity='PENDING'
+            SELECT COUNT(user_id) FROM event_participants
+            WHERE event_id=? AND validity='PENDING';
         """,
         event_id,
         single=True
@@ -187,9 +183,8 @@ def count_approved_participants(event_id: int) -> int:
 
     result = query_db(
         """
-            SELECT COUNT(user_id)
-            FROM event_participants
-            WHERE event_id=? AND validity='APPROVED'
+            SELECT COUNT(user_id) FROM event_participants
+            WHERE event_id=? AND validity='APPROVED';
         """,
         event_id,
         single=True
@@ -200,11 +195,12 @@ def count_approved_participants(event_id: int) -> int:
 
 # Retreive all participants for a particular event, who are of a certain status
 def get_all_participants(event_id, status):
+
     return query_db(
         """
-            SELECT users.*
-            FROM users JOIN event_participants USING (user_id)
-            WHERE event_participants.validity=? AND event_participants.event_id=?
+            SELECT users.* FROM users
+            JOIN event_participants USING (user_id)
+            WHERE event_participants.validity=? AND event_participants.event_id=?;
         """,
         status,
         event_id
@@ -222,7 +218,7 @@ def save_participant_status(event_id, user_id, new_validity):
             SET
                 validity=?,
                 updated=CURRENT_TIMESTAMP
-            WHERE user_id=? AND event_id=?
+            WHERE user_id=? AND event_id=?;
         """,
         new_validity.upper(),
         user_id,
@@ -235,7 +231,7 @@ def delete_rejected_participants(event_id):
     modify_db(
         """
             DELETE FROM event_participants
-            WHERE validity='REJECTED' AND event_id=?
+            WHERE validity='REJECTED' AND event_id=?;
         """,
         event_id
     )
@@ -247,9 +243,8 @@ def view_all_events(club_id, timeline):
     if timeline == 'Past':
         return query_db(
             """
-                SELECT * 
-                FROM events
-                WHERE club_id=? and datetime(date || ' ' || time) < CURRENT_TIMESTAMP
+                SELECT * FROM events
+                WHERE club_id=? AND datetime(date || ' ' || time) < CURRENT_TIMESTAMP
                 ORDER BY date, time DESC;
             """,
             club_id
@@ -257,8 +252,7 @@ def view_all_events(club_id, timeline):
 
     return query_db(
         """
-            SELECT *
-            FROM events
+            SELECT * FROM events
             WHERE club_id=? and datetime(date || ' ' || time) >= CURRENT_TIMESTAMP
             ORDER BY date, time DESC;
         """,
@@ -274,9 +268,8 @@ def get_event_details(event_id):
 
     return query_db(
         """
-            SELECT *
-            FROM events
-            WHERE event_id=?
+            SELECT * FROM events
+            WHERE event_id=?;
         """,
         event_id,
         single=True

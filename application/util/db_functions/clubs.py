@@ -20,7 +20,7 @@ def create_club(*, creator_user_id: int, club_name: str, club_description: Optio
         """
             INSERT INTO clubs
             (club_name, club_description, creator, validity) VALUES
-            (?, ?, ?, ?)
+            (?, ?, ?, ?);    
         """, club_name, club_description, creator_user_id, 'PENDING'
     )
 
@@ -35,9 +35,8 @@ def approve_club(creator_user_id: int) -> None:
     modify_db(
         """ 
             UPDATE clubs set 
-                validity='APPROVED',
-                updated=?
-            WHERE creator=?
+                validity='APPROVED'
+            WHERE creator=?;
         """, creator_user_id
     )
 
@@ -52,7 +51,7 @@ def delete_club(creator_user_id: int) -> None:
     modify_db(
         """
             DELETE FROM clubs
-            WHERE creator=?
+            WHERE creator=?;
         """, creator_user_id
     )
 
@@ -69,7 +68,7 @@ def is_club_member(user_id: int, club_id: int) -> None:
     return query_db(
         """
             SELECT NULL FROM club_memberships
-            WHERE club_id=? AND user_id=? AND validity='APPROVED'
+            WHERE club_id=? AND user_id=? AND validity='APPROVED';
         """, club_id, user_id
     ) is not None
 
@@ -78,74 +77,100 @@ def club_info(club_id: int) -> Row | None:
 
     return query_db(
         """
-        SELECT * from clubs
-        WHERE club_id=?
+            SELECT * FROM clubs
+            WHERE club_id=?;
         """, club_id, single=True
     )
 
 
-def count_club_memberships(user_id):
+def count_club_memberships(user_id: int):
     """
     Counts the number of club memberships for a given user.
 
     :param user_id: The ID of the user whose club memberships are being counted.
     :return: The number of club memberships for the user.
     """
-    clubs_info = query_db("SELECT COUNT(*) FROM club_memberships WHERE user_id = ?", (user_id,))
-    return clubs_info[0]['COUNT(*)'] if clubs_info else 0
+
+    clubs_info = query_db(
+        """
+            SELECT COUNT(*) FROM club_memberships 
+            WHERE user_id=?;
+        """,
+        user_id,
+        single=True
+    )
+
+    return 0 if clubs_info is None else clubs_info[0]
 
 
-def insert_club_membership(club_id, user_id):
+def insert_club_membership(club_id: int, user_id: int) -> None:
     """
     Inserts a new club membership into the database.
 
     :param club_id: The ID of the club.
     :param user_id: The ID of the user to add as a member of the club.
     """
-    query_db("INSERT INTO club_memberships (club_id, user_id) VALUES (?, ?)", (club_id, user_id))
+
+    modify_db(
+        """
+            INSERT INTO club_memberships 
+            (club_id, user_id) VALUES
+            (?, ?);
+        """,
+        club_id,
+        user_id
+    )
 
 
-
-
-def get_popular_clubs() -> list[dict]:
+def get_popular_clubs() -> list[Row] | None:
     """
     Fetches and returns data about popular clubs from the database.
     """
-    pop = """
-        SELECT club_id, club_name, club_description
-        FROM clubs
-        WHERE validity = 'APPROVED'
-        LIMIT 3;
-    """
-    return query_db(pop)
 
-def get_all_clubs() -> list[dict]:
+    return query_db(
+        """
+            SELECT 
+                club_id, 
+                club_name, 
+                club_description
+            FROM clubs
+            WHERE validity='APPROVED'
+            LIMIT 3;
+        """
+    )
+
+def get_all_clubs() -> list[Row] | None:
     """
     Fetches and returns data about all clubs from the database.
     """
-    all = """
-        SELECT club_id, club_name, club_description
-        FROM clubs;
-    """
-    return query_db(all)
+
+    return query_db(
+        """
+            SELECT 
+                club_id, 
+                club_name, 
+                club_description
+            FROM clubs;
+        """
+    )
 
 
 def join_club(user_id: int, club_id: int) -> None:
     """
     Adds a user to a club in the database.
     """
+
     # Check if the user is already a member of three clubs
     if count_club_memberships(user_id) >= 3:
         print("You are already a member of three clubs. You cannot join another club.")
-        return  
-    
-   
-    statement = """
-        INSERT INTO club_memberships (club_id, user_id)
-        VALUES (?, ?);
-    """
-    modify_db(statement, club_id, user_id)
-    
+        return None
 
-
-
+    modify_db(
+        """
+            INSERT INTO club_memberships 
+            (club_id, user_id) VALUES 
+            (?, ?);
+        """,
+        club_id,
+        user_id
+    )

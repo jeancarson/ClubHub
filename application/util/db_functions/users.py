@@ -8,7 +8,11 @@ def next_user_id() -> int:
     """
 
     last_user: Row | None = query_db(
-        f"SELECT user_id FROM login ORDER BY user_id DESC LIMIT 1",
+        """
+            SELECT user_id FROM login
+            ORDER BY user_id DESC
+            LIMIT 1;
+        """,
         single=True
     )
 
@@ -23,7 +27,16 @@ def user_exists(username: str) -> bool:
     :param username: Username to check the existence of.
     """
 
-    return query_db(f"SELECT NULL FROM login WHERE username={username!r}", single=True) is not None
+    result = query_db(
+        """
+            SELECT NULL FROM login
+            WHERE username=?;
+        """,
+        username,
+        single=True
+    )
+
+    return result is not None
 
 
 def create_user(
@@ -70,7 +83,7 @@ def create_user(
         """
             INSERT INTO login
             (user_id, username) VALUES
-            (?, ?)
+            (?, ?);
         """, user_id, username
     )
 
@@ -138,7 +151,10 @@ def all_user_attributes(username: str) -> Row | None:
     """
 
     return query_db(
-        "SELECT * FROM all_user_attributes WHERE username=?",
+        """
+            SELECT * FROM all_user_attributes
+            WHERE username=?;
+        """,
         username,
         single=True
     )
@@ -150,8 +166,12 @@ def profile_user_attributes(user_id: int) -> Row | None:
 
     :param user_id: User's ID.
     """
+
     return query_db(
-        "SELECT * FROM profile_user_attributes WHERE user_id=?",
+        """
+            SELECT * FROM profile_user_attributes
+            WHERE user_id=?;
+         """,
         user_id,
         single=True
     )
@@ -174,13 +194,14 @@ def update_user_profile_info(
 
     modify_db(
         """
-            UPDATE users set
-            first_name=?,
-            last_name=?,
-            age=?,
-            email=?,
-            phone=?,
-            gender=?
+            UPDATE users
+            SET
+                first_name=?,
+                last_name=?,
+                age=?,
+                email=?,
+                phone=?,
+                gender=?
             WHERE user_id=?;
         """,
         first_name, last_name, age, email, phone, gender, user_id
@@ -192,7 +213,12 @@ def get_pending_users() -> list[Row] | None:
     Returns a list containing each user with an approved status of 'PENDING'.
     """
 
-    return query_db("SELECT * FROM users WHERE approved='PENDING'")
+    return query_db(
+        """
+            SELECT * FROM users
+            WHERE approved='PENDING';
+        """
+    )
 
 
 def approve_user(user_id: int) -> None:
@@ -203,7 +229,10 @@ def approve_user(user_id: int) -> None:
     """
 
     user: Row | None = query_db(
-        "SELECT * FROM users WHERE user_id=?",
+        """
+            SELECT * FROM users
+            WHERE user_id=?;
+        """,
         user_id,
         single=True
     )
@@ -212,7 +241,12 @@ def approve_user(user_id: int) -> None:
         approve_club(creator_user_id=user_id)
 
     modify_db(
-        "UPDATE users set approved='APPROVED' WHERE user_id=?",
+        """
+            UPDATE users
+            SET 
+                approved='APPROVED'
+            WHERE user_id=?;
+        """,
         user_id
     )
 
@@ -225,11 +259,17 @@ def delete_user(user_id: int) -> None:
     """
 
     modify_db(
-        "DELETE FROM users WHERE user_id=?",
+        """
+            DELETE FROM users
+            WHERE user_id=?;
+        """,
         user_id
     )
 
     modify_db(
-        "DELETE FROM login WHERE user_id=?",
+        """
+            DELETE FROM login
+            WHERE user_id=?;
+        """,
         user_id
     )
