@@ -13,11 +13,27 @@ body {
     padding: 20px; 
 }
 
-.jumbotron.ce{
+.divywivy {
+    margin: 2em 0;
+    padding: 0 2em;
+}
+
+.divywivy h1 {
+    margin-left: 0.3em;
+}
+
+.divywivy a {
+    margin-left: 1em;
+}
+
+.jumbotron.ce {
     background-color: white;
     color: black;
 }
 
+.divywivy:last-of-type {
+    margin-bottom: 10em;
+}
 
 header {
     text-align: center;

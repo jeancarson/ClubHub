@@ -2,24 +2,6 @@ from . import Row, query_db, modify_db
 from .clubs import is_club_member
 
 
-def unregistered_events(user_id: int) -> list[Row] | None:
-    """
-    Returns a list of events that the given user has not yet registered for.
-
-    :param user_id: User's ID.
-    """
-
-    # Add trigger to removed expired events?
-
-    return query_db(
-        f"""
-            SELECT *, ep.validity FROM event_info
-            LEFT JOIN event_participants ep ON event_info.event_id=ep.event_id AND ep.user_id=?
-            WHERE ep.event_id IS NULL;
-        """, user_id
-    )
-
-
 def registered_events(user_id: int) -> list[Row] | None:
     """
     Returns a list of events that the given user has registered for,
@@ -29,10 +11,26 @@ def registered_events(user_id: int) -> list[Row] | None:
     """
 
     return query_db(
-        f"""
+        """
             SELECT *, ep.validity FROM event_info
             INNER JOIN event_participants ep USING (event_id)
             WHERE ep.user_id=?;
+        """, user_id
+    )
+
+
+def unregistered_events(user_id: int) -> list[Row] | None:
+    """
+    Returns a list of events that the given user has not yet registered for.
+
+    :param user_id: User's ID.
+    """
+
+    return query_db(
+        """
+            SELECT *, ep.validity FROM event_info
+            LEFT JOIN event_participants ep ON event_info.event_id=ep.event_id AND ep.user_id=?
+            WHERE ep.event_id IS NULL;
         """, user_id
     )
 

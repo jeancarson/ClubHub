@@ -5,16 +5,16 @@ from ..util.authentication.page_access import validate_student_perms
 
 from application.util.db_functions.clubs import count_club_memberships,  get_all_clubs, is_club_member, join_club
 
-clubs = Blueprint("clubs", __name__)
+clubs = Blueprint("clubs", __name__, url_prefix="/clubs")
 
 
-@clubs.route("/clubs_final")
+@clubs.route("/")
 def get_clubs():
     """
     Renders the clubs page.
     """
 
-    invalid = validate_student_perms(endpoint="/clubs_final")
+    invalid = validate_student_perms(endpoint="/clubs")
 
     if invalid:
         return invalid
@@ -39,30 +39,29 @@ def join_club_action() -> str:
         return invalid
 
     user_id: int = session["user-id"]
-    club_id = request.form.get("club_id")
+    club_id = request.args.get("club_id")
 
     if club_id is not None:
-        # Check if the user is already a member of the club
         if is_club_member(user_id, int(club_id)):
-            # Club is already joined
-            return redirect("/clubs_final?joined=true")
+           
+            return redirect("/clubs?joined=true")
         else:
             # Check if the user has reached the membership limit
             memberships_count = count_club_memberships(user_id)
             if memberships_count >= 3:
                 # User has already joined three clubs
-                return redirect("/clubs_final?limit_reached=true")
+                return redirect("/clubs?limit_reached=true")
             else:
                 # Attempt to join the club
                 if join_club(user_id=user_id, club_id=int(club_id)):
                     # User successfully joined the club
-                    return redirect("/clubs_final?joined=true")
+                    return redirect("/clubs?joined=true")
                 else:
                     # User couldn't join due to membership limit reached
-                    return redirect("/clubs_final?limit_reached=true")
+                    return redirect("/clubs?limit_reached=true")
 
     # If club_id is not provided, redirect back to the clubs page
-    return redirect("/clubs_final")
+    return redirect("/clubs")
 
 
 

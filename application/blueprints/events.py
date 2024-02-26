@@ -9,27 +9,6 @@ from ..util.db_functions.clubs import club_info
 events = Blueprint("events", __name__, url_prefix="/events")
 
 
-def validate_access_perms(*, endpoint: str) -> str | None:
-    """
-    Returns the default home page if no user is currently logged in,
-    or if they do not have student privileges. Returns None otherwise.
-
-    :param endpoint: Endpoint of url user wants to access.
-    """
-
-    if "user" not in session:
-        error(errtype=Error.RESTRICTED_PAGE_LOGGED_OUT, endpoint=endpoint)
-        return render_template("html/misc/home.html")
-
-    user_type = session["user-type"]
-    if user_type != "STUDENT":
-        error(errtype=Error.RESTRICTED_PAGE_STUDENT, endpoint=endpoint, user_type=user_type)
-        return render_template("html/misc/home.html")
-
-    # return None
-
-
-
 @events.route("/")
 def events_main() -> str:
 
