@@ -1,123 +1,124 @@
-
 body {
     background-image: url("../png/blue-background-flipped-xy.png");
     background-size: cover;
     background-position: center center;
 }
 
-#clubs-container {
+#main {
+    padding: 0 2em 2em;
+}
+
+#main h3 {
+    margin-top: -1em;
+}
+
+#top {
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    margin-bottom: 7.5em;
+    margin: 4em 0 2em;
 }
 
-#clubs-main {
-    display: grid;
+#top a {
+    font-size: 1.1rem;
     color: var(--black);
-    background-color: var(--white);
-    width: 90%;
-    padding: 1em;
-    box-shadow: -9px 8px 5px 0 rgba(2, 62, 138, 0.75);
-    outline: 0.3em solid var(--lighter-blue);
-    border-radius: 0.15em;
-}
-
-#clubs-main div {
-    display: flex;
-    color: var(--dark-blue);
-    border-bottom: 0.075em solid var(--lighter-grey);
-    padding-bottom: 0.75em;
-    margin-bottom: 2em;
-}
-
-#clubs-main div h2 {
-    margin: 0;
-    width: 70%;
-}
-
-#clubs-main div p {
-    align-self: flex-end;
-    margin: 0;
-    width: 30%;
-    text-align: right;
-}
-
-#clubs-main table {
-    text-align: left;
-    margin-bottom: 4em;
-}
-
-#clubs-main table tr td {
-    position: relative;
-    padding-top: 1.2em;
-}
-
-.about-club {
-    color: var(--light-blue);
-}
-
-.pending,
-.registered,
-.unregistered {
-    font-weight: normal;
-    font-size: 1rem;
-    border: none;
-    display: block;
-    margin-left: auto;
+    padding: 1em 1em 0 0;
     width: fit-content;
-    padding: 0.5em 1em;
-    border-radius: 0.5em;
-    color: var(--white);
 }
 
-.pending {
-    background-color: var(--light-red);
+#top a:hover::before {
+    content: '>  ';
+}
+
+.table-container {
+    margin-top: 1em;
+    width: 100%;
+    color: var(--black);
+    background: var(--white);
+    padding: 2em;
+    border: 0.25em solid var(--lighter-blue);
+    border-radius: 1em;
+}
+
+.table-container table {
+    font-size: 1.05rem;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 3em;
+}
+
+.table-container table tr td,
+.table-container table tr th {
+    position: relative;
+    padding-top: 1em;
+}
+
+.btn {
+    font-size: 1rem;
+    color: var(--white) !important;
+    width: fit-content;
+    padding: 0.75em;
+    border: 0.15em solid var(--white);
+    border-radius: 0.75em;
+    display: block;
+    transition: translate 250ms;
+}
+
+.btn:hover {
     cursor: default;
+    translate: 0 -10%;
 }
 
-.registered {
-    cursor: default;
-    background-color: var(--light-blue);
+.btn-join {
+    background: var(--light-green);
 }
 
-.unregistered {
-    background-color: var(--light-green);
-    transition: translate 200ms;
-}
-
-.unregistered:hover {
+.btn-join:hover {
     cursor: pointer;
-    translate: 0 -15%;
-    outline: 2px solid var(--lighter-green);
+    border-color: var(--lighter-green);
+}
+
+.btn-requested {
+    background: var(--light-red);
+}
+
+.btn-requested:hover {
+    border-color: var(--yt-red);
+}
+
+.btn-accepted {
+    background: var(--light-blue);
+}
+
+.btn-accepted:hover {
+    border-color: var(--even-lighter-blue);
 }
 
 .container {
+    margin-top: 2em;
     margin-bottom: 3em;
-    margin-top: -3em;
 }
 
 .container h2 {
-    padding-left: 5%;
+    padding-left: 2.55%;
 }
 
 .qa-section {
     background-color: var(--white);
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    width: 90%;
-    margin: 20px auto; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 94.8%;
+    margin: 20px auto;
 }
 
 .qa-section summary {
-    font-weight: bold; 
-    cursor: pointer; 
+    font-weight: bold;
+    cursor: pointer;
     color: black;
 }
 
 .qa-section p {
-    margin-top: 10px; 
+    margin-top: 10px;
     color: black;
 }

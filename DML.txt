@@ -149,6 +149,32 @@ function: delete_club
     WHERE creator=?;
 """
 
+src: application.util.db_functions.clubs
+function: get_all_clubs
+"""
+    SELECT
+        club_id,
+        club_name,
+        club_description
+    FROM clubs;
+"""
+
+src: application.util.db_functions.clubs
+function: registered_clubs
+"""
+    SELECT *, cm.validity as membership_status FROM clubs
+    INNER JOIN club_memberships cm USING (club_id)
+    WHERE cm.user_id=?;
+"""
+
+src: application.util.db_functions.clubs
+function: unregistered_clubs
+"""
+    SELECT *, cm.validity FROM clubs
+    LEFT JOIN club_memberships cm ON clubs.club_id=cm.club_id AND cm.user_id=?
+    WHERE cm.club_id IS NULL;
+"""
+
 src: application.util_db_functions.clubs
 function: is_club_member
 """
@@ -176,28 +202,6 @@ function: insert_club_membership
     INSERT INTO club_memberships
     (club_id, user_id) VALUES
     (?, ?);
-"""
-
-src: application.util.db_functions.clubs
-function: get_popular_clubs
-"""
-    SELECT
-        club_id,
-        club_name,
-        club_description
-    FROM clubs
-    WHERE validity='APPROVED'
-    LIMIT 3;
-"""
-
-src: application.util.db_functions.clubs
-function: get_all_clubs
-"""
-    SELECT
-        club_id,
-        club_name,
-        club_description
-    FROM clubs;
 """
 
 src: application.util.db_functions.clubs

@@ -3,8 +3,12 @@ from sqlite3 import Row
 
 from ..util.authentication.alerts import success, Success, error, Error
 from ..util.authentication.page_access import validate_student_perms
-
-from application.util.db_functions.clubs import count_club_memberships,  get_all_clubs, is_club_member, join_club
+from ..util.db_functions.clubs import (
+    count_club_memberships,
+    join_club,
+    registered_clubs,
+    unregistered_clubs
+)
 
 clubs = Blueprint("clubs", __name__, url_prefix="/clubs")
 
@@ -20,15 +24,23 @@ def get_clubs():
     if invalid:
         return invalid
 
+    selected: str | None = request.args.get("selected", None)
+    clubs: list[Row] | None
+
     user_id: int = session["user-id"]
+    registered: list[Row] | None = registered_clubs(user_id=user_id)
+    unregistered: list[Row]
 
-
-    all_clubs = get_all_clubs()
+    if selected == "popular":
+        unregistered = unregistered_clubs(user_id=user_id)[:5]
+    else:
+        unregistered = unregistered_clubs(user_id=user_id)
 
     return render_template(
         "html/student/clubs.html",
-        all_clubs=all_clubs,
-        is_club_member=is_club_member  
+        unregistered=unregistered,
+        registered=registered,
+        selected_view=selected
     )
 
 
@@ -66,9 +78,4 @@ def join_club_route():
 
             join_club(user_id, club_id)
 
-    # If club_id is not provided, redirect back to the clubs page
     return redirect("/clubs")
-
-
-
-

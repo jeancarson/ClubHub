@@ -76,8 +76,6 @@ def is_club_member(user_id: int, club_id: int) -> None:
     ) is not None
 
 
-
-
 def club_info(club_id: int) -> Row | None:
 
     return query_db(
@@ -126,49 +124,62 @@ def insert_club_membership(club_id: int, user_id: int) -> None:
         user_id
     )
 
+def join_club(user_id: int, club_id: int) -> None:
+    """
+    Adds a user to a club in the database.
+    """
 
+    modify_db(
+        """
+            INSERT INTO club_memberships 
+            (club_id, user_id) VALUES 
+            (?, ?);
+        """,
+        club_id,
+        user_id
+    )
 
 
 def get_all_clubs() -> list[Row] | None:
-    """
-    Fetches and returns data about all clubs from the database.
-    """
-
     return query_db(
         """
-            SELECT 
-                club_id, 
-                club_name, 
+            SELECT
+                club_id,
+                club_name,
                 club_description
             FROM clubs;
         """
     )
 
-def join_club(user_id: int, club_id: int) -> bool:
-    """
-    Adds a user to a club in the database.
 
-    Returns:
-        True if the user was successfully added to the club, False otherwise.
+def registered_clubs(user_id: int) -> list[Row] | None:
     """
-    # Check if the user is already a member of three clubs
-    if count_club_memberships(user_id) >= 3:
-        return False
-    
-    modify_db(
+    Returns a list of clubs that the given user has registered for,
+    with either a 'PENDING' or 'APPROVED' validity.
+
+    :param user_id: User's ID.
+    """
+
+    return query_db(
         """
-            INSERT INTO club_memberships 
-            (club_id, user_id, validity) VALUES 
-            (?, ?, ?);
-        """,
-        club_id,
-        user_id,
-        "PENDING"  #set validity to PENDING for pending approval
+            SELECT *, cm.validity as membership_status FROM clubs
+            INNER JOIN club_memberships cm USING (club_id)
+            WHERE cm.user_id=?;
+        """, user_id
     )
 
-    return True
 
+def unregistered_clubs(user_id: int) -> list[Row] | None:
+    """
+    Returns a list of clubs that the given user has not yet registered for.
 
+    :param user_id: User's ID.
+    """
 
-
-
+    return query_db(
+        """
+            SELECT *, cm.validity FROM clubs
+            LEFT JOIN club_memberships cm ON clubs.club_id=cm.club_id AND cm.user_id=?
+            WHERE cm.club_id IS NULL;
+        """, user_id
+    )

@@ -12,66 +12,90 @@
 
 {% block content %}
 
-<div class="container">
-    <h3>Clubs You Have Signed Up For</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Club ID</th>
-                <th scope="col">Club Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for club in all_clubs %}
-                {% if is_club_member(session["user-id"], club["club_id"]) %}
+    <div id="main">
+        <div class="table-container">
+            <table>
+                <h2>Clubs You Have Signed Up For</h2>
+                <hr />
+                <br />
+                <thead>
                     <tr>
-                        <td>{{ club["club_id"] }}</td>
-                        <td>{{ club["club_name"] }}</td>
-                        <td>{{ club["club_description"] }}</td>
-                        <td>
-                            <a class="registered" disabled>Signed Up</a>
-                        </td>
+                        <th scope="col">Club ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col"></th>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
 
-    <h3>All Clubs</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Club ID</th>
-                <th scope="col">Club Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for club in all_clubs %}
-                {% if not is_club_member(session["user-id"], club["club_id"]) %}
+                    {% if registered %}
+                        {% for club in registered %}
+                            <tr>
+                                <td>{{ club["club_id"] }}</td>
+                                <td>{{ club["club_name"] }}</td>
+                                <td>{{ club["club_description"] }}</td>
+                                {% set validity = club["membership_status"] %}
+                                <td>
+                                    {% if validity == "PENDING" %}
+                                        <button class="btn btn-requested" disabled>Club Membership Requested</button>
+                                    {% elif validity == "APPROVED" %}
+                                        <button class="btn btn-accepted" disabled>Approved Club Member</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+
+                </tbody>
+            </table>
+
+            <hr />
+
+            <div id="top">
+
+                {% if selected_view == "popular" %}
+                    <h3>Popular Clubs</h3>
+                {% elif selected_view == "all" %}
+                    <h3>All Clubs</h3>
+                {% else %}
+                    <h3>Choose Club Selection</h3>
+                {% endif %}
+
+                <a href="/clubs?selected=popular">View Popular Clubs</a>
+                <a href="/clubs?selected=all">View All Clubs</a>
+            </div>
+
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ club["club_id"] }}</td>
-                        <td>{{ club["club_name"] }}</td>
-                        <td>{{ club["club_description"] }}</td>
-                        <td>
-                            <form action="{{ url_for('clubs.join_club_route') }}" method="post">
-                                <input type="hidden" name="club_id" value="{{ club.club_id }}">
-                                <button type="submit">Join Club</button>
-                            </form>
-                            
-                        </td>
+                        <th scope="col">Club ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col"></th>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+                </thead>
+                <tbody>
 
+                    {% if unregistered %}
+                        {% for club in unregistered %}
+                            <tr>
+                                <td>{{ club["club_id"] }}</td>
+                                <td>{{ club["club_name"] }}</td>
+                                <td>{{ club["club_description"] }}</td>
+                                {% set validity = club["validity"] %}
+                                <td>
+                                    <form action="/clubs/join?club_id={{ club["club_id"] }}&club_name={{ club["club_name"] }}" method="post">
+                                        <button type="submit" class="btn btn-join">Join Club</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
 
-    
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <!-- FAQ Section -->
     <div class="container">
@@ -82,23 +106,23 @@
                 <summary>
                     Are there membership fees for joining clubs at Club Hub?
                     <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                     </svg>
                     <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                     </svg>
                 </summary>
-                <p>No, all free</p> 
+                <p>No, all free</p>
             </details>
 
             <details>
                 <summary>
                     How can I stay updated about upcoming events at Club Hub?
                     <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                     </svg>
                     <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                     </svg>
                 </summary>
                 <p>You can stay updated by regularly checking our website's event calendar or following our social media accounts.</p>
@@ -108,10 +132,10 @@
                 <summary>
                     Can I start my own club at Club Hub?
                     <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                     </svg>
                     <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                     </svg>
                 </summary>
                 <p>No, only coordinators can do so</p>
@@ -121,10 +145,10 @@
                 <summary>
                     What should I do if I have a question or concern about a specific club or event at Club Hub?
                     <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                     </svg>
                     <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                     </svg>
                 </summary>
                 <p>Contact the coordinator of the club</p>
@@ -134,10 +158,10 @@
                 <summary>
                     Is there a Taylor Swift club?
                     <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                     </svg>
                     <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                     </svg>
                 </summary>
                 <p>YES </p>
@@ -146,10 +170,10 @@
                 <summary>
                     What if I don't show up at my clubs events?
                     <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
                     </svg>
                     <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
                     </svg>
                 </summary>
                 <p>Die</p>
@@ -160,10 +184,9 @@
 {% endblock %}
 
 {% block scripts %}
-    
 
-    <!-- Bootstrap and jQuery scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 {% endblock %}
