@@ -37,11 +37,7 @@ header {
     margin-bottom: 20px;
 }
 
-.col-sm-4 .jumbotron {
-    background-color: white; 
-    border-radius: 10px; 
-    padding: 20px; 
-}
+
 
 .lead {
     font-size: 18px;

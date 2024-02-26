@@ -1,6 +1,9 @@
-from flask import Blueprint, redirect, render_template, request
 
-from application.util.db_functions.clubs import count_club_memberships, get_popular_clubs, get_all_clubs, join_club
+from flask import Blueprint, redirect, render_template, request, session
+from application.util.authentication.alerts import Success, success
+from ..util.authentication.page_access import validate_student_perms
+
+from application.util.db_functions.clubs import count_club_memberships,  get_all_clubs, is_club_member, join_club
 
 clubs = Blueprint("clubs", __name__)
 
@@ -11,40 +14,56 @@ def get_clubs():
     Renders the clubs page.
     """
 
-    popular_clubs = get_popular_clubs()
+    invalid = validate_student_perms(endpoint="/clubs_final")
+
+    if invalid:
+        return invalid
+
+    user_id: int = session["user-id"]
+
+
     all_clubs = get_all_clubs()
 
     return render_template(
         "html/student/clubs.html",
-        popular_clubs=popular_clubs,
-        all_clubs=all_clubs
+        all_clubs=all_clubs,
+        is_club_member=is_club_member  
     )
 
 
-@clubs.route('/join', methods=['POST'])
-def join_club_route():
+@clubs.route("/join", methods=["POST"])
+def join_club_action() -> str:
+    invalid = validate_student_perms(endpoint="/clubs/join")
 
-    if request.method == 'POST':
-        user_id = request.form.get('user_id')
-        club_id = request.form.get('club_id')
+    if invalid:
+        return invalid
 
-        # Check if user_id or club_id is empty
-        if not user_id or not club_id:
-            return "User ID or Club ID is missing in the request."
+    user_id: int = session["user-id"]
+    club_id = request.form.get("club_id")
 
-        try:
-            user_id = int(user_id)
-            club_id = int(club_id)
-        except ValueError:
-            return "User ID or Club ID is not a valid integer."
-
-        if count_club_memberships(user_id) >= 3:
-            membership_limit = True
+    if club_id is not None:
+        # Check if the user is already a member of the club
+        if is_club_member(user_id, int(club_id)):
+            # Club is already joined
+            return redirect("/clubs_final?joined=true")
         else:
-            membership_limit = False
-            join_club(user_id, club_id)
+            # Check if the user has reached the membership limit
+            memberships_count = count_club_memberships(user_id)
+            if memberships_count >= 3:
+                # User has already joined three clubs
+                return redirect("/clubs_final?limit_reached=true")
+            else:
+                # Attempt to join the club
+                if join_club(user_id=user_id, club_id=int(club_id)):
+                    # User successfully joined the club
+                    return redirect("/clubs_final?joined=true")
+                else:
+                    # User couldn't join due to membership limit reached
+                    return redirect("/clubs_final?limit_reached=true")
 
-    return redirect(
-        '/clubs_final',
-        membership_limit=membership_limit
-    )
+    # If club_id is not provided, redirect back to the clubs page
+    return redirect("/clubs_final")
+
+
+
+

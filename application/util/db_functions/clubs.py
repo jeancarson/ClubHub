@@ -73,6 +73,8 @@ def is_club_member(user_id: int, club_id: int) -> None:
     ) is not None
 
 
+
+
 def club_info(club_id: int) -> Row | None:
 
     return query_db(
@@ -122,22 +124,7 @@ def insert_club_membership(club_id: int, user_id: int) -> None:
     )
 
 
-def get_popular_clubs() -> list[Row] | None:
-    """
-    Fetches and returns data about popular clubs from the database.
-    """
 
-    return query_db(
-        """
-            SELECT 
-                club_id, 
-                club_name, 
-                club_description
-            FROM clubs
-            WHERE validity='APPROVED'
-            LIMIT 3;
-        """
-    )
 
 def get_all_clubs() -> list[Row] | None:
     """
@@ -154,23 +141,31 @@ def get_all_clubs() -> list[Row] | None:
         """
     )
 
-
-def join_club(user_id: int, club_id: int) -> None:
+def join_club(user_id: int, club_id: int) -> bool:
     """
     Adds a user to a club in the database.
-    """
 
+    Returns:
+        True if the user was successfully added to the club, False otherwise.
+    """
     # Check if the user is already a member of three clubs
     if count_club_memberships(user_id) >= 3:
-        print("You are already a member of three clubs. You cannot join another club.")
-        return None
-
+        return False
+    
     modify_db(
         """
             INSERT INTO club_memberships 
-            (club_id, user_id) VALUES 
-            (?, ?);
+            (club_id, user_id, validity) VALUES 
+            (?, ?, ?);
         """,
         club_id,
-        user_id
+        user_id,
+        "PENDING"  #set validity to PENDING for pending approval
     )
+
+    return True
+
+
+
+
+

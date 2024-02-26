@@ -12,122 +12,63 @@
 
 {% block content %}
 
-    
-
-    <!-- Popular Clubs Section -->
-    <div class="container mt-4">
-        <h2 class="text-center mb-4">Popular Clubs</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Club ID</th>
-                    <th scope="col">Club Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for club in popular_clubs %}
-                    <<td>{{ club["club_id"] }}</td>
-                    <td>{{ club["club_name"] }}</td>
-                    <td>{{ club["club_description"] }}</td>
-                    <td>
-                        {% if club["validity"] == "PENDING" %}
-                        <a class="pending" disabled>Join Club</a>
-                        {% elif club["validity"] == "APPROVED" %}
+<div class="container">
+    <h3>Clubs You Have Signed Up For</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Club ID</th>
+                <th scope="col">Club Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in all_clubs %}
+                {% if is_club_member(session["user-id"], club["club_id"]) %}
+                    <tr>
+                        <td>{{ club["club_id"] }}</td>
+                        <td>{{ club["club_name"] }}</td>
+                        <td>{{ club["club_description"] }}</td>
+                        <td>
                             <a class="registered" disabled>Signed Up</a>
-                        {% else %}
-                            <form action="/join" method="post">
-                                <input type="hidden" name="user_id" value="{{ user_id }}">
-                                <input type="hidden" name="club_id" value="{{ club_id }}">
-                                <button type="submit">Join Club</button>
-                            </form>
-                        <!-- ONCE I DIE AND IF THAT IS BEFORE THE END OF THIS PROJECT PUT THE CODE ONCE FINISHED ON MY GRAVE TO TORTURE ME FOR ALL ETIRNITY-->
-                        
-                        {% endif %}
+                        </td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
 
-    <!-- All Clubs Section -->
-    <div class="container">
-        <h2>All Clubs</h2>
-        <table>
-            <thead> 
-                <tr>
-                    <th scope="col">Club ID</th>
-                    <th scope="col">Club Name</th>
-                    <th scope="col">Club Description</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for club in all_clubs %}
-                <tr>
-                    <td>{{ club["club_id"] }}</td>
-                    <td>{{ club["club_name"] }}</td>
-                    <td>{{ club["club_description"] }}</td>
-                    <td>
-                        {% if club["validity"] == "PENDING" %}
-                        <a class="pending" disabled>Join Club</a>
-                        {% elif club["validity"] == "APPROVED" %}
-                            <a class="registered" disabled>Signed Up</a>
-                        {% else %}
+    <h3>All Clubs</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Club ID</th>
+                <th scope="col">Club Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in all_clubs %}
+                {% if not is_club_member(session["user-id"], club["club_id"]) %}
+                    <tr>
+                        <td>{{ club["club_id"] }}</td>
+                        <td>{{ club["club_name"] }}</td>
+                        <td>{{ club["club_description"] }}</td>
+                        <td>
                             <form action="/join" method="post">
-                                <input type="hidden" name="user_id" value="{{ user_id }}">
-                                <input type="hidden" name="club_id" value="{{ club_id }}">
+                                <input type="hidden" name="club_id" value="{{ club.club_id }}">
                                 <button type="submit">Join Club</button>
                             </form>
-                            
-                        
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-    <div class="modal fade" id="membershipLimitModal" tabindex="-1" role="dialog" aria-labelledby="membershipLimitModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="membershipLimitModalLabel">Membership Limit Reached</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    You are already a member of three clubs. You cannot join another club.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-  
-    <div class="modal fade" id="signupSuccessModal" tabindex="-1" role="dialog" aria-labelledby="signupSuccessModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signupSuccessModalLabel">Successful Signup</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    You have successfully signed up for this club. Please wait for coordinator approval.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     
 
@@ -225,6 +166,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock %}
+
+
+
+
+
+
+
+    
+
+    
 
 
 
