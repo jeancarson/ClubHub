@@ -119,8 +119,7 @@ a {
     background-color: var(--light-red);
     width: auto;
     max-width: 100%;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding: 2% 10% 1% 10%;
     color: var(--white);
     text-align: center;
     border-bottom-left-radius: 1em;

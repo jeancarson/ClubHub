@@ -73,15 +73,13 @@ body {
 }
 
 .pending {
+    background-color: var(--light-red);
     cursor: default;
 }
 
 .registered {
+    cursor: default;
     background-color: var(--light-blue);
-}
-
-.pending {
-    background-color: var(--light-red);
 }
 
 .unregistered {
@@ -90,7 +88,7 @@ body {
 }
 
 .unregistered:hover {
-cursor: pointer;
+    cursor: pointer;
     translate: 0 -15%;
     outline: 2px solid var(--lighter-green);
 }

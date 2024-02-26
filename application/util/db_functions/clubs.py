@@ -174,3 +174,21 @@ def join_club(user_id: int, club_id: int) -> None:
         club_id,
         user_id
     )
+
+
+def registered_clubs(user_id: int) -> list[Row] | None:
+    """
+    Returns a list of clubs that the given user has registered for,
+    with either a 'PENDING' or 'APPROVED' validity.
+
+    :param user_id: User's ID.
+    """
+
+    return query_db(
+        """
+            SELECT *, cm.validity AS membership_status FROM clubs
+            INNER JOIN club_memberships cm USING (club_id)
+            WHERE cm.user_id=?
+        """, user_id
+    )
+

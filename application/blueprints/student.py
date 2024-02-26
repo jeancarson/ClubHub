@@ -6,7 +6,7 @@ from application.util.authentication.page_access import validate_student_perms
 student = Blueprint("student", __name__)
 
 
-@student.route("/studento")
+@student.route("/student-main")
 def go_student():
 
     invalid = validate_student_perms(endpoint="/studento")
