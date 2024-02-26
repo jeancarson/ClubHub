@@ -25,19 +25,22 @@ def create_club(*, creator_user_id: int, club_name: str, club_description: Optio
     )
 
 
-def approve_club(creator_user_id: int) -> None:
+def update_club_status(creator_user_id: int, status: str) -> None:
     """
-    Approve a pending club (set approved attribute to 'APPROVED' in clubs table).
+    Update a club's status (change approved attribute).
 
     :param creator_user_id: User ID of the creator.
+    :param status: New status. One of "PENDING", "APPROVED", "REJECTED".
     """
 
     modify_db(
         """ 
             UPDATE clubs set 
-                validity='APPROVED'
+                validity=?
             WHERE creator=?;
-        """, creator_user_id
+        """,
+        status,
+        creator_user_id
     )
 
 

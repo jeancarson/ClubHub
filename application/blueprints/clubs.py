@@ -1,6 +1,7 @@
-
 from flask import Blueprint, redirect, render_template, request, session
-from application.util.authentication.alerts import Success, success
+from sqlite3 import Row
+
+from ..util.authentication.alerts import success, Success, error, Error
 from ..util.authentication.page_access import validate_student_perms
 
 from application.util.db_functions.clubs import count_club_memberships,  get_all_clubs, is_club_member, join_club
@@ -32,33 +33,38 @@ def get_clubs():
 
 
 @clubs.route("/join", methods=["POST"])
-def join_club_action() -> str:
-    invalid = validate_student_perms(endpoint="/clubs/join")
+def join_club_route():
+
+    invalid = validate_student_perms(endpoint="/join")
 
     if invalid:
         return invalid
 
     user_id: int = session["user-id"]
-    club_id = request.args.get("club_id")
+    username: str = session["user"]
 
-    if club_id is not None:
-        if is_club_member(user_id, int(club_id)):
-           
-            return redirect("/clubs?joined=true")
+    club_id: str | None = request.args.get("club_id", None)
+    club_name: str | None = request.args.get("club_name", None)
+
+    if club_id is not None and club_name is not None:
+        if count_club_memberships(user_id) >= 3:
+            error(
+                endpoint="/clubs/join",
+                errtype=Error.CLUB_TRESHOLD_REACHED,
+                form=True,
+                username=username
+            )
         else:
-            # Check if the user has reached the membership limit
-            memberships_count = count_club_memberships(user_id)
-            if memberships_count >= 3:
-                # User has already joined three clubs
-                return redirect("/clubs?limit_reached=true")
-            else:
-                # Attempt to join the club
-                if join_club(user_id=user_id, club_id=int(club_id)):
-                    # User successfully joined the club
-                    return redirect("/clubs?joined=true")
-                else:
-                    # User couldn't join due to membership limit reached
-                    return redirect("/clubs?limit_reached=true")
+            success(
+                endpoint="/clubs/join",
+                successtype=Success.CLUB_REGISTER,
+                form=True,
+                username=username,
+                club_id=club_id,
+                club_name=club_name
+            )
+
+            join_club(user_id, club_id)
 
     # If club_id is not provided, redirect back to the clubs page
     return redirect("/clubs")

@@ -57,7 +57,7 @@
                         <td>{{ club["club_name"] }}</td>
                         <td>{{ club["club_description"] }}</td>
                         <td>
-                            <form action="{{ url_for('clubs.join_club_action') }}" method="post">
+                            <form action="{{ url_for('clubs.join_club_route') }}" method="post">
                                 <input type="hidden" name="club_id" value="{{ club.club_id }}">
                                 <button type="submit">Join Club</button>
                             </form>

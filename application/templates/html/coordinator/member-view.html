@@ -11,6 +11,11 @@
 
     </header>
     <style>
+
+        .alert-dialog {
+            padding: 1.5% 10% 0.5% 10%;
+        }
+
         body {
             background-image: url("../../../static/png/blue-background.png");
             background-size: cover;
@@ -35,26 +40,27 @@
                 them from the database. Click save to update.</h6>
             
                 <form id="memberForm" action="{{ url_for('coordinator.save_member_details') }}" method="POST">
-                    {% for user in status_users %}
-                        <li class="list-group-item" style="background-color: var(--light-blue); color: white">
-                            {{ user['first_name'] ~ ' ' ~ user['last_name'] }}<br><br>
-                            <select class="form-select" aria-label="Default select example" name="status_{{ user['user_id'] }}">
-                                <option selected>{{ status }}</option>
-                                <option value="APPROVED">Approved</option>
-                                <option value="PENDING">Pending</option>
-                                <option value="REJECTED">Rejected</option>
-                            </select>
-                            <!-- Add hidden input for user_id -->
-                            <input type="hidden" name="user_id" value="{{ user['user_id'] }}">
-                        </li>
-                    {% endfor %}
+                    {% if status_users %}
+                        {% for user in status_users %}
+                            <li class="list-group-item" style="background-color: var(--light-blue); color: white">
+                                {{ user['first_name'] ~ ' ' ~ user['last_name'] }}<br><br>
+                                <select class="form-select" aria-label="Default select example" name="status_{{ user['user_id'] }}">
+                                    <option selected>{{ status }}</option>
+                                    <option value="APPROVED">Approved</option>
+                                    <option value="PENDING">Pending</option>
+                                    <option value="REJECTED">Rejected</option>
+                                </select>
+                                <!-- Add hidden input for user_id -->
+                                <input type="hidden" name="user_id" value="{{ user['user_id'] }}">
+                            </li>
+                        {% endfor %}
+                    {% endif %}
                     
                     <button type="submit" class="btn btn-warning custom-button" style="--bs-btn-font-size: .75rem;">
                         Delete rejected members and save
                     </button>
                 </form>
-                
-                
+
             <!-- <ul class="list-group light"></ul> -->
 
         </div>

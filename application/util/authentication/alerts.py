@@ -72,6 +72,11 @@ class Error(Enum):
         message="Your account, {username}, is awaiting administrator approval"
     )
 
+    CLUB_TRESHOLD_REACHED = Alert(
+        log="User attempted to join more than 3 clubs: {username!r}",
+        message="You have already joined a maximum of 3 clubs!"
+    )
+
     INCORRECT_PW = Alert(
         log="Incorrect password for {username!r}",
         message="Incorrect password"
@@ -99,6 +104,16 @@ class Success(Enum):
         message="Registration ticket opened. Awaiting administrator approval for: {username}"
     )
 
+    USER_REJECTED = Alert(
+        log="Successfully rejected user: ID={user_id}",
+        message="Successfully rejected user with ID: {user_id}"
+    )
+
+    USER_APPROVED = Alert(
+        log="Successfully approved user: ID={user_id}",
+        message="Successfully approved user with ID: {user_id})"
+    )
+
     REGISTER_ADMIN = Alert(
         log="Administrator registration successful: {username!r}",
         message="You are now logged in, {username}!"
@@ -110,8 +125,13 @@ class Success(Enum):
     )
 
     EVENT_REGISTER_PENDING = Alert(
-        log="Event registration ticket opened: uesrname={username!r}, event={event_id}",
+        log="Event registration ticket opened: username={username!r}, event={event_id}",
         message="Event registration ticket opened. Awaiting Club Coordinator approval for event: {event_name}"
+    )
+
+    CLUB_REGISTER = Alert(
+        log="Club registration ticket opened: username={username}, club={club_id}",
+        message="Club registration ticket opened. Awaiting Club Coordinator approval for club: {club_name}"
     )
 
 

@@ -8,7 +8,13 @@
 
 {% block header %}
 
+
     <style>
+
+        .alert-dialog {
+            padding: 1.5% 10% 0.5% 10%;
+        }
+
         body {
             background-image: url("../../../static/png/blue-background-flipped-xy.png");
             background-size: cover;
@@ -146,13 +152,11 @@
 
             <br />
 
-            <a href="eventview/Past" class="btn btn-warning custom-button" role="button">
+            <a style="margin-left: -0.1em;" href="eventview/Past" class="btn btn-warning custom-button" role="button">
                 Past Events
             </a>
 
-            <br />
-
-            <a href="/new-event" class="btn btn-warning custom-button" role="button">
+            <a style="margin-left: -0.1em;" href="/new-event" class="btn btn-warning custom-button" role="button">
                 Add Event
             </a>
 
