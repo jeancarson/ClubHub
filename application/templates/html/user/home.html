@@ -8,7 +8,7 @@
 
     <div>
         {% if session["user-type"] == "ADMINISTRATOR" %}
-            <h2>It's a pleasure to see you administrator.</h2>
+            <h2>Welcome back!</h2>
         {% elif session["user-type"] == "STUDENT" %}
             <a href="/studento">Go to main student page</a>
         {% elif session["user-type"] == "COORDINATOR" %}

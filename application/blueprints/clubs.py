@@ -1,6 +1,7 @@
-from flask import Blueprint, redirect, render_template, request, session, flash
+from flask import Blueprint, redirect, render_template, request, session
 from sqlite3 import Row
 
+from ..util.authentication.alerts import success, Success, error, Error
 from ..util.authentication.page_access import validate_student_perms
 from ..util.db_functions.clubs import (
     count_club_memberships,
@@ -49,7 +50,7 @@ def get_clubs():
     )
 
 
-@clubs.route("/join", methods=['POST'])
+@clubs.route("/join", methods=["POST"])
 def join_club_route():
 
     invalid = validate_student_perms(endpoint="/join")
@@ -58,21 +59,29 @@ def join_club_route():
         return invalid
 
     user_id: int = session["user-id"]
+    username: str = session["user"]
+
     club_id: str | None = request.args.get("club_id", None)
+    club_name: str | None = request.args.get("club_name", None)
 
-    if club_id is None:
-        return "Club ID missing in request."
+    if club_id is not None and club_name is not None:
+        if count_club_memberships(user_id) >= 3:
+            error(
+                endpoint="/clubs/join",
+                errtype=Error.CLUB_TRESHOLD_REACHED,
+                form=True,
+                username=username
+            )
+        else:
+            success(
+                endpoint="/clubs/join",
+                successtype=Success.CLUB_REGISTER,
+                form=True,
+                username=username,
+                club_id=club_id,
+                club_name=club_name
+            )
 
-    try:
-        club_id: int = int(club_id)
-    except ValueError:
-        return "Club ID must be an integer"
-
-    membership_limit: bool
-    if count_club_memberships(user_id) >= 3:
-        flash("You have already joined a maximum of 3 clubs!", category="error")  # Replace with error
-    else:
-        join_club(user_id, club_id)
-        flash(f"Club membership requested for club {club_id}. Awaiting administrator approval.", category="info")
+            join_club(user_id, club_id)
 
     return redirect("/clubs")

@@ -1,5 +1,5 @@
 from . import Optional, Row, query_db, modify_db
-from .clubs import create_club, approve_club
+from .clubs import create_club, update_club_status
 
 
 def next_user_id() -> int:
@@ -99,15 +99,16 @@ def create_user(
 def users_info(
         *,
         user_type: Optional[str] = None,
-        pending: Optional[bool] = None,
+        approved: Optional[bool] = None,
         admin_permission: Optional[bool] = None) -> list[Row] | None:
     """
     Returns a list containing the rows from the users table, if there are any.
 
     Optional Keyword arguments:
         :param user_type: Should be either "STUDENT", "COORDINATOR", "ADMIN", or None (for all users).
-        :param pending: If true, only includes pending (unapproved) users.
-        :param admin_permission: If true, also includes username in results.
+        :param approved: If True, returns only approved users, and if False, returns only pending users.
+                         If None, then returns users regardless of status.
+        :param admin_permission: If true, also includes extra user information in results.
     """
 
     selection: str
@@ -121,15 +122,21 @@ def users_info(
     condition: str
 
     if user_type is None:
-        if pending:
-            condition = "WHERE users.approved='PENDING'"
-        else:
+        if approved is None:
             condition = ""
+        elif approved:
+            condition = "WHERE users.approved='APPROVED'"
+        else:
+            condition = "WHERE users.approved='PENDING'"
 
     else:
         condition = f"WHERE users.user_type={user_type!r}"
 
-        if pending:
+        if approved is None:
+            pass
+        elif approved:
+            condition += " AND users.approved='APPROVED'"
+        else:
             condition += " AND users.approved='PENDING'"
 
     return query_db(
@@ -208,24 +215,12 @@ def update_user_profile_info(
     )
 
 
-def get_pending_users() -> list[Row] | None:
+def update_user_status(user_id: int, status: str) -> None:
     """
-    Returns a list containing each user with an approved status of 'PENDING'.
-    """
-
-    return query_db(
-        """
-            SELECT * FROM users
-            WHERE approved='PENDING';
-        """
-    )
-
-
-def approve_user(user_id: int) -> None:
-    """
-    Approve a pending user (set approved attribute to 'APPROVED' in users table).
+    Update a user's status (change approved attribute).
 
     :param user_id: User's ID.
+    :param status: New status. One of "PENDING", "APPROVED", "REJECTED".
     """
 
     user: Row | None = query_db(
@@ -238,15 +233,16 @@ def approve_user(user_id: int) -> None:
     )
 
     if user["user_type"] == "COORDINATOR":
-        approve_club(creator_user_id=user_id)
+        update_club_status(creator_user_id=user_id, status=status)
 
     modify_db(
         """
             UPDATE users
             SET 
-                approved='APPROVED'
+                approved=?
             WHERE user_id=?;
         """,
+        status,
         user_id
     )
 

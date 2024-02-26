@@ -42,6 +42,7 @@
                 <thead>
                     <tr>
                         <th scope="col">UserID</th>
+                        <th scope="col">Username</th>
                         <th scope="col">Role</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -51,13 +52,20 @@
                     {% if pending_users %}
                         {% for user in pending_users %}
                             <tr>
-                                <th scope="row">{{ user.user_id }}</th>
-                                <td>{{ user.user_type }}</td>
+                                <th scope="row">{{ user["user_id"] }}</th>
+                                <td>{{ user["user_type"] }}</td>
+                                <td>{{ user["username"] }}</td>
                                 <td>
-                                    <form action="{{ url_for('admin.users_pending') }}" method="post">
-                                        <input type="hidden" name="user_id" value="{{ user.user_id }}">
-                                        <button type="submit" name="action" value="approve" class="btn approve-btn">Approve</button>
-                                        <button type="submit" name="action" value="reject" class="btn reject-btn">Reject</button>
+                                    <form action="/admin/users/pending" method="post">
+                                        <input type="hidden" name="user_id" value="{{ user["user_id"] }}">
+                                        <button type="submit"
+                                                name="action"
+                                                value="approve"
+                                                class="btn approve-btn">Approve</button>
+                                        <button type="submit"
+                                                name="action"
+                                                value="reject"
+                                                class="btn reject-btn">Reject</button>
                                     </form>
                                 </td>
                             </tr>

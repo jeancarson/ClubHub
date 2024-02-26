@@ -52,7 +52,7 @@
                                     {% elif mem_status == "APPROVED" %}
                                         <button class="btn btn-accepted" disabled>Approved Club Member</button>
                                     {% else %}
-                                        <form action="/clubs/join?club_id={{ club["club_id"] }}" method="post">
+                                        <form action="/clubs/join?club_id={{ club["club_id"] }}&club_name={{ club["club_name"] }}" method="post">
                                             <button type="submit" class="btn btn-join">Join Club</button>
                                         </form>
                                     {% endif %}

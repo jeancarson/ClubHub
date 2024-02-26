@@ -2,6 +2,10 @@ from . import Row, query_db, modify_db
 from .clubs import is_club_member
 
 
+def get_all_events() -> list[Row] | None:
+    return query_db("SELECT * FROM events;")
+
+
 def registered_events(user_id: int) -> list[Row] | None:
     """
     Returns a list of events that the given user has registered for,

@@ -1,22 +1,12 @@
 from sqlite3 import Row
 
-from flask import Blueprint, redirect, request, render_template, url_for
+from flask import Blueprint, redirect, request, render_template
 
+from ..util.authentication.alerts import success, Success
 from ..util.authentication.page_access import validate_admin_perms
-from ..util.db_functions import modify_db, query_db
-from ..util.db_functions.users import users_info
+from ..util.db_functions.users import users_info, update_user_status
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
-
-
-@admin.route("/")
-def admin_main() -> str:
-    invalid = validate_admin_perms(endpoint="/admin")
-
-    if invalid:
-        return invalid
-
-    return render_template("html/admin/admin-main.html")
 
 
 @admin.route("/users/info")
@@ -32,19 +22,19 @@ def users_information() -> str:
 
     if selected is not None:
         selected = selected.upper()
-        if selected == "ALL":
-            user_rows = users_info(admin_permission=True)
-        elif selected in ("COORDINATOR", "STUDENT"):
-            user_rows = users_info(user_type=selected, admin_permission=True)
-        else:
-            user_rows = None
+
+    if selected in ("COORDINATOR", "STUDENT"):
+        user_rows = users_info(user_type=selected, admin_permission=True)
     else:
-        user_rows = None
+        user_rows = users_info(admin_permission=True)
 
-    return render_template('html/admin/users-info.html', user_rows=user_rows)
+    return render_template(
+        'html/admin/users-info.html',
+        user_rows=user_rows
+    )
 
 
-@admin.route("/users/pending", methods=["GET", "POST"])
+@admin.route("/users/pending")
 def users_pending():
 
     invalid = validate_admin_perms(endpoint="/admin/users/pending")
@@ -52,39 +42,42 @@ def users_pending():
     if invalid:
         return invalid
     
-    approved_users = query_db("SELECT * FROM users WHERE approved = 'APPROVED'")
- 
-    pending_users = query_db("SELECT * FROM users WHERE approved = 'PENDING'")
-    
+    approved_users: list[Row] | None = users_info(approved=True, admin_permission=True)
+    pending_users: list[Row] | None = users_info(approved=False, admin_permission=True)
 
-    if request.method == "POST":
-        user_id = request.form.get("user_id")
-        action = request.form.get("action")  
-
-        if action == "approve":
-            modify_db("UPDATE users SET approved='APPROVED' WHERE user_id=?", user_id)
-        elif action == "reject":
-            modify_db("DELETE FROM pending_users WHERE user_id=?", user_id) 
-            
-        return redirect(url_for("admin.users_pending"))
-
-    return render_template("html/admin/pending-users.html", approved_users=approved_users, pending_users=pending_users)
+    return render_template(
+        "html/admin/pending-users.html",
+        approved_users=approved_users,
+        pending_users=pending_users
+    )
 
 
-@admin.route("/approve_user", methods=["POST"])
-def approve_user1():
+@admin.route("/users/pending", methods=["POST"])
+def users_pending_post():
 
-    invalid = validate_admin_perms(endpoint="/admin/approve_user")
+    user_id: str = request.form.get("user_id")
+    action: str = request.form.get("action")
 
-    if invalid:
-        return invalid
-
-    user_id = request.form.get("user_id")
-    approve_type = request.form.get("approve_type")
-
-    if approve_type == "Reject":
-        modify_db("UPDATE users SET approved='REJECTED' WHERE user_id=?", user_id)
+    try:
+        user_id: int = int(user_id)
+    except ValueError:
+        pass
     else:
-        modify_db("UPDATE users SET approved='APPROVED' WHERE user_id=?", user_id)
+        if action == "approve":
+            update_user_status(user_id=user_id, status="APPROVED")
+            success(
+                endpoint="/admin/users/pending",
+                successtype=Success.USER_APPROVED,
+                form=True,
+                user_id=user_id
+            )
+        elif action == "reject":
+            update_user_status(user_id=user_id, status="REJECTED")
+            success(
+                endpoint="/admin/users/pending",
+                successtype=Success.USER_REJECTED,
+                form=True,
+                user_id=user_id
+            )
 
-    return redirect(url_for("admin.admin_main"))
+    return redirect("/admin/users/pending")

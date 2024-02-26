@@ -1,3 +1,9 @@
+
+This file displays all DDL (Data Definition Language) statements used in our application;
+specifically, all table, trigger, and view creations.
+
+The DBMS (Database Management System) is SQLite.
+
 --================================================== Table Definitions ==================================================--
 
 CREATE TABLE users (
@@ -136,7 +142,6 @@ END;
 
 --========================================================= Views =======================================================--
 
--- 1: All user-related attributes (users & login tables)
 CREATE VIEW all_user_attributes
 AS
 SELECT
@@ -155,7 +160,6 @@ FROM
     users
 INNER JOIN login USING (user_id);
 
--- 2: All profile-related attributes (users table)
 CREATE VIEW profile_user_attributes
 AS
 SELECT
@@ -169,7 +173,6 @@ SELECT
 FROM
     users;
 
--- 3: All event-related attributes (events & clubs tables)
 CREATE VIEW event_info
 AS
 SELECT

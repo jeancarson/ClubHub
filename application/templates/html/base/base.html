@@ -27,6 +27,11 @@
         {% set new_link = "register" %}
         {% set new_link_name = "Register" %}
         {% set add_link_to_nav = true %}
+    {% elif request.endpoint == "events.events_club_info" %}
+        {% set href = "events/club-info" %}
+        {% set new_link = "events-club-info" %}
+        {% set new_link_name = "Club Info" %}
+        {% set add_link_to_nav = true %}
     {% elif request.endpoint == "misc.forgot_password" %}
         {% set new_link = "forgot-password" %}
         {% set new_link_name = "Reset Password" %}
@@ -95,15 +100,15 @@
             {% elif session["user-type"] == "STUDENT" %}
 
                 <div class="navbar-center">
-                    <a href="/events" class="events-link">Events</a>
+                    <a href="/events" class="events-link events-register-link">Events</a>
                 </div>
 
                 <div class="navbar-center">
-                    <a href="/clubs" class="clubs-link">Clubs</a>
+                    <a href="/clubs" class="clubs-link clubs-join-link">Clubs</a>
                 </div>
 
                 <div class="navbar-center">
-                    <a href="/student-main" class="studento-link">Student Main</a>
+                    <a href="/student-main" class="student-main-link">Student Main</a>
                 </div>
 
             {% endif %}
@@ -125,7 +130,7 @@
         {% if add_link_to_nav %}
 
             <div class="navbar-center">
-                <a href="/{{ new_link }}" class="{{ new_link }}-link">{{ new_link_name }}</a>
+                <a href="/{{ href if href else new_link }}" class="{{ new_link }}-link">{{ new_link_name }}</a>
             </div>
 
         {% endif %}
