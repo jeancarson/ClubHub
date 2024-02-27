@@ -1,0 +1,192 @@
+
+{% extends "html/base/base.html" %}
+
+{% block links %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+
+{% block header %}
+
+
+    <style>
+
+        .alert-dialog {
+            padding: 1.5% 10% 0.5% 10%;
+        }
+
+        body {
+            background-image: url("../../../static/png/blue-background-flipped-xy.png");
+            background-size: cover;
+            background-position: center center;
+        }
+
+        .list-group-item {
+            display: grid;
+            grid-template-columns: 120px 400px auto auto; /* Auto size for the date, 1fr (1 fraction) for the remaining space for the event name */
+            align-items: center; /* Center vertically */
+        }
+
+        .date-column {
+            padding-right: 1em; /* Adjust as needed for space between date and event name */
+            font-family: monospace;
+        }
+
+        .button-column {
+            display: flex;
+            gap: 10px; /* Adjust the gap between buttons */
+        }
+
+        .btn-primary {
+            width: 250px; /* Adjust the width according to your preference */
+            height: 40px; /* Adjust the height according to your preference */
+        }
+    </style>
+
+    <header>
+        <h1 style="color: white;">Welcome to your dashboard, {{ coordinator_name }}!</h1>
+    </header>
+
+    <br/>
+    
+    <!-- Club Description -->
+    <form id="clubForm" action="/cohome" method="post">
+        <!-- Club Description -->
+        <div class="card card-custom">
+            <div class="card-body">
+                <h5 class="card-title white-txt" id="editable_text1"  contenteditable="false">{{ club_title }} </h5>
+                <h6 class="card-subtitle mb-2 t vlight_blue_txt">Description</h6>
+                <p class="card-text white-txt" id="editable_text2" contenteditable="false">{{ club_description }}</p>
+
+                <input type="text"
+                       id="club_name_value"
+                       name="club_name"
+                       value="{{ club_title }}"
+                       style="display:none;"> <!-- Hidden input -->
+
+                <input type="text"
+                       id="club_description_value"
+                       name="club_description"
+                       value="{{ club_description }}"
+                       style="display:none;"> <!-- Hidden input -->
+
+                <button class="btn btn-warning custom-button"
+                        type="button"
+                        onclick="toggleEditMode('editable_text1', 'name', this, 'club_name_value');">
+                    Edit club name
+                </button>
+
+                <button class="btn btn-warning custom-button"
+                        type="button"
+                        onclick="toggleEditMode('editable_text2', 'description', this, 'club_description_value');">
+                    Edit description
+                </button>
+
+                <button class="btn btn-warning custom-button" onclick="submitForm()">Save changes</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Members -->
+
+    <br />
+    <div class="card card-custom">
+        <div class="card-body">
+            <h5 class="card-title white-txt">Members</h5>
+            <h6 class="card-subtitle mb-2 vlight_blue_txt">Click to view a list of members</h6>
+            <br />
+            <div class="d-flex justify-content-between">
+
+                <a href="/memview/Approved" class="card-link custom-link"
+                   style="margin-left: 100px;">{{ active_users }} Active members</a>
+
+                <a href="/memview/Pending" class="card-link custom-link"
+                   style="margin-right: 100px;">{{ pending_users }} Pending Members</a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- EVENTS -->
+
+    <br><br>
+    <div class="card card-custom">
+        <div class="card-body">
+            <h5 class="card-title white-txt">Upcoming events</h5>
+
+            {% if limited_events %}
+                {% for event in limited_events %}
+                    <ul class="list-group">
+                        <li class="list-group-item" style="display: inline-flex">
+                            <span class="date-column dark_link">{{ event.event_date }}</span>
+                            <span class="event-name-column">
+                                <a href="/edit-event/{{ event["event_id"] }}" class="card-link dark_link">{{ event.event_name }}</a>
+                            </span>
+                            <span class="button-column">
+
+                                <a class="btn btn-primary card-custom custom-hover"
+                                   href="/participantview/Approved/{{ event["event_id"] }}"
+                                   role="button">
+                                    Approved Participants
+                                    <span class="badge bg-danger">{{ event.approved_participants }}</span>
+                                </a>
+
+                                <a class="btn btn-primary card-custom custom-hover"
+                                   href="/participantview/Pending/{{ event["event_id"] }}"
+                                   role="button">
+                                    Participant requests
+                                    <span class="badge bg-danger">{{ event.pending_participants }}</span>
+                                </a>
+
+                            </span>
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+
+            <br />
+
+            <a href="eventview/Upcoming" class="card-link dark_link" role="button">
+                View More
+            </a>
+
+            <br />
+
+            <a style="margin-left: -0.1em;" href="eventview/Past" class="btn btn-warning custom-button" role="button">
+                Past Events
+            </a>
+
+            <a style="margin-left: -0.1em;" href="/new-event" class="btn btn-warning custom-button" role="button">
+                Add Event
+            </a>
+
+        </div>
+    </div>
+
+    <script async defer>
+        // Function to toggle the edit mode of an element
+        function toggleEditMode(elementId, field, button, valueID) {
+            let editableElement = document.getElementById(elementId);
+            let hiddenInput = document.getElementById(valueID);
+
+            if (editableElement.contentEditable === 'false') {
+                editableElement.style.border = '1px solid #ccc';
+                editableElement.contentEditable = 'true';
+                button.innerText = 'Exit editing mode';
+            } else {
+                editableElement.style.border = '0px solid #ccc';
+                editableElement.contentEditable = 'false';
+                button.innerText = 'Edit ' + field;
+                hiddenInput.value = editableElement.innerText;
+            }
+        }
+
+        // To fix issue when user hits submit button on values that are currently in 'edit' mode or whatever
+        function submitForm() {
+            document.getElementById("club_name_value").value = document.getElementById("editable_text1").innerText;
+            document.getElementById("club_description_value").value = document.getElementById("editable_text2").innerText;
+            document.getElementById('clubForm').submit();
+        }
+    </script>
+
+{% endblock %}

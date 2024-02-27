@@ -1,0 +1,197 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" href="../../../static/css/events.css">
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>Upcoming Club Events</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="events-container">
+        <div id="events-main">
+            {% if registered %}
+                {% if registered | length == 1 %}
+                    {% set plural = "" %}
+                {% else %}
+                    {% set plural = "s" %}
+                {% endif %}
+                <div>
+                    <h2>Events You Have Signed Up For</h2>
+                    <p>Showing {{ registered | length }} Event{{ plural }}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event ID</th>
+                            <th>Event Name</th>
+                            <th>Hosted By</th>
+                            <th>Event Description</th>
+                            <th>Venue</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in registered %}
+                            <tr>
+                                <td>{{ event["event_id"] }}</td>
+                                <td>{{ event["event_name"] }}</td>
+                                <td>
+                                    <a class="about-club underlined-link underlined-link-db" href="/events/club-info?club_id={{ event["club_id"] }}">{{ event["club_name"] }}</a>
+                                </td>
+                                <td>{{ event["event_description"] }}</td>
+                                <td>{{ event["venue"] }}</td>
+                                <td>{{ event["date"] }}</td>
+                                <td>{{ event["time"] }}</td>
+                                {% if event["validity"] == "PENDING" %}
+                                    <td><a class="pending" disabled>Registration Pending</a></td>
+                                {% elif event["validity"] == "APPROVED" %}
+                                    <td><a class="registered" disabled>Signed Up</a></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% if unregistered %}
+                {% if unregistered | length == 1 %}
+                    {% set plural = "" %}
+                {% else %}
+                    {% set plural = "s" %}
+                {% endif %}
+                <div>
+                    <h2>Upcoming Events</h2>
+                    <p>Showing {{ unregistered | length }} Event{{ plural }}</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event ID</th>
+                            <th>Event Name</th>
+                            <th>Hosted By</th>
+                            <th>Event Description</th>
+                            <th>Venue</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in unregistered %}
+                            <tr>
+                                <td>{{ event["event_id"] }}</td>
+                                <td>{{ event["event_name"] }}</td>
+                                <td>
+                                    <a class="about-club underlined-link underlined-link-db"  href="/events/club-info?club_id={{ event["club_id"] }}">{{ event["club_name"] }}</a>
+                                </td>
+                                <td>{{ event["event_description"] }}</td>
+                                <td>{{ event["venue"] }}</td>
+                                <td>{{ event["date"] }}</td>
+                                <td>{{ event["time"] }}</td>
+                                <td>
+                                    <form action="/events/register?event_id={{ event["event_id"] }}&event_name={{ event["event_name"] }}&club_id={{ event["club_id"] }}" method="post">
+                                        <button type="submit" class="unregistered" href="/events/register?event_id={{ event["event_id"] }}&event_name={{ event["event_name"] }}&club_id={{ event["club_id"] }}">Sign Up</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="qa-section">
+          <details open>
+              <summary>
+                  What types of events does Club Hub organize?
+                  <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
+                  </svg>
+                  <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
+                  </svg>
+              </summary>
+              <p>Club Hub organizes a wide range of events including social gatherings, workshops and sports tournaments.</p>
+          </details>
+
+          <details>
+              <summary>
+                  How can I stay updated about upcoming events at Club Hub?
+                  <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
+                  </svg>
+                  <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
+                  </svg>
+              </summary>
+              <p>You can stay updated by regularly checking our website's event calendar or following our social media accounts.</p>
+          </details>
+
+          <details>
+              <summary>
+                  Do I need to pay to attend Club Hub events?
+                  <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
+                  </svg>
+                  <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
+                  </svg>
+              </summary>
+              <p>Nope, all free.</p>
+          </details>
+
+          <details>
+              <summary>
+                  Can I host my own event at Club Hub?
+                  <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
+                  </svg>
+                  <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
+                  </svg>
+              </summary>
+              <p>If you have enough cash, yes.</p>
+          </details>
+
+          <details>
+              <summary>
+                  Can I attend a Club Hub event if I'm allergic to fun?
+                  <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
+                  </svg>
+                  <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
+                  </svg>
+              </summary>
+              <p>No.</p>
+          </details>
+          <details>
+              <summary>
+                  Do you have a lost and found for things like lost dignity or lame dance moves?
+                  <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more"></use>
+                  </svg>
+                  <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
+                  </svg>
+              </summary>
+              <p>No go back to the hell hole you came from.</p>
+          </details>
+      </div>
+  </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,123 @@
+
+body {
+    background-image: url("../png/blue-background.png");
+    background-size: cover;
+    background-position: center center;
+}
+
+#events-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 7.5em;
+}
+
+#events-main {
+    display: grid;
+    color: var(--black);
+    background-color: var(--white);
+    width: 90%;
+    padding: 1em;
+    box-shadow: -9px 8px 5px 0 rgba(2, 62, 138, 0.75);
+    outline: 0.3em solid var(--lighter-blue);
+    border-radius: 0.15em;
+}
+
+#events-main div {
+    display: flex;
+    color: var(--dark-blue);
+    border-bottom: 0.075em solid var(--lighter-grey);
+    padding-bottom: 0.75em;
+    margin-bottom: 2em;
+}
+
+#events-main div h2 {
+    margin: 0;
+    width: 70%;
+}
+
+#events-main div p {
+    align-self: flex-end;
+    margin: 0;
+    width: 30%;
+    text-align: right;
+}
+
+#events-main table {
+    text-align: left;
+    margin-bottom: 4em;
+}
+
+#events-main table tr td {
+    position: relative;
+    padding-top: 1.2em;
+}
+
+.about-club {
+    color: var(--light-blue);
+}
+
+.pending,
+.registered,
+.unregistered {
+    font-weight: normal;
+    font-size: 1rem;
+    border: none;
+    display: block;
+    margin-left: auto;
+    width: fit-content;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    color: var(--white);
+}
+
+.pending {
+    background-color: var(--light-red);
+    cursor: default;
+}
+
+.registered {
+    cursor: default;
+    background-color: var(--light-blue);
+}
+
+.unregistered {
+    background-color: var(--light-green);
+    transition: translate 200ms;
+}
+
+.unregistered:hover {
+    cursor: pointer;
+    translate: 0 -15%;
+    outline: 2px solid var(--lighter-green);
+}
+
+.container {
+    margin-bottom: 3em;
+    margin-top: -3em;
+}
+
+.container h2 {
+    padding-left: 5%;
+}
+
+.qa-section {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 90%;
+    margin: 20px auto; 
+}
+
+.qa-section summary {
+    font-weight: bold; 
+    cursor: pointer; 
+    color: black;
+}
+
+.qa-section p {
+    margin-top: 10px; 
+    color: black;
+}

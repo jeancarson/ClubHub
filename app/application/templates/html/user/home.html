@@ -1,0 +1,19 @@
+{% extends "html/base/home.html" %}
+
+{% block main_right %}
+
+    <header>
+        <h1>{{ header }}</h1>
+    </header>
+
+    <div>
+        {% if session["user-type"] == "ADMINISTRATOR" %}
+            <h2>Welcome back!</h2>
+        {% elif session["user-type"] == "STUDENT" %}
+            <a href="/studento">Go to main student page</a>
+        {% elif session["user-type"] == "COORDINATOR" %}
+            <a href="/cohome">Go to my dashboard</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+
+    <link rel="stylesheet" href="../../../static/css/student-main.css">
+
+{% endblock %}
+
+{% block header %}
+
+    <header>
+        <h1>Welcome to ClubHub™</h1>
+    </header>
+
+{% endblock %}
+
+{% block content %}
+      
+    <div class="jumbotron first text-center">
+        <h1 class="display-4">Welcome to ClubHub!</h1>
+        <p class="lead">Where Passion Meets Performance</p>
+        <p>Get Ready to Play, Connect, and Excel!</p>
+        <hr class="my-4">
+        <p>Ready to Dive into the World of Clubs and Sports?</p>
+        <p>Welcome to ClubHub, the ultimate destination for all things campus recreation! Whether you're a seasoned athlete or just looking to try something new, ClubHub has everything you need to fuel your passion for sports and clubs.</p>
+        <p>Explore a wide range of clubs and organizations catering to various interests and hobbies. From sports clubs like football, basketball, and tennis to special interest clubs like photography, chess, and environmental activism, there's something for everyone at ClubHub.</p>
+        <p>Discover exciting events happening on campus, from sports tournaments and matches to workshops, seminars, and social gatherings. Stay updated with the latest news and announcements to make the most out of your college experience.</p>
+        <p>Connect with like-minded individuals, make new friends, and build lasting relationships through shared interests and activities. ClubHub provides a platform for students to connect, collaborate, and create memorable experiences together.</p>
+        <p>Whether you're looking to pursue your passion, develop new skills, or simply have fun, ClubHub is here to support and empower you every step of the way. Join us and unleash your full potential!</p>
+    </div>
+    
+    <div class="row divywivy">
+        <div class="col-sm-12">
+            <h1 class="display-4 text-center">Events</h1>
+            <div class="row">
+                {% for event in events_data %}
+                    {% if loop.index <= 3 %}
+                        <div class="col-sm-4">
+                            <div class="jumbotron ce">
+                                <h2>{{ event['event_name'] }}</h2>
+                                <p>Date: {{ event['date'] }}</p>
+                                <p>Time: {{ event['time'] }}</p>
+                                <p>Location: {{ event['venue'] }}</p>
+                                <p>Description: {{ event['event_description'] }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <a href="/events" class="underlined-link underlined-link-regular btn btn-primary">View All Events</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row divywivy">
+        <div class="col-sm-12">
+            <h1 class="display-4 text-center">Clubs</h1>
+            <div class="row">
+                {% for club in club_data %}
+                    {% if loop.index <= 3 %}
+                        <div class="col-sm-4">
+                            <div class="jumbotron ce">
+                                <h2>{{ club['club_name'] }}</h2>
+                                <p>Description: {{ club['club_description'] }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <a href="/clubs" class="underlined-link underlined-link-regular btn btn-primary">View All Clubs</a>
+            </div>
+        </div>
+    </div>
+    
+
+{% endblock %}

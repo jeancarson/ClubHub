@@ -1,0 +1,401 @@
+
+This file displays all DML (Data Manipulation Language) statements used in our application;
+specifically, all selections, insertions, modifications, and deletions.
+
+The DBMS (Database Management System) is SQLite.
+
+Each statement is indented after their corresponding function and source file.
+The source file is the location of the function in our codebase.
+
+--================================== User & Login Related Statements ==================================--
+
+src: application.util.db_functions.users
+function: next_user_id
+
+    SELECT user_id FROM login
+    ORDER BY user_id DESC
+    LIMIT 1;
+
+src: application.util.db_functions.users
+function: user_exists
+
+    SELECT NULL FROM login
+    WHERE username=?;
+
+src: application.util.db_functions.users
+function: create_user
+
+    INSERT INTO users
+    (first_name, last_name, age, email, phone, gender, password, user_type, approved) VALUES
+    (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+
+src: application.util.db_functions.users
+function: create_user
+"""
+    INSERT INTO login
+    (user_id, username) VALUES
+    (?, ?);
+"""
+
+src: application.util.db_functions.users
+function: users_info
+note: Query selection and condition can take many forms.
+      See source for more info.
+"""
+    SELECT {selection}
+    FROM users
+    FULL OUTER JOIN login
+    ON users.user_id = login.user_id
+    {condition};
+"""
+
+src: application.util.db_functions.users
+function: all_user_attributes
+"""
+    SELECT * FROM all_user_attributes
+    WHERE username=?;
+"""
+
+src: application.util.db_functions.users
+function: profile_user_attributes
+"""
+    SELECT * FROM profile_user_attributes
+    WHERE user_id=?;
+"""
+
+src: application.util.db_functions.users
+function: update_user_profile_info
+"""
+    UPDATE users
+    SET
+        first_name=?,
+        last_name=?,
+        age=?,
+        email=?,
+        phone=?,
+        gender=?
+    WHERE user_id=?;
+"""
+
+src: application.util.db_functions.users
+function: get_pending_users
+"""
+    SELECT * FROM users
+    WHERE approved='PENDING';
+"""
+
+src: application.util.db_functions.users
+function: update_user_status
+"""
+    SELECT * FROM users
+    WHERE user_id=?;
+"""
+
+src: application.util.db_functions.users
+function: update_user_status
+"""
+    UPDATE users
+    SET
+        approved=?
+    WHERE user_id=?;
+"""
+
+src: application.util.db_functions.users
+function: delete_user
+"""
+    DELETE FROM users
+    WHERE user_id=?;
+"""
+
+src: application.util.db_functions.users
+function: delete_user
+"""
+    DELETE FROM login
+    WHERE user_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: get_coordinator_name
+"""
+    SELECT users.first_name, users.last_name
+    FROM users
+    JOIN clubs ON users.user_id = clubs.creator
+    WHERE clubs.club_id=?;
+"""
+
+--============================= Club & Club Membership Related Statements =============================--
+
+src: application.util.db_functions.clubs
+function: create_club
+"""
+    INSERT INTO clubs
+    (club_name, club_description, creator, validity) VALUES
+    (?, ?, ?, ?);
+"""
+
+src: application.util.db_functions.clubs
+function: update_club_status
+"""
+    UPDATE clubs set
+        validity=?
+    WHERE creator=?;
+"""
+
+src: application.util.db_functions.clubs
+function: delete_club
+"""
+    DELETE FROM clubs
+    WHERE creator=?;
+"""
+
+src: application.util.db_functions.clubs
+function: get_all_clubs
+"""
+    SELECT
+        club_id,
+        club_name,
+        club_description
+    FROM clubs;
+"""
+
+src: application.util.db_functions.clubs
+function: registered_clubs
+"""
+    SELECT *, cm.validity as membership_status FROM clubs
+    INNER JOIN club_memberships cm USING (club_id)
+    WHERE cm.user_id=?;
+"""
+
+src: application.util.db_functions.clubs
+function: unregistered_clubs
+"""
+    SELECT *, cm.validity FROM clubs
+    LEFT JOIN club_memberships cm ON clubs.club_id=cm.club_id AND cm.user_id=?
+    WHERE cm.club_id IS NULL;
+"""
+
+src: application.util_db_functions.clubs
+function: is_club_member
+"""
+    SELECT NULL FROM club_memberships
+    WHERE club_id=? AND user_id=? AND validity='APPROVED';
+"""
+
+src: application.util.db_functions.clubs
+function: club_info
+"""
+    SELECT * from clubs
+    WHERE club_id=?;
+"""
+
+src: application.util.db_functions.clubs
+function: count_club_memberships
+"""
+    SELECT COUNT(*) FROM club_memberships
+    WHERE user_id=?;
+"""
+
+src: application.util.db_functions.clubs
+function: insert_club_membership
+"""
+    INSERT INTO club_memberships
+    (club_id, user_id) VALUES
+    (?, ?);
+"""
+
+src: application.util.db_functions.clubs
+function: join_club
+"""
+    INSERT INTO club_memberships
+    (club_id, user_id) VALUES
+    (?, ?);
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: get_club_id
+"""
+    SELECT club_id FROM clubs
+    WHERE creator=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: get_club_details
+"""
+    SELECT club_name, club_description
+    FROM clubs
+    WHERE club_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: save_club_details
+"""
+    UPDATE clubs
+    SET
+        club_name=?,
+        club_description=?
+    WHERE club_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: count_active_users
+"""
+    SELECT count(user_id) FROM club_memberships
+    WHERE club_id=? and validity='APPROVED';
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: count_pending_users
+"""
+    SELECT count(user_id) FROM club_memberships
+    WHERE club_id=? and validity='PENDING';
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: get_all_members
+"""
+    SELECT users.* FROM users
+    JOIN club_memberships USING (user_id)
+    WHERE club_memberships.validity=? and club_memberships.club_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: save_member_status
+"""
+    UPDATE club_memberships
+    SET validity=?
+    WHERE user_id=? and club_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: delete_rejected_members
+"""
+    DELETE FROM club_memberships
+    WHERE validity='REJECTED' AND club_id=?;
+"""
+
+--=========================== Event & Event Participant Related Statements ============================--
+
+src: application.util.db_functions.events
+function: get_all_events
+"""
+    SELECT * FROM events;
+"""
+
+src: application.util.db_functions.events
+function: unregistered_events
+"""
+    SELECT *, ep.validity FROM event_info
+    LEFT JOIN event_participants ep ON event_info.event_id=ep.event_id AND ep.user_id=?
+    WHERE ep.event_id IS NULL;
+"""
+
+src: application.util.db_functions.events
+function: registered_events
+"""
+    SELECT *, ep.validity FROM event_info
+    INNER JOIN event_participants ep USING (event_id)
+    WHERE ep.user_id=?;
+"""
+
+src: application.util.db_functions.events
+function: register_for_event
+"""
+    INSERT INTO event_participants
+    (event_id, user_id, validity) VALUES
+    (?, ?, ?);
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: limited_view_all_upcoming_events
+"""
+    SELECT * FROM events
+    WHERE club_id=? AND datetime(date || ' ' || time) >= CURRENT_TIMESTAMP
+    ORDER BY date
+    LIMIT 5;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: count_pending_participants
+"""
+    SELECT COUNT(user_id) FROM event_participants
+    WHERE event_id=? AND validity='PENDING';
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: count_approved_participants
+"""
+    SELECT COUNT(user_id) FROM event_participants
+    WHERE event_id=? AND validity='APPROVED';
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: get_all_participants
+"""
+    SELECT users.* FROM users
+    JOIN event_participants USING (user_id)
+    WHERE event_participants.validity=? AND event_participants.event_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: save_participant_status
+"""
+    UPDATE event_participants
+    SET
+        validity=?,
+        updated=CURRENT_TIMESTAMP
+    WHERE user_id=? AND event_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: delete_rejected_participants
+"""
+    DELETE FROM event_participants
+    WHERE validity='REJECTED' AND event_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: view_all_events
+"""
+    SELECT * FROM events
+    WHERE club_id=? AND datetime(date || ' ' || time) < CURRENT_TIMESTAMP
+    ORDER BY date, time DESC;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: view_all_events
+"""
+    SELECT * FROM events
+    WHERE club_id=? and datetime(date || ' ' || time) >= CURRENT_TIMESTAMP
+    ORDER BY date, time DESC;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: get_event_details
+"""
+    SELECT * FROM events
+    WHERE event_id=?;
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: add_event
+"""
+    INSERT INTO events (club_id, event_name, event_description, date, time, venue)
+    VALUES (?, ?, ?, ?, ?, ?);
+"""
+
+src: application.util.db_functions.coordinator_functions
+function: update_event
+"""
+    UPDATE events
+    SET
+        event_name=?,
+        event_description=?,
+        venue=?
+        date=?,
+        time=?,
+        updated=CURRENT_TIMESTAMP
+    WHERE event_id=?;
+"""
+
+--================================================ End ================================================--

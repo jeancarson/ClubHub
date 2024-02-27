@@ -1,0 +1,74 @@
+{% extends "html/base/base.html" %}
+
+{% block links %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+
+{% block header %}
+    <header>
+        <h1 style="color: white;">{{ ""~ timeline~ " events" }}</h1>
+    </header>
+    <style>
+
+        .alert-dialog {
+            padding: 1.5% 10% 0.5% 10%;
+        }
+
+        .list-group-item {
+            display: grid;
+            grid-template-columns: 120px 400px auto auto; /* Auto size for the date, 1fr (1 fraction) for the remaining space for the event name */
+            align-items: center; /* Center vertically */
+        }
+
+        .date-column {
+            padding-right: 1em; /* Adjust as needed for space between date and event name */
+            font-family: monospace;
+        }
+
+        .button-column {
+            display: flex;
+            gap: 10px; /* Adjust the gap between buttons */
+        }
+
+        .btn-primary {
+            width: 250px; /* Adjust the width according to your preference */
+            height: 40px; /* Adjust the height according to your preference */
+        }
+
+        body {
+            background-image: url("{{ url_for('static', filename='png/blue-background-flipped-xy.png') }}");
+            background-size: cover;
+            background-position: center center;
+        }
+    </style>
+    <div class="card card-custom ">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 dark_link">Click on an event to view details.</h6>
+            {% for event in timelined_events %}
+        <ul class="list-group">
+            <li class="list-group-item" style="display: inline-flex">
+                <span class="date-column dark_link">{{ event.date }}</span>
+                <span class="event-name-column">
+                    <a href="{{ url_for('coordinator.edit_event', event_id=event.event_id) }}" class="card-link dark_link">{{ event.event_name }}</a>
+                </span>
+                <span class="button-column">
+                    <a class="btn btn-primary card-custom custom-hover"
+                    href="{{ url_for('coordinator.parview', status='Approved', event_id=event.event_id) }}" role="button">
+                    Approved Participants
+                    <span class="badge bg-danger">{{ event.approved_participants }}</span>
+                </a>
+                <a class="btn btn-primary card-custom custom-hover"
+                    href="{{ url_for('coordinator.parview', status='Pending', event_id=event.event_id) }}" role="button">
+                    Participant requests
+                    <span class="badge bg-danger">{{ event.pending_participants }}</span>
+                </a>
+                </span>
+            </li>
+        </ul>
+        {% endfor %}
+        <a class="btn btn-warning custom-button" href="{{ url_for('coordinator.cohome') }}"
+        role="button">Back to dashboard</a>
+        </div>
+    </div>
+{% endblock %}

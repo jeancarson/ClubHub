@@ -1,0 +1,350 @@
+/* Importing the "Raleway" and "Lexend" fonts */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Lexend&display=swap');
+
+/* Color constants */
+:root {
+    --light-grey: #8a8988;
+    --lighter-grey: #c4c4c4;
+    --even-lighter-grey: #f2f2f2;
+    --cyan: #3bbbd2;
+    --light-blue: #0077b6;
+    --lighter-blue: #0096c7;
+    --even-lighter-blue: #90e0ef;
+    --dark-blue: #023e8a;
+    --darker-blue: #03045e;
+    --lighter-green: #5afa8d;
+    --light-green: #179645;
+    --dark-green: #237543;
+    --light-red: #db5658;
+    --dark-red: #990f0f;
+    --white: #ffffff;
+    --black: #000000;
+    --dark-grey: #1e2e33;
+    --email-red: #f44336;
+    --yt-red: #ff1c04;
+    --pink: #e33667;
+    --turquoise: #028080;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    background-color: var(--darker-blue);
+    font-family: "Raleway", system-ui, Arial, sans-serif !important;
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+::placeholder {
+    opacity: 0.6;
+}
+
+header h1 {
+    text-align: center;
+    margin: 1.65em 0;
+}
+
+a {
+    text-decoration: none !important;
+    color: var(--even-lighter-blue);
+}
+
+.underlined-link {
+    display: inline-block;
+}
+
+.underlined-link::after {
+    content: '';
+    width: 0;
+    height: 0.1em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 190ms width ease-in-out;
+}
+
+.underlined-link:hover::after {
+    width: 100%;
+}
+
+.underlined-link-regular::after {
+    background-color: var(--even-lighter-blue);
+}
+
+.underlined-link-footer::after {
+    background-color: var(--darker-blue);
+}
+
+.underlined-link-yt::after {
+    background-color: var(--yt-red);
+}
+
+.underlined-link-x::after {
+    background-color: var(--black);
+}
+
+.underlined-link-insta::after {
+    background-color: var(--pink);
+}
+
+.underlined-link-logout::after {
+    background-color: var(--light-red);
+}
+
+.underlined-link-db::after {
+    background-color: var(--light-blue);
+}
+
+/* ======================= Message alert box start ======================= */
+
+.alert-dialog-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.alert-dialog {
+    position: absolute;
+    top: 2.75rem !important;
+    display: none;
+    background-color: var(--light-red);
+    width: auto;
+    max-width: 100%;
+    padding: 0 10%;
+    color: var(--white);
+    text-align: center;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+.alert-dialog-button {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: none;
+    font-size: 0.9rem;
+    color: var(--white);
+    background-color: transparent;
+}
+
+.alert-dialog-button:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ======================= Message alert box end ======================= */
+
+/* ======================= Navigation bar start ======================= */
+
+nav {
+    display: grid !important;
+    grid-template-columns: 1fr repeat(10, auto) 1fr !important;
+    grid-auto-columns: auto !important;
+    background-color: var(--light-blue) !important;
+    overflow: hidden !important;
+}
+
+nav div {
+    grid-row: 1 !important;
+    grid-column: auto !important;
+    display: flex !important;
+}
+
+.navbar-left {
+    grid-column: 1 !important;
+    justify-content: left !important;
+}
+
+.navbar-center {
+    grid-column: auto !important;
+    justify-content: center !important;
+    transition: height 0.25s !important;
+}
+
+.navbar-right {
+    grid-column: -2 !important;
+    justify-content: right !important;
+}
+
+.nav-active-link a {
+    text-decoration: underline !important;  /* TODO: Figure out what overrides this */
+    text-underline-position: under !important;
+    text-decoration-thickness: 0.075rem !important;
+    text-underline-offset: 0.1rem !important;
+}
+
+nav div a {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    line-height: 1rem;
+    text-decoration: none;
+    height: 2.75rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+    background-color: transparent;
+    transition: all 300ms;
+}
+
+nav div a:hover {
+    background-color: var(--white);
+    color: var(--black);
+    font-weight: 800;
+}
+
+.nav-active-link a:hover {
+    text-underline-offset: 0.3rem;
+}
+
+.navbar-left a img {
+    height: 1.5rem;
+}
+
+.navbar-left a img:last-of-type {
+    display: none;
+}
+
+.navbar-left a:hover img:last-of-type {
+    display: block;
+}
+
+.navbar-left a:hover img:first-of-type {
+    display: none;
+}
+
+.navbar-right a {
+    visibility: hidden;
+}
+
+@media screen and (max-width: 560px) {
+
+    .navbar-right a {
+        visibility: visible;
+    }
+
+    nav {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .navbar-center {
+        height: 0;
+        grid-row: auto;
+        grid-column: span 2;
+    }
+
+    .navbar-center a {
+        width: 100%;
+    }
+
+}
+
+/* ======================= Navigation bar end ======================= */
+
+/* ========================== Footer start ========================== */
+
+footer {
+    display: grid !important;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    background-color: var(--white);
+    color: var(--black);
+    font-size: 0.8rem;
+    padding: 1em 3em;
+    margin-top: auto;
+    gap: 1.5em;
+}
+
+.footer-center {
+    text-align: center;
+}
+
+footer div a {
+    color: var(--darker-blue) !important;
+}
+
+footer div a img {
+    transition: all 100ms;
+}
+
+footer div a img:hover {
+    transform: translateY(-14%);
+}
+
+footer div a img {
+    width: 2em;
+}
+
+footer div:first-of-type {
+    display: flex;
+    gap: 1.75em;
+}
+
+footer div:last-of-type {
+    display: flex;
+    gap: 1.25em;
+    margin-left: auto;
+}
+
+/* ========================== Footer start ========================== */
+/* Coordninator start  */
+.card-custom {
+    margin: 20px;
+    background-color: var(--lighter-blue) !important;
+    color: white;
+}
+
+.custom-link {
+    font-size: 40px; /* Adjust the font size as needed */
+    font-family: "Tahoma", serif;
+    color: var(--white);
+}
+
+.custom-button {
+    margin: 20px;
+    background-color: var(--even-lighter-blue);
+    color: var(--black);
+}
+
+.custom-hover:hover {
+    background-color: var(--even-lighter-blue);
+    color: var(--black);
+}
+
+.custom-hover {
+    background-color: var(--light-blue);
+    color: var(--white);
+}
+
+.light_blue_bckgrnd {
+    background-color: var(--light-blue);
+}
+
+.dark_link {
+    color: var(--darker-blue)
+}
+
+.white-txt {
+    color: var(--white);
+}
+
+.vlight_blue_txt {
+    color: var(--even-lighter-blue);
+}
+
+/* coordinator end */
+
+.event-name-column {
+    width: 300px;;
+}
