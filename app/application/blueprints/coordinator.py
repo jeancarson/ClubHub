@@ -30,10 +30,7 @@ def cohome():
     limited_upcoming_events = coordinator_functions.limited_view_all_upcoming_events(club_id)
     event_details = []
 
-    if limited_upcoming_events is None:
-        limited_upcoming_events = []
-
-    else:
+    if limited_upcoming_events is not None:
         for event in limited_upcoming_events:
             number_of_pending_participants = coordinator_functions.count_pending_participants(event["event_id"])
             number_of_approved_participants = coordinator_functions.count_approved_participants(event["event_id"])
@@ -173,10 +170,8 @@ def see_events(timeline):
 
     timelined_events = coordinator_functions.view_all_events(club_id, timeline)
     event_details = []
-    if timelined_events is None:
-        timelined_events = []
 
-    else:
+    if timelined_events is not None:
         for event in timelined_events:
             number_of_pending_participants = coordinator_functions.count_pending_participants(event["event_id"])
             number_of_approved_participants = coordinator_functions.count_approved_participants(event["event_id"])
