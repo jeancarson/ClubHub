@@ -4,7 +4,7 @@ specifically, all table, trigger, and view creations.
 
 The DBMS (Database Management System) is SQLite.
 
---================================================== Table Definitions ==================================================--
+==================================================== Table Definitions ====================================================
 
 CREATE TABLE users (
     user_id             INTEGER         NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE event_participants (
     FOREIGN KEY (event_id) REFERENCES events(event_id)
 );
 
---================================================== Timestamp Triggers =================================================--
+==================================================== Timestamp Triggers ===================================================
 
 CREATE TRIGGER update_timestamp_users
 AFTER UPDATE ON users
@@ -140,7 +140,7 @@ BEGIN
     WHERE event_id = OLD.event_id AND user_id = OLD.user_id;
 END;
 
---========================================================= Views =======================================================--
+=========================================================== Views =========================================================
 
 CREATE VIEW all_user_attributes
 AS
@@ -190,4 +190,4 @@ INNER JOIN clubs USING (club_id)
 ORDER BY
     events.event_id;
 
---========================================================== End ========================================================--
+============================================================ End ==========================================================
