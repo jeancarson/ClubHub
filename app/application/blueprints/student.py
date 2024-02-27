@@ -7,7 +7,7 @@ from ..util.db_functions.events import get_all_events
 student = Blueprint("student", __name__)
 
 
-@student.route("/student-main")
+@student.route("/student-dashboard")
 def go_student():
     invalid = validate_student_perms(endpoint="/student-main")
 
