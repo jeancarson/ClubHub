@@ -15,6 +15,4 @@ from application import app, db_prompt
 
 db_prompt()
 
-
-if __name__ == '__main__':
-    app.run()
+_ = app
