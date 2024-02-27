@@ -1097,7 +1097,7 @@ VALUES (
     'Event 1',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1135,7 +1135,7 @@ VALUES (
     'Event 2',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1173,7 +1173,7 @@ VALUES (
     'Event 3',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1211,7 +1211,7 @@ VALUES (
     'Event 4',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1249,7 +1249,7 @@ VALUES (
     'Event 5',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1287,7 +1287,7 @@ VALUES (
     'Event 6',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1325,7 +1325,7 @@ VALUES (
     'Event 7',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1363,7 +1363,7 @@ VALUES (
     'Event 8',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1401,7 +1401,7 @@ VALUES (
     'Event 9',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1439,7 +1439,7 @@ VALUES (
     'Event 10',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1477,7 +1477,7 @@ VALUES (
     'Event 11',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1515,7 +1515,7 @@ VALUES (
     'Event 12',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1553,7 +1553,7 @@ VALUES (
     'Event 13',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1591,7 +1591,7 @@ VALUES (
     'Event 14',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1629,7 +1629,7 @@ VALUES (
     'Event 15',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1667,7 +1667,7 @@ VALUES (
     'Event 16',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1705,7 +1705,7 @@ VALUES (
     'Event 17',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1743,7 +1743,7 @@ VALUES (
     'Event 18',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1781,7 +1781,7 @@ VALUES (
     'Event 19',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1819,7 +1819,7 @@ VALUES (
     'Event 20',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1857,7 +1857,7 @@ VALUES (
     'Event 21',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1895,7 +1895,7 @@ VALUES (
     'Event 22',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1933,7 +1933,7 @@ VALUES (
     'Event 23',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
@@ -1971,7 +1971,7 @@ VALUES (
     'Event 24',
     'This is the description for this test event.',
     'Limerick',
-    '01/01/2025',
+    '2025-01-01',
     '12:00:00'
 );
 
