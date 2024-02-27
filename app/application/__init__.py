@@ -60,8 +60,9 @@ def db_prompt() -> None:
     populate: bool = get_boolean_input(prompt="(yes/no) > ")
     print()
 
-    print(f"{Fore.LIGHTGREEN_EX}✔{Fore.RESET} Successfully created database "
-          f"{'with sample data' if populate else ''}\n"
+    print(
+        f"{Fore.LIGHTGREEN_EX}✔{Fore.RESET} Successfully created database "
+        f"{'with sample data' if populate else ''}\n"
     )
 
     initialise_db(populate=populate)

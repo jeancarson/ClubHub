@@ -12,5 +12,4 @@ __pycache__/
 .DS_Store
 
 # Application
-deprecated/
 application/database/database.db

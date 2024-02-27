@@ -126,7 +126,7 @@ def parview(status, event_id):
 
     # No club_id here? I think it's not needed
     # coordinator_functions.check_coordinator_session()
-    status_pars = coordinator_functions.get_all_participants(event_id, status)
+    status_pars = coordinator_functions.get_all_participants(event_id, status.upper())
     event_name = coordinator_functions.get_event_details(event_id)["event_name"]
 
     return render_template(
