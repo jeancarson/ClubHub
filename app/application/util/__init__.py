@@ -1,6 +1,7 @@
 from werkzeug.datastructures.structures import ImmutableMultiDict
 from colorama import Fore
 
+
 def get_boolean_input(prompt: str) -> bool:
 
     while True:

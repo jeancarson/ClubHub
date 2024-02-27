@@ -7,8 +7,17 @@ from colorama import Fore
 from flask import Flask, g
 
 from .blueprints import register_all_blueprints
-from .util.db_functions import get_db, DB_PATH
 from .util import get_boolean_input
+from .util.db_functions import (
+    DB_PATH,
+    SCHEMA_PATH,
+    POPULATE_PATH,
+    DDL_BACKUP_PATH,
+    query_db,
+    get_db,
+    dump_ddl
+)
+
 
 app: Flask = Flask(__name__, template_folder="templates", static_folder="static")
 app.config.from_prefixed_env()
@@ -30,14 +39,30 @@ def initialise_db(*, populate: Optional[bool] = None) -> None:
     with app.app_context():
         db: Connection = get_db()
 
-        with app.open_resource("database/schema.sql", "r") as file:
+        with app.open_resource(str(SCHEMA_PATH), "r") as file:
             db.cursor().executescript(file.read())
 
+        with open(DDL_BACKUP_PATH, "w", encoding="utf-8") as file:
+            file.write(dump_ddl() + "\n")
+
         if populate:
-            with app.open_resource("database/populate.sql", "r") as file:
+            with app.open_resource(str(POPULATE_PATH), "r") as file:
                 db.cursor().executescript(file.read())
 
         db.commit()
+
+
+@app.teardown_appcontext
+def close_connection(_exception) -> None:
+    """
+    Closes the database connection.
+    This function is invoked automatically.
+    """
+
+    db: Connection = getattr(g, "_database", None)
+
+    if db is not None:
+        db.close()
 
 
 def db_prompt() -> None:
@@ -46,7 +71,7 @@ def db_prompt() -> None:
     then creates it.
     """
 
-    if exists(DB_PATH):
+    if exists(str(DB_PATH)):
         return None
 
     print(
@@ -66,16 +91,3 @@ def db_prompt() -> None:
     )
 
     initialise_db(populate=populate)
-
-
-@app.teardown_appcontext
-def close_connection(_exception) -> None:
-    """
-    Closes the database connection.
-    This function is invoked automatically.
-    """
-
-    db: Connection = getattr(g, "_database", None)
-
-    if db is not None:
-        db.close()

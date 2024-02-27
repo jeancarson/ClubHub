@@ -13,6 +13,5 @@ Password for all Students: Student0
 
 from application import app, db_prompt
 
-db_prompt()
-
 _ = app
+db_prompt()

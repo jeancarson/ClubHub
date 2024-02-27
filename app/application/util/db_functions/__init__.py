@@ -1,9 +1,18 @@
 from sqlite3 import Connection, Cursor, Row, connect
 from typing import Optional
+from pathlib import Path
 
 from flask import g
 
-DB_PATH: str = "application/database/database.db"
+
+ROOT_DIR: Path = Path(__file__).parents[4]
+DB_DIR: Path = ROOT_DIR / "app" / "application" / "database"
+
+DB_PATH: Path = DB_DIR / "database.db"
+SCHEMA_PATH: Path = DB_DIR / "schema.sql"
+POPULATE_PATH: Path = DB_DIR / "populate.sql"
+
+DDL_BACKUP_PATH: Path = ROOT_DIR / "ddl_backup.sql"
 
 
 def get_db() -> Connection:
@@ -73,3 +82,23 @@ def modify_db(statement: str, *args) -> None:
     connection.commit()
 
     cursor.close()
+
+
+def dump_ddl() -> str:
+    """
+    Returns a string containing all DDL statements,
+    exported from the database.
+
+    This function is called once (automatically) in initialise_db().
+    """
+
+    output: list[str] = []
+    results: list[Row] = query_db("SELECT sql FROM sqlite_master")
+
+    for row in results:
+        sql: str | None = row["sql"]
+
+        if sql is not None:
+            output.append(sql)
+
+    return "\n\n".join(output)

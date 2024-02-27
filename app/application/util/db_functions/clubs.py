@@ -33,15 +33,19 @@ def update_club_status(creator_user_id: int, status: str) -> None:
     :param status: New status. One of "PENDING", "APPROVED", "REJECTED".
     """
 
-    modify_db(
-        """ 
-            UPDATE clubs set 
-                validity=?
-            WHERE creator=?;
-        """,
-        status,
-        creator_user_id
-    )
+    if status == "REJECTED":
+        delete_club(creator_user_id=creator_user_id)
+
+    else:
+        modify_db(
+            """ 
+                UPDATE clubs set 
+                    validity=?
+                WHERE creator=?;
+            """,
+            status,
+            creator_user_id
+        )
 
 
 def delete_club(creator_user_id: int) -> None:

@@ -96,6 +96,12 @@ function: update_user_status
 src: application.util.db_functions.users
 function: delete_user
 
+    SELECT user_type FROM users
+    WHERE user_id=?;
+
+src: application.util.db_functions.users
+function: delete_user
+
     DELETE FROM users
     WHERE user_id=?;
 
@@ -354,4 +360,11 @@ function: update_event
         updated=CURRENT_TIMESTAMP
     WHERE event_id=?;
 
-================================================== End ==================================================
+============================================= Miscellaneous =============================================
+
+src: application.util.db_functions.__init__
+function: dump_ddl
+
+    SELECT sql FROM sqlite_master
+
+================================================= End ===================================================

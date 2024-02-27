@@ -1,5 +1,5 @@
 from . import Optional, Row, query_db, modify_db
-from .clubs import create_club, update_club_status
+from .clubs import create_club, update_club_status, delete_club
 
 
 def next_user_id() -> int:
@@ -235,16 +235,20 @@ def update_user_status(user_id: int, status: str) -> None:
     if user["user_type"] == "COORDINATOR":
         update_club_status(creator_user_id=user_id, status=status)
 
-    modify_db(
-        """
-            UPDATE users
-            SET 
-                approved=?
-            WHERE user_id=?;
-        """,
-        status,
-        user_id
-    )
+    if status == "REJECTED":
+        delete_user(user_id=user_id)
+
+    else:
+        modify_db(
+            """
+                UPDATE users
+                SET 
+                    approved=?
+                WHERE user_id=?;
+            """,
+            status,
+            user_id
+        )
 
 
 def delete_user(user_id: int) -> None:
@@ -253,6 +257,20 @@ def delete_user(user_id: int) -> None:
 
     :param user_id: User's ID.
     """
+
+    result: Row = query_db(
+        """
+            SELECT user_type FROM users
+            WHERE user_id=?;
+        """,
+        user_id,
+        single=True
+    )
+
+    user_type: str = result["user_type"]
+
+    if user_type == "COORDINATOR":
+        delete_club(creator_user_id=user_id)
 
     modify_db(
         """
