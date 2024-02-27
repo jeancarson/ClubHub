@@ -1,4 +1,3 @@
---==--==--==--==--==--==--==--==--==--==--==--==--==--==-- Table Definitions START --==--==--==--==--==--==--==--==--==--==--==--==--==--==--
 
 CREATE TABLE users (
     user_id             INTEGER         NOT NULL,
@@ -15,8 +14,7 @@ CREATE TABLE users (
     updated             DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     -----------------------------------------------------------------------
     PRIMARY KEY (user_id)
-);
-
+)
 CREATE TABLE login (
     user_id             INTEGER         NOT NULL,
     username            TEXT            NOT NULL,
@@ -25,8 +23,8 @@ CREATE TABLE login (
     -----------------------------------------------------------------------
     PRIMARY KEY (username),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
+)
+None
 CREATE TABLE clubs (
     club_id             INTEGER         NOT NULL,
     club_name           TEXT            NOT NULL,
@@ -38,8 +36,7 @@ CREATE TABLE clubs (
     -----------------------------------------------------------------------
     PRIMARY KEY (club_id),
     FOREIGN KEY (creator) REFERENCES users(user_id)
-);
-
+)
 CREATE TABLE club_memberships (
     club_id             INTEGER         NOT NULL,
     user_id             INTEGER         NOT NULL,
@@ -49,8 +46,8 @@ CREATE TABLE club_memberships (
     -----------------------------------------------------------------------
     PRIMARY KEY (club_id, user_id),
     FOREIGN KEY (club_id) REFERENCES clubs(club_id)
-);
-
+)
+None
 CREATE TABLE events (
     event_id            INTEGER         NOT NULL,
     club_id             INTEGER         NOT NULL,
@@ -64,8 +61,7 @@ CREATE TABLE events (
     -----------------------------------------------------------------------
     PRIMARY KEY (event_id),
     FOREIGN KEY (club_id) REFERENCES clubs(club_id)
-);
-
+)
 CREATE TABLE event_participants (
     event_id            INTEGER         NOT NULL,
     user_id             INTEGER         NOT NULL,
@@ -76,12 +72,8 @@ CREATE TABLE event_participants (
     PRIMARY KEY (event_id, user_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (event_id) REFERENCES events(event_id)
-);
-
---==--==--==--==--==--==--==--==--==--==--==--==--==--==-- Table Definitions END --==--==--==--==--==--==--==--==--==--==--==--==--==--==--
-
---==--==--==--==--==--==--==--==--==--==--==--==--==--==-- Timestamp Triggers START --==--==--==--==--==--==--==--==--==--==--==--==--==--==--
-
+)
+None
 CREATE TRIGGER update_timestamp_users
 AFTER UPDATE ON users
 FOR EACH ROW
@@ -89,8 +81,7 @@ BEGIN
     UPDATE users
     SET updated = CURRENT_TIMESTAMP
     WHERE user_id = OLD.user_id;
-END;
-
+END
 CREATE TRIGGER update_timestamp_login
 AFTER UPDATE ON login
 FOR EACH ROW
@@ -98,8 +89,7 @@ BEGIN
     UPDATE login
     SET updated = CURRENT_TIMESTAMP
     WHERE username = OLD.username;
-END;
-
+END
 CREATE TRIGGER update_timestamp_clubs
 AFTER UPDATE ON clubs
 FOR EACH ROW
@@ -107,8 +97,7 @@ BEGIN
     UPDATE clubs
     SET updated = CURRENT_TIMESTAMP
     WHERE club_id = OLD.club_id;
-END;
-
+END
 CREATE TRIGGER update_timestamp_club_memberships
 AFTER UPDATE ON club_memberships
 FOR EACH ROW
@@ -116,8 +105,7 @@ BEGIN
     UPDATE club_memberships
     SET updated = CURRENT_TIMESTAMP
     WHERE club_id = OLD.club_id AND user_id = OLD.user_id;
-END;
-
+END
 CREATE TRIGGER update_timestamp_events
 AFTER UPDATE ON events
 FOR EACH ROW
@@ -125,8 +113,7 @@ BEGIN
     UPDATE events
     SET updated = CURRENT_TIMESTAMP
     WHERE event_id = OLD.event_id;
-END;
-
+END
 CREATE TRIGGER update_timestamp_event_participants
 AFTER UPDATE ON event_participants
 FOR EACH ROW
@@ -134,13 +121,7 @@ BEGIN
     UPDATE event_participants
     SET updated = CURRENT_TIMESTAMP
     WHERE event_id = OLD.event_id AND user_id = OLD.user_id;
-END;
-
---==--==--==--==--==--==--==--==--==--==--==--==--==--==-- Timestamp Triggers END --==--==--==--==--==--==--==--==--==--==--==--==--==--==--
-
---==--==--==--==--==--==--==--==--==--==--==--==--==--==-- Views START --==--==--==--==--==--==--==--==--==--==--==--==--==--==--
-
--- 1: All user-related attributes (users & login tables)
+END
 CREATE VIEW all_user_attributes
 AS
 SELECT
@@ -157,9 +138,7 @@ SELECT
     users.user_type
 FROM
     users
-INNER JOIN login USING (user_id);
-
--- 2: All profile-related attributes (users table)
+INNER JOIN login USING (user_id)
 CREATE VIEW profile_user_attributes
 AS
 SELECT
@@ -171,9 +150,7 @@ SELECT
     phone,
     gender
 FROM
-    users;
-
--- 3: All event-related attributes (events & clubs tables)
+    users
 CREATE VIEW event_info
 AS
 SELECT
@@ -189,6 +166,4 @@ FROM
     events
 INNER JOIN clubs USING (club_id)
 ORDER BY
-    events.event_id;
-
---==--==--==--==--==--==--==--==--==--==--==--==--==--==-- Views END --==--==--==--==--==--==--==--==--==--==--==--==--==--==--
+    events.event_id
