@@ -202,7 +202,7 @@ def get_all_participants(event_id, status):
             JOIN event_participants USING (user_id)
             WHERE event_participants.validity=? AND event_participants.event_id=?;
         """,
-        status,
+        status.upper(),
         event_id
     )
 

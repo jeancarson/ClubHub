@@ -53,34 +53,32 @@
             <br />
 
             <form id="participantForm" action="/participantview" method="post">
-
                 <input type="hidden" name="event_id" value="{{ event_id }}">
-
+            
                 {% if status_pars %}
                     {% for user in status_pars %}
                         <li class="list-group-item" style="background-color: var(--light-blue); color: white">
                             {{ user["first_name"] ~ " " ~ user["last_name"] }}
-
+            
                             <br />
                             <br />
-
+            
                             <select class="form-select" aria-label="Default select example" name="status_{{ user['user_id'] }}">
                                 <option selected>{{ status }}</option>
                                 <option value="APPROVED">Approved</option>
                                 <option value="PENDING">Pending</option>
                                 <option value="REJECTED">Rejected</option>
                             </select>
-
-                            <!-- Add hidden input for user_id -->
-                            <input type="hidden" name="user_id" value="{{ user['user_id'] }}">
+            
+                            <!-- Add hidden input for user_id with a unique name -->
+                            <input type="hidden" name="user_id_{{ user['user_id'] }}" value="{{ user['user_id'] }}">
                         </li>
                     {% endfor %}
                 {% endif %}
-
+            
                 <button type="submit" class="btn btn-warning custom-button" style="--bs-btn-font-size: .75rem;">
                     Delete rejected participants and save
                 </button>
-
             </form>
 
         </div>
