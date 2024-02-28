@@ -5,7 +5,7 @@ interact with the database.
 
 from flask import flash
 
-from application.util.db_functions import query_db, modify_db
+from ..db_functions import query_db, modify_db
 
 
 def get_club_id(coordinator_id: int) -> int:

@@ -101,9 +101,7 @@ def save_member_details():
 
     for user_id in request.form.getlist("user_id"):
         new_validity = str(request.form.get(f"status_{user_id}")).upper()
-        print(f"New Validity: {new_validity}")
         coordinator_functions.save_member_status(club_id, user_id, new_validity)
-        # Call delete membershere
 
     coordinator_functions.delete_rejected_members(club_id)
 

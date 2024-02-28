@@ -22,6 +22,7 @@ def login_get() -> Response | str:
     """
 
     user: str | None = current_user()
+    print(user)
 
     if user is not None:
         error(errtype=Error.RESTRICTED_PAGE_LOGGED_IN, endpoint="/login", user=user)
