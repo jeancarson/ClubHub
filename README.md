@@ -1,3 +1,4 @@
+
 # ClubHub
 ClubHub is a dynamic and user-friendly web application designed to streamline the management of
 sports clubs. 
